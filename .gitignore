@@ -1,0 +1,11 @@
+# OS X
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+
+# Project
+node_modules/
+platforms/
+plugins/

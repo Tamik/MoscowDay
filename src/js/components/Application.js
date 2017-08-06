@@ -14,6 +14,7 @@ class Application extends Component {
     redirect: false,
     route: '/',
   }
+
   select(index, route) {
     this.setState({
       selectedIndex: index,
@@ -21,6 +22,7 @@ class Application extends Component {
       route: route,
     });
   }
+
   render() {
     return (
       <Router>

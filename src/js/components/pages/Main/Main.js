@@ -5,6 +5,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipableViews from 'react-swipeable-views';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import { Link } from 'react-router-dom';
+import { Headings } from './Tabs';
 
 const styles = {
   headline: {
@@ -44,6 +45,7 @@ export default class Main extends Component {
               <p>Text...</p>
             </div>
             <div style={styles.slide}>
+              <Headings />
             </div>
             <div style={styles.slide}>
               <p>Text #3</p>

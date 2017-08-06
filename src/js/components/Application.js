@@ -4,6 +4,10 @@ import FontIcon from 'material-ui/FontIcon';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import { Main, Favorites, Radar } from './pages';
 
+const eventsIcon = <FontIcon className='material-icons'>home</FontIcon>;
+const favoritesIcon = <FontIcon className='material-icons'>f</FontIcon>;
+const radarIcon = <FontIcon className='material-icons'>r</FontIcon>;
+
 class Application extends Component {
   state = {
     selectedIndex: 0,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import FontIcon from 'material-ui/FontIcon';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
+import { Main, Favorites, Radar } from './pages';
 
 class Application extends Component {
   state = {

@@ -1,8 +1,7 @@
 import React from 'react'
 import 'whatwg-fetch'
 
-const MD_API_HOST = 'http://localhost:5000'
-// const MD_API_HOST = process.env.API_HOST
+const MD_API_HOST = process.env.API_HOST
 
 
 const MD_API_METHODS = {

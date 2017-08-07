@@ -1,1 +1,1 @@
-export { default as MDApi } from './MDApi';
+export { default as MDApi } from './MDApi'

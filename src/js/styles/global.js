@@ -1,4 +1,4 @@
-import { css } from 'styled-components';
+import { css } from 'styled-components'
 
 export const globalStyle = css`
   *,
@@ -9,4 +9,4 @@ export const globalStyle = css`
     outline: 0;
     box-sizing: border-box;
   }
-`;
+`

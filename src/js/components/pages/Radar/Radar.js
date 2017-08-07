@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
+import React, { Component } from 'react'
 
-export default class Radar extends Component {
-  render() {
-    return(
-      <div>
-        <AppBar title='Радар' showMenuIconButton={false} />
-      </div>
-    );
-  }
-}
+import AppBar from 'material-ui/AppBar'
+
+const Radar = () => (
+  <div>
+    <AppBar title='Радар' showMenuIconButton={false} />
+  </div>
+)
+
+export default Radar

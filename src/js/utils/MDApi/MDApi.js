@@ -3,7 +3,9 @@ import 'whatwg-fetch'
 
 const MD_API_HOST = process.env.API_HOST
 
-
+/**
+ * See docs here: https://github.com/cybri0nix/md-back
+ */
 const MD_API_METHODS = {
   GET_EVENTS: 'events',
   GET_EVENT: 'event',
@@ -21,12 +23,12 @@ const getEvent = (id) => {
   /**
    * Example: /event/${id}
    */
-  const u = [
+  const url = [
     methodUrl(MD_API_METHODS.GET_EVENT),
     id,
   ].join('/')
 
-  return fetch(u)
+  return fetch(url)
 }
 
 /**
@@ -49,12 +51,12 @@ const getEvents = (params) => {
     computedParams.push([key, params[key]].join('='))
   }
 
-  const u = [
+  const url = [
     methodUrl(MD_API_METHODS.GET_EVENTS),
     computedParams.join('&'),
   ].join('?')
 
-  return fetch(u)
+  return fetch(url)
 }
 
 /**
@@ -64,12 +66,12 @@ const getDatesInCategory = (categoryId) => {
   /** 
    * Example: /dayevents?place=${categoryId}
    */
-  const u = [
+  const url = [
     methodUrl(MD_API_METHODS.GET_DATES_IN),
     `category=${categoryId}`,
   ].join('?')
 
-  return __getDatesIn(u)
+  return fetch(url)
 }
 
 /**
@@ -79,45 +81,60 @@ const getDatesInPlace = (placeId) => {
   /** 
    * Example: /dayevents?place=${placeId}
    */
-  const u = [
+  const url = [
     methodUrl(MD_API_METHODS.GET_DATES_IN),
     `place=${placeId}`,
   ].join('?')
 
-  return __getDatesIn(u)
+  return fetch(url)
 }
 
 const getCategories = () => {
   /** 
    * Example: /countevents?type=bycategories
    */
-  const u = [
+  const url = [
     methodUrl(MD_API_METHODS.GET_CATEGORIES_LIST),
   ]
 
-  return fetch(u)
+  return fetch(url)
 }
 
 const getPlaces = () => {
   /** 
    * Example: /countevents?type=byplaces
    */
-  const u = [
-    methodUrl(MD_API_METHODS.GET_CATEGORIES_LIST),
+  const url = [
+    methodUrl(MD_API_METHODS.GET_PLACES_LIST),
   ]
 
-  return fetch(u)
+  return fetch(url)
 }
 
-const __getDatesIn = u => fetch(u)
-
 /**
- * @usage
-  const APIresponse = MDApi.getCategories().then(response => {
-    return response.json()
-  })
-  .then(response => console.log(response));
+ * @example Get categories (with count of events in each of them)
+ * const APIresponse = MDApi.getCategories().then(response => {
+ *   return response.json()
+ * })
+ * .then(response => console.log(response));
  */
+ 
+ /** 
+  * @example Get main events
+  * const APIresponse = MDApi.getEvents({ is_main:1 }).then(response => {
+  *   return response.json()
+  * })
+  * .then(response => console.log(response));
+  */
+
+  /**
+   * @example Get events by category
+   * const APIresponse = MDApi.getEvents({ category:1 }).then(response => {
+   *  return response.json()
+   * })
+   * .then(response => console.log(response));
+   */
+
 const MDApi = {
   /**
    * Получить даные о событии

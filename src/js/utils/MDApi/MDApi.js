@@ -105,7 +105,7 @@ const getPlaces = () => {
    * Example: /countevents?type=byplaces
    */
   const url = [
-    methodUrl(MD_API_METHODS.GET_CATEGORIES_LIST),
+    methodUrl(MD_API_METHODS.GET_PLACES_LIST),
   ]
 
   return fetch(url)

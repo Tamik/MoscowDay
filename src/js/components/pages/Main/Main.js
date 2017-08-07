@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import FontIcon from 'material-ui/FontIcon';
-import AppBar from 'material-ui/AppBar';
-import { Tabs, Tab } from 'material-ui/Tabs';
-import SwipableViews from 'react-swipeable-views';
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
-import { Link } from 'react-router-dom';
-import { Headings } from './Tabs';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import SwipableViews from 'react-swipeable-views'
+
+import FontIcon from 'material-ui/FontIcon'
+import AppBar from 'material-ui/AppBar'
+import { Tabs, Tab } from 'material-ui/Tabs'
+
+import { Timeline, Headings, Places } from './Tabs'
 
 const styles = {
   headline: {
@@ -17,17 +18,19 @@ const styles = {
   slide: {
     padding: 10,
   },
-};
+}
 
 export default class Main extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      slideIndex: 0
-    };
+      slideIndex: 0,
+    }
   }
 
-  handleChange = (index) => this.setState({slideIndex: index});
+  handleChange = (index) => this.setState({
+    slideIndex: index,
+  });
 
   render() {
     return (
@@ -41,18 +44,17 @@ export default class Main extends Component {
           </Tabs>
           <SwipableViews index={this.state.slideIndex} onChangeIndex={this.handleChange}>
             <div>
-              <h2>Headline</h2>
-              <p>Text...</p>
+              <Timeline />
             </div>
             <div style={styles.slide}>
               <Headings />
             </div>
             <div style={styles.slide}>
-              <p>Text #3</p>
+              <Places />
             </div>
           </SwipableViews>
         </div>
       </div>
-    );
+    )
   }
 }

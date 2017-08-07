@@ -1,12 +1,43 @@
-import React, { Component } from 'react';
-import { HashRouter as Router, Route, Link, Redirect } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
-import { Main, Favorites, Radar } from './pages';
+import React, { Component } from 'react'
+import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
 
-const eventsIcon = <FontIcon className='material-icons'>home</FontIcon>;
-const favoritesIcon = <FontIcon className='material-icons'>f</FontIcon>;
-const radarIcon = <FontIcon className='material-icons'>r</FontIcon>;
+import FontIcon from 'material-ui/FontIcon'
+import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
+
+import { Main, Favorites, Radar } from './pages'
+
+const eventsIcon = <FontIcon className='material-icons'>h</FontIcon>
+const favoritesIcon = <FontIcon className='material-icons'>f</FontIcon>
+const radarIcon = <FontIcon className='material-icons'>r</FontIcon>
+
+class NavigationBar extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      selectedIndex: 0,
+    }
+  }
+
+  changeRoute = (index, nextRoute) => () => {
+    this.setState({
+      selectedIndex: index,
+    })
+    this.props.history.replace(nextRoute)
+  }
+
+  render() {
+    return (
+      <BottomNavigation selectedIndex={this.state.selectedIndex}>
+        <BottomNavigationItem label='home' icon={eventsIcon} onTouchTap={this.changeRoute(0, '/')} />
+        <BottomNavigationItem label='favorites' icon={favoritesIcon} onTouchTap={this.changeRoute(1, '/favorites')} />
+        <BottomNavigationItem label='near me' icon={radarIcon} onTouchTap={this.changeRoute(2, '/radar')} />
+      </BottomNavigation>
+    )
+  }
+}
+
+const WrappedNavigationBar = withRouter(NavigationBar)
 
 class Application extends Component {
   state = {
@@ -33,17 +64,7 @@ class Application extends Component {
             <Route path='/radar' component={Radar} />
           </div>
           <div>
-            <BottomNavigation selectedIndex={this.state.selectedIndex}>
-               <Link to='/' replace> 
-                <BottomNavigationItem label='1' icon={eventsIcon} onTouchTap={() => this.select(0, '/')} />
-               </Link> 
-               <Link to='/favorites' replace> 
-                <BottomNavigationItem label='2' icon={favoritesIcon} onTouchTap={() => this.select(1, '/favorites')} />
-               </Link> 
-               <Link to='/radar' replace> 
-                <BottomNavigationItem label='3' icon={radarIcon} onTouchTap={() => this.select(2, '/radar')} />
-               </Link> 
-            </BottomNavigation>
+            <WrappedNavigationBar />
           </div>
         </div>
       </Router>
@@ -51,4 +72,4 @@ class Application extends Component {
   }
 }
 
-export default Application;
+export default Application

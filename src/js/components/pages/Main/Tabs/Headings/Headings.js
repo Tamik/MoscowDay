@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { GridList, GridTile } from 'material-ui/GridList';
+import React, { Component } from 'react'
+import ReactModal from 'react-modal'
 
-// const windowWidth = window.innerWidth;
+import { GridList, GridTile } from 'material-ui/GridList'
 
 const styles = {
   root: {
@@ -14,7 +14,7 @@ const styles = {
     height: 300, // 450
     overflowY: 'auto',
   },
-};
+}
 
 const tilesData = [
   {
@@ -57,20 +57,71 @@ const tilesData = [
     title: 'Water plant',
     author: 'BkrmadtyaKarki',
   },
-];
+]
 
 export default class Headings extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      showModal: false,
+      modalTitle: null,
+      modalAuthor: null,
+    }
+
+    this.handleOpenModal = this.handleOpenModal.bind(this)
+    this.handleCloseModal = this.handleCloseModal.bind(this)
+  }
+
+  handleOpenModal(title, author) {
+    this.setState({
+      showModal: true,
+      modalTitle: title,
+      modalAuthor: author,
+    })
+  }
+
+  handleCloseModal() {
+    this.setState({
+      showModal: false,
+      modalTitle: null,
+      modalAuthor: null,
+    })
+  }
+
   render() {
     return (
       <div style={styles.root}>
         <GridList cellHeight={180} style={styles.gridList}>
           {tilesData.map(tile => (
-            <GridTile key={tile.img} title={tile.title} subtitle={<span>by <b>{tile.author}</b></span>}>
-              <img src={tile.img} />
+            <GridTile
+              key={tile.img}
+              title={tile.title}
+              subtitle={<span>by <b>{tile.author}</b></span>}
+              onClick={() => this.handleOpenModal(tile.title, tile.author)}
+            >
+              <img src={tile.img} alt='' />
             </GridTile>
           ))}
         </GridList>
+        <div>
+          <ReactModal isOpen={this.state.showModal} contentLabel='Minimal Modal Example' style={{ overlay: { zIndex: 100 }, content: {} }}>
+            <button onClick={this.handleCloseModal}>Close</button>
+            <GridList cellHeight={180} style={styles.gridList}>
+              {tilesData.map(tile => (
+                <GridTile
+                  key={tile.img}
+                  title={tile.title}
+                  subtitle={<span>by <b>{tile.author}</b></span>}
+                  onClick={() => this.handleOpenModal(tile.title, tile.author)}
+                >
+                  <img src={tile.img} alt='' />
+                </GridTile>
+              ))}
+            </GridList>
+          </ReactModal>
+        </div>
       </div>
-    );
+    )
   }
 }

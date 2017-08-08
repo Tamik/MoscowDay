@@ -5,13 +5,13 @@ import ListCard from 'atoms/ListCard'
 
 import MDApi from 'utils/MDApi'
 
-export default class EventsList extends Component {
+export default class PlacesList extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isEventModalVisible: false,
       title: null,
-      categoryId: props.category,
+      placeId: props.place,
       events: [],
     }
 
@@ -21,7 +21,7 @@ export default class EventsList extends Component {
 
   componentDidMount() {
     MDApi.getEvents({
-      category: this.state.categoryId,
+      place: this.state.placeId,
     })
       .then((response) => {
         return response.json()

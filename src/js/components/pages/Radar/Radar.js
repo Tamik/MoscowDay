@@ -251,7 +251,7 @@ export default class Radar extends Component {
   render() {
     return (
       <div>
-        <AppBar title='СОБЫТИЯ РЯДОМ' showMenuIconButton={false} />
+        <AppBar title='События рядом' showMenuIconButton={false} />
         <YMaps>
           <Map state={mapState}>
             <Clusterer

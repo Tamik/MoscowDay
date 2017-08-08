@@ -23,34 +23,34 @@ export default class EventsList extends Component {
     MDApi.getEvents({
       category: this.state.categoryId,
     })
-    .then((response) => {
-      return response.json()
-    })
-    .then((response) => {
-      this.setState({
-        events: response.data,
+      .then((response) => {
+        return response.json()
       })
-    })
+      .then((response) => {
+        this.setState({
+          events: response.data,
+        })
+      })
   }
 
-  openEventViewModal(data) {
+  openEventViewModal(payload) {
     this.setState({
       isEventModalVisible: true,
-      data: data,
-      })
+      data: payload,
+    })
   }
 
   closeEventViewModal() {
     this.setState({
       isEventModalVisible: false,
-      })
+    })
   }
 
   render() {
     return (
       <div>
         {this.state.events.map(item => (
-          <ListCard {...item} />
+          <ListCard key={item.id} {...item} />
         ))}
       </div>
     )

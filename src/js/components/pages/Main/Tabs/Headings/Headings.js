@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import ReactModal from 'react-modal'
 
 import { GridList, GridTile } from 'material-ui/GridList'
-import RaisedButton from 'material-ui/RaisedButton'
+import AppBar from 'material-ui/AppBar'
+import IconButton from 'material-ui/IconButton'
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+
+import EventsList from '../../../../modals/EventsList'
 
 import MDApi from 'utils/MDApi'
 
@@ -25,14 +29,13 @@ export default class Headings extends Component {
     super(props)
 
     this.state = {
-      showModal: false,
-      modalTitle: null,
-      modalAuthor: null,
+      isEventsViewModalVisible: false,
+      eventsViewModalTitle: '',
       headings: [],
     }
 
-    this.handleOpenModal = this.handleOpenModal.bind(this)
-    this.handleCloseModal = this.handleCloseModal.bind(this)
+    this.openEventsViewModal = this.openEventsViewModal.bind(this)
+    this.closeEventsViewModal = this.closeEventsViewModal.bind(this)
   }
 
   componentDidMount() {
@@ -47,34 +50,67 @@ export default class Headings extends Component {
       })
   }
 
-  handleOpenModal(title, author) {
+  openEventsViewModal(title, categoryId) {
     this.setState({
-      showModal: true,
-      modalTitle: title,
-      modalAuthor: author,
+      isEventsViewModalVisible: true,
+      categoryId: categoryId,
+      eventsViewModalTitle: title,
     })
   }
 
-  handleCloseModal() {
+  closeEventsViewModal() {
     this.setState({
-      showModal: false,
-      modalTitle: null,
-      modalAuthor: null,
+      isEventsViewModalVisible: false,
     })
   }
+
+  // afterOpenModal() {
+
+  // }
 
   render() {
     return (
       <div style={styles.root}>
         <GridList cellHeight={180} style={styles.gridList}>
           {this.state.headings.map(heading => (
-            <GridTile key={heading.id} title={heading.title} subtitle={heading.events_count} onClick={() => this.handleOpenModal(heading.title, heading.events_count)} />
+            <GridTile
+              key={heading.id}
+              title={heading.title}
+              subtitle={heading.events_count}
+              onClick={() => this.openEventsViewModal(heading.title, heading.id)}
+            />
           ))}
         </GridList>
         <div>
-          <ReactModal isOpen={this.state.showModal} contentLabel='Minimal Modal Example' style={{ overlay: { zIndex: 100 }, content: {} }}>
-            <RaisedButton label='Close' primary={true} onClick={this.handleCloseModal} />
-            <p>{this.state.modalTitle} – {this.state.modalAuthor}</p>
+          <ReactModal
+            isOpen={this.state.isEventsViewModalVisible}
+            contentLabel='Minimal Modal Example'
+            onAfterOpen={this.afterOpenModal}
+            shouldCloseOnOverlayClick={false}
+            style={{
+              overlay: {
+                zIndex: 1200,
+              },
+              content: {
+                border: 'none',
+                borderRadius: 0,
+                padding: 0,
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }
+            }}
+          >
+            <AppBar
+              title={this.state.eventsViewModalTitle}
+              iconElementLeft={
+                <IconButton>
+                  <NavigationClose onClick={this.closeEventsViewModal} />
+                </IconButton>
+              }
+            />
+            <EventsList category={this.state.categoryId} />
           </ReactModal>
         </div>
       </div>

@@ -7,5 +7,6 @@ Thumbs.db
 
 # Project
 node_modules/
+hooks/
 platforms/
 plugins/

@@ -30,7 +30,7 @@ export default class Headings extends Component {
 
     this.state = {
       isEventsViewModalVisible: false,
-      eventsViewModalTitle: '',
+      eventsViewModalTitle: null,
       headings: [],
     }
 
@@ -50,10 +50,10 @@ export default class Headings extends Component {
       })
   }
 
-  openEventsViewModal(title, categoryId) {
+  openEventsViewModal(title, catId) {
     this.setState({
       isEventsViewModalVisible: true,
-      categoryId: categoryId,
+      categoryId: catId,
       eventsViewModalTitle: title,
     })
   }
@@ -99,7 +99,7 @@ export default class Headings extends Component {
                 left: 0,
                 right: 0,
                 bottom: 0,
-              }
+              },
             }}
           >
             <AppBar

@@ -4,7 +4,7 @@ import ReactModal from 'react-modal'
 import { GridList, GridTile } from 'material-ui/GridList'
 import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import NavigationClose from 'material-ui/svg-icons/navigation/close'
 
 import EventsList from '../../../../modals/EventsList'
 
@@ -64,9 +64,7 @@ export default class Headings extends Component {
     })
   }
 
-  // afterOpenModal() {
-
-  // }
+  afterOpenModal() {}
 
   render() {
     return (

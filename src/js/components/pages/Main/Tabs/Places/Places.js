@@ -108,7 +108,7 @@ export default class Places extends Component {
                 </IconButton>
               }
             />
-            <PlacesList category={this.state.placeId} />
+            <PlacesList place={this.state.placeId} />
           </ReactModal>
         </div>
       </div>

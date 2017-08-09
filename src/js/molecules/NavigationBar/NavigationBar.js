@@ -10,6 +10,7 @@ const radarIcon = <FontIcon className='material-icons'>r</FontIcon>
 
 class NavigationBarContainer extends Component {
   /**
+   * @todo {state} in native storage
    */
   state = {
     selectedIndex: 0,

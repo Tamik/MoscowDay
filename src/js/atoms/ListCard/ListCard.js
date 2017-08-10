@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Modal from "../../components/modals/Modal";
+import PropTypes from 'prop-types';
+import Modal from 'components/modals/Modal';
 
 export default class ListCard extends Component {
   constructor(props) {
@@ -40,4 +41,9 @@ export default class ListCard extends Component {
       </div>
     )
   }
+}
+
+ListCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  begin_time: PropTypes.string.isRequired,
 }

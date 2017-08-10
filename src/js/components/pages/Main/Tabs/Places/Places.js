@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
-import Modal from '../../../../modals/Modal'
 
-//import ReactModal from 'react-modal'
+import Modal from 'components/modals/Modal'
+import PlacesList from 'components/modals/EventsList'
 
 import { GridList, GridTile } from 'material-ui/GridList'
-import PlacesList from '../../../../modals/EventsList'
-
-//import AppBar from 'material-ui/AppBar'
-//import IconButton from 'material-ui/IconButton'
-//import NavigationClose from 'material-ui/svg-icons/navigation/close'
-
 
 import MDApi from 'utils/MDApi'
 
@@ -87,10 +81,11 @@ export default class Places extends Component {
         <Modal
           isOpen = {this.state.isModalVisible}
           title = {this.state.modalTitle || ''}
-          content = {<PlacesList place={this.state} />}
+          content = {<PlacesList event = {this.state} />}
           close = {this.closePlacesViewModal}
         />
       </div>
     )
   }
 }
+

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Modal from '../../../../modals/Modal'
+import Modal from 'components/modals/Modal'
 
 import MDApi from 'utils/MDApi'
 
@@ -48,7 +48,6 @@ export default class Timeline extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         {this.state.events.map(event => (

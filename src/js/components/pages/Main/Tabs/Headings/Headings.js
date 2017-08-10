@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Modal from '../../../../modals/Modal'
-import EventsList from '../../../../modals/EventsList'
+import Modal from 'components/modals/Modal'
+import EventsList from 'components/modals/EventsList'
 
 import { GridList, GridTile } from 'material-ui/GridList'
 
@@ -81,7 +81,7 @@ export default class Headings extends Component {
         <Modal
           isOpen = {this.state.isModalVisible}
           title = {this.state.modalTitle || ''}
-          content = {<EventsList place={this.state} />}
+          content = {<EventsList event = {this.state} />}
           close = {this.closeEventsViewModal}
         />
       </div>

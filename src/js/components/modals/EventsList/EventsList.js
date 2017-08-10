@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 
 import ListCard from 'atoms/ListCard'
 
 import MDApi from 'utils/MDApi'
 
-export default class PlacesList extends Component {
-  constructor(props) {
+export default class EventsList extends Component {
+    constructor(props) {
     super(props)
     this.state = {
-      id: props.place.id,
-      type: props.place.type,
+      id: props.event.id,
+      type: props.event.type,
       isModalVisible: false,
       title: null,
       events: [],
@@ -67,4 +68,11 @@ export default class PlacesList extends Component {
       </div>
     )
   }
+}
+
+EventsList.propTypes = {
+    place: PropTypes.shape({
+    id: PropTypes.string,
+    type: PropTypes.string,
+  })
 }

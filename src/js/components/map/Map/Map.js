@@ -32,8 +32,10 @@ const MYLOCATION_PLACEMARK_OPTIONS = {
   preset: MYLOCATION_STYLE_PRESET,
 }
 
-export default class Map extends Component {
+// class Geolocation 
 
+
+export default class Map extends Component {
   constructor(props) {
     super(props)
 
@@ -42,7 +44,7 @@ export default class Map extends Component {
     // Устанавливаем тип "event" меткам, если тип не установлен
     props.points.forEach((item, i) => {
       if (props.points[i].type === undefined) {
-        props.points[i].type = POINT_TYPES.EVENT;
+        props.points[i].type = POINT_TYPES.EVENT
       }
     })
 
@@ -179,14 +181,14 @@ export default class Map extends Component {
               geoObjectHideIconOnBalloonOpen: false,
             }}
           >
-            {this.props.points.map((item, idx) => {
-              return (<Placemark
+            {this.props.points.map((item, idx) => (
+              <Placemark
                 key={item.id}
                 geometry={{ coordinates: [item.lat, item.lng] }}
                 properties={this.getPlaceMarkContent(item, idx)}
                 options={this.state.placemarkOptions}
               />)
-            })}
+            )}
           </Clusterer>
           {this.state.myLocationPoint.lat ? (
             <Placemark

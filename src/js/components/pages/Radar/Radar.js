@@ -10,19 +10,22 @@ export default class Radar extends Component {
     super(props)
 
     this.state = {
-      events: []
+      events: [],
     }
   }
 
   componentDidMount() {
-    const date = new Date();
+    const date = new Date()
+    const month = '0'.concat(date.getMonth() + 1).slice(-2)
+    const day = '0'.concat(date.getDate() + 1).slice(-2)
+
     MDApi.getEvents({
       items_per_page: 500, // all on today
       /**
        * date = today
        * @todo: Решить проблему с разницей в часовых поясах
        */
-      date: [date.getFullYear(), ('0' + (date.getMonth() + 1)).slice(-2), ('0' + date.getDate()).slice(-2)].join('-')
+      data: `${date.getFullYear()}-${month}-${day}`,
     })
       .then((response) => {
         return response.json()
@@ -32,7 +35,7 @@ export default class Radar extends Component {
           events: response.data,
         })
       }).catch((err) => {
-        console.log(err);
+        console.log(err)
       })
   }
 

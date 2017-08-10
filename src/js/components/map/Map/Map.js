@@ -194,6 +194,7 @@ export default class Map extends Component {
           options={{
             minZoom: MIN_ZOOM,
             yandexMapDisablePoiInteractivity: true,
+            suppressMapOpenBlock: true,
           }}
         >
           <Clusterer

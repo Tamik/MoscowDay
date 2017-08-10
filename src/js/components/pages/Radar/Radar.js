@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import AppBar from 'material-ui/AppBar'
 
-import MixMap from '../../map/MixMap'
+import { Map } from 'components/map'
 import MDApi from 'utils/MDApi'
 
 export default class Radar extends Component {
@@ -40,9 +40,8 @@ export default class Radar extends Component {
     return (
       <div>
         <AppBar title='События рядом' showMenuIconButton={false} />
-        <MixMap points={this.state.events} panToMyLocation={true} />
+        <Map points={this.state.events} panToMyLocation={true} />
       </div>
     )
   }
-
 }

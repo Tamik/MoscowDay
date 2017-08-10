@@ -32,7 +32,6 @@ const MYLOCATION_PLACEMARK_OPTIONS = {
   preset: MYLOCATION_STYLE_PRESET,
 }
 
-
 export default class Map extends Component {
   constructor(props) {
     super(props)
@@ -91,7 +90,7 @@ export default class Map extends Component {
    */
   onGeolocationSuccess(pos) {
     const position = [pos.coords.latitude, pos.coords.longitude]
-    console.log('onGeolocationSuccess: ', this.isComponentMounted);
+    console.log('onGeolocationSuccess: ', this.isComponentMounted)
     // Добавляем метку с моим местоположением
     if (this.isComponentMounted && this.map) {
       this.setState({
@@ -115,8 +114,8 @@ export default class Map extends Component {
     // Центрируем карту на мое местоположение, если разрешено
     // @todo: Подумать, как сделать через state
     if (this.props.panToMyLocation
-        && this.map
-        && this.isComponentMounted) {
+      && this.map
+      && this.isComponentMounted) {
       this.map.panTo(position, {
         duration: 1000,
         flying: true,
@@ -129,7 +128,7 @@ export default class Map extends Component {
    * @param {*} error 
    */
   onGeolocationError(error) {
-    console.log('code: ' + error.code + '\n message: ' + error.message + '\n');
+    console.log(`code: ${error.code}\n message: ${error.message}\n`)
   }
 
   /**
@@ -174,7 +173,11 @@ export default class Map extends Component {
 
   getPlaceMarkContent(item, idx) {
     return {
-      balloonContentBody: `<div><strong>${item.title}</strong><p>${item.location_title}<br />${item.begin_time}</p></div>`,
+      balloonContentBody: `
+        <div>
+          <strong>${item.title}</strong>
+          <p>${item.location_title}<br />${item.begin_time}</p>
+        </div>`,
       clusterCaption: `Событие ${idx}`,
     }
   }
@@ -190,10 +193,13 @@ export default class Map extends Component {
       <YMaps onApiAvaliable={this.onMapsApiReady}>
         <YMap
           state={this.state.mapState}
-          instanceRef={(ref) => { this.map = ref }}
+          instanceRef={(ref) => {
+            this.map = ref
+          }}
           options={{
             minZoom: MIN_ZOOM,
             yandexMapDisablePoiInteractivity: true,
+            suppressMapOpenBlock: true,
           }}
         >
           <Clusterer

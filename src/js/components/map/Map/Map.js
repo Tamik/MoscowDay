@@ -32,17 +32,18 @@ const MYLOCATION_PLACEMARK_OPTIONS = {
   preset: MYLOCATION_STYLE_PRESET,
 }
 
-export default class Map extends Component {
 
+export default class Map extends Component {
   constructor(props) {
     super(props)
 
+    this.isComponentMounted = false
     this.watchLocationID = null
 
     // Устанавливаем тип "event" меткам, если тип не установлен
     props.points.forEach((item, i) => {
       if (props.points[i].type === undefined) {
-        props.points[i].type = POINT_TYPES.EVENT;
+        props.points[i].type = POINT_TYPES.EVENT
       }
     })
 
@@ -63,9 +64,25 @@ export default class Map extends Component {
     }
 
     this.onMapsApiReady = this.onMapsApiReady.bind(this)
+    this.onGeolocationSuccess = this.onGeolocationSuccess.bind(this)
+    this.onGeolocationError = this.onGeolocationError.bind(this)
   }
 
-  componentDidMount() { }
+  componentDidMount() {
+    console.log('componentDidMount')
+    this.isComponentMounted = true
+
+    // @todo: Восстанавливать последнюю позицию на карте, зум и прошлое мое местоположение
+    // а в componentWillUnmount кешировать
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount')
+    this.isComponentMounted = false
+
+    this.stopWatchGeolocation()
+    this.watchLocationID = 0
+  }
 
   /**
    * Обработчик выполнится после успешно определенной текущего местоположения
@@ -74,15 +91,21 @@ export default class Map extends Component {
    */
   onGeolocationSuccess(pos) {
     const position = [pos.coords.latitude, pos.coords.longitude]
-
+    console.log('onGeolocationSuccess: ', this.isComponentMounted);
     // Добавляем метку с моим местоположением
-    this.setState({
-      myLocationPoint: {
-        ...this.state.myLocationPoint,
-        lat: position[0],
-        lng: position[1],
-      },
-    })
+    if (this.isComponentMounted && this.map) {
+      this.setState({
+        myLocationPoint: {
+          ...this.state.myLocationPoint,
+          lat: position[0],
+          lng: position[1],
+        },
+        mapState: {
+          ...this.state.mapState,
+          center: position,
+        },
+      })
+    }
 
     // Если не задан zoom, то ставим зум сами
     if (!this.props.zoom) {
@@ -91,7 +114,9 @@ export default class Map extends Component {
 
     // Центрируем карту на мое местоположение, если разрешено
     // @todo: Подумать, как сделать через state
-    if (this.props.panToMyLocation === true) {
+    if (this.props.panToMyLocation
+        && this.map
+        && this.isComponentMounted) {
       this.map.panTo(position, {
         duration: 1000,
         flying: true,
@@ -118,11 +143,12 @@ export default class Map extends Component {
 
     setTimeout(() => {
       this.watchLocationID = navigator.geolocation.watchPosition(
-        this.onGeolocationSuccess.bind(this),
-        this.onGeolocationError.bind(this),
+        this.onGeolocationSuccess,
+        this.onGeolocationError,
         {
           timeout: GEOLOCATION_WATCH_TIMEOUT,
           enableHighAccuracy: true,
+          maximumAge: 3000,
         }
       )
     }, 1)
@@ -179,14 +205,14 @@ export default class Map extends Component {
               geoObjectHideIconOnBalloonOpen: false,
             }}
           >
-            {this.props.points.map((item, idx) => {
-              return (<Placemark
+            {this.props.points.map((item, idx) => (
+              <Placemark
                 key={item.id}
                 geometry={{ coordinates: [item.lat, item.lng] }}
                 properties={this.getPlaceMarkContent(item, idx)}
                 options={this.state.placemarkOptions}
               />)
-            })}
+            )}
           </Clusterer>
           {this.state.myLocationPoint.lat ? (
             <Placemark

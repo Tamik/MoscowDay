@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Modal from '../../../../modals/Modal'
+import Modal from 'components/modals/Modal'
 
 import MDApi from 'utils/MDApi'
 

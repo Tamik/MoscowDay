@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-import Modal from '../../../../modals/Modal'
+import Modal from 'components/modals/Modal'
+import PlacesList from 'components/modals/EventsList'
 
 import { GridList, GridTile } from 'material-ui/GridList'
-import PlacesList from '../../../../modals/EventsList'
 
 import MDApi from 'utils/MDApi'
 

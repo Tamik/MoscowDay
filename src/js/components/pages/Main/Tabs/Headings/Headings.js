@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Modal from '../../../../modals/Modal'
-import EventsList from '../../../../modals/EventsList'
+import Modal from 'components/modals/Modal'
+import EventsList from 'components/modals/EventsList'
 
 import { GridList, GridTile } from 'material-ui/GridList'
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import Modal from "../../components/modals/Modal";
+import Modal from 'components/modals/Modal';
 
 export default class ListCard extends Component {
   constructor(props) {

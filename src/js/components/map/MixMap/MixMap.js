@@ -166,7 +166,8 @@ export default class MixMap extends Component {
           state={this.state.mapState}
           ref={ref => this.map = ref}
           options={{
-            minZoom: MIN_ZOOM
+            minZoom: MIN_ZOOM,
+            yandexMapDisablePoiInteractivity: true,
           }}
         >
           <Clusterer

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { YMaps, Map, Clusterer, Placemark } from 'react-yandex-maps';
+import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
 
 /**
  * Map
@@ -32,17 +32,19 @@ const MYLOCATION_PLACEMARK_OPTIONS = {
   preset: MYLOCATION_STYLE_PRESET,
 }
 
-export default class MixMap extends Component {
+export default class Map extends Component {
 
   constructor(props) {
     super(props)
 
+    this.watchLocationID = null
+
     // Устанавливаем тип "event" меткам, если тип не установлен
-    for (let i in props.points) {
-      if (false === props.points[i].hasOwnProperty('type')) {
+    props.points.forEach((item, i) => {
+      if (props.points[i].type === undefined) {
         props.points[i].type = POINT_TYPES.EVENT;
       }
-    }
+    })
 
     this.state = {
       points: props.points || [],
@@ -56,7 +58,7 @@ export default class MixMap extends Component {
         center: props.initCenter || [55.751574, 37.573856],
         zoom: props.zoom || INIT_ZOOM,
         controls: props.controls || CONTROLS,
-        minZoom: MIN_ZOOM
+        minZoom: MIN_ZOOM,
       },
     }
 
@@ -70,9 +72,8 @@ export default class MixMap extends Component {
    * @param {Object} position 
    * @see https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/
    */
-  onGeolocationSuccess(position) {
-
-    var position = [position.coords.latitude, position.coords.longitude]
+  onGeolocationSuccess(pos) {
+    const position = [pos.coords.latitude, pos.coords.longitude]
 
     // Добавляем метку с моим местоположением
     this.setState({
@@ -90,22 +91,20 @@ export default class MixMap extends Component {
 
     // Центрируем карту на мое местоположение, если разрешено
     // @todo: Подумать, как сделать через state
-    if (true === this.props.panToMyLocation) {
-      this.map.state.instance.panTo(position, {
+    if (this.props.panToMyLocation === true) {
+      this.map.panTo(position, {
         duration: 1000,
         flying: true,
-      });
+      })
     }
-
-  };
+  }
 
   /**
    * Обработчик ошибки определения текущего местоположения
    * @param {*} error 
    */
   onGeolocationError(error) {
-    console.log('code: ' + error.code + '\n' +
-      'message: ' + error.message + '\n');
+    console.log('code: ' + error.code + '\n message: ' + error.message + '\n');
   }
 
   /**
@@ -113,7 +112,10 @@ export default class MixMap extends Component {
    * @param {*} yMapsApiEvent 
    */
   onMapsApiReady(yMapsApiEvent) {
-    console.log('ymaps api ready: ', yMapsApiEvent);
+    if (this.watchLocationID) {
+      return
+    }
+
     setTimeout(() => {
       this.watchLocationID = navigator.geolocation.watchPosition(
         this.onGeolocationSuccess.bind(this),
@@ -122,14 +124,8 @@ export default class MixMap extends Component {
           timeout: GEOLOCATION_WATCH_TIMEOUT,
           enableHighAccuracy: true,
         }
-      );
+      )
     }, 1)
-  }
-
-  stopWatchGeolocation() {
-    if (this.watchLocationID) {
-      navigator.geolocation.clearWatch(this.watchLocationID);
-    }
   }
 
   setZoom(newZoom) {
@@ -141,7 +137,6 @@ export default class MixMap extends Component {
     })
   }
 
-
   setCenter(coords) {
     this.setState({
       mapState: {
@@ -151,7 +146,6 @@ export default class MixMap extends Component {
     })
   }
 
-
   getPlaceMarkContent(item, idx) {
     return {
       balloonContentBody: `<div><strong>${item.title}</strong><p>${item.location_title}<br />${item.begin_time}</p></div>`,
@@ -159,12 +153,18 @@ export default class MixMap extends Component {
     }
   }
 
+  stopWatchGeolocation() {
+    if (this.watchLocationID) {
+      navigator.geolocation.clearWatch(this.watchLocationID)
+    }
+  }
+
   render() {
     return (
       <YMaps onApiAvaliable={this.onMapsApiReady}>
-        <Map
+        <YMap
           state={this.state.mapState}
-          ref={ref => this.map = ref}
+          instanceRef={(ref) => { this.map = ref }}
           options={{
             minZoom: MIN_ZOOM,
             yandexMapDisablePoiInteractivity: true,
@@ -188,17 +188,19 @@ export default class MixMap extends Component {
               />)
             })}
           </Clusterer>
-          {this.state.myLocationPoint.lat && (
+          {this.state.myLocationPoint.lat ? (
             <Placemark
               key={'mylocation'}
-              geometry={{ coordinates: [this.state.myLocationPoint.lat, this.state.myLocationPoint.lng] }}
+              geometry={{
+                coordinates: [this.state.myLocationPoint.lat, this.state.myLocationPoint.lng],
+              }}
               properties={{
-                balloonContentBody: 'Я тут'
+                balloonContentBody: 'Я тут',
               }}
               options={MYLOCATION_PLACEMARK_OPTIONS}
             />
-          )}
-        </Map>
+          ) : ''}
+        </YMap>
       </YMaps>
     )
   }

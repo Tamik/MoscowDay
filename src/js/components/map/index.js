@@ -1,1 +1,1 @@
-export { default as MixMap } from './MixMap'
+export { default as Map } from './Map'

@@ -81,7 +81,7 @@ export default class Headings extends Component {
         <Modal
           isOpen = {this.state.isModalVisible}
           title = {this.state.modalTitle || ''}
-          content = {<EventsList place={this.state} />}
+          content = {<EventsList event = {this.state} />}
           close = {this.closeEventsViewModal}
         />
       </div>

@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
-import Modal from '../../../../modals/Modal'
 
-//import ReactModal from 'react-modal'
+import Modal from '../../../../modals/Modal'
 
 import { GridList, GridTile } from 'material-ui/GridList'
 import PlacesList from '../../../../modals/EventsList'
-
-//import AppBar from 'material-ui/AppBar'
-//import IconButton from 'material-ui/IconButton'
-//import NavigationClose from 'material-ui/svg-icons/navigation/close'
-
 
 import MDApi from 'utils/MDApi'
 
@@ -94,3 +88,4 @@ export default class Places extends Component {
     )
   }
 }
+

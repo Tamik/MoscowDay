@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactModal from 'react-modal'
+import PropTypes from 'prop-types';
 
 import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
@@ -12,7 +13,7 @@ function Modal(props) {
         isOpen = {props.isOpen}
         contentLabel = {props.title}
         shouldCloseOnOverlayClick={false}
-        style={{
+        style = {{
           overlay: {
             zIndex: 1200,
           },
@@ -28,10 +29,10 @@ function Modal(props) {
         }}
       >
         <AppBar
-          title={props.title}
-          iconElementLeft={
+          title = {props.title}
+          iconElementLeft = {
             <IconButton>
-              <NavigationClose onClick={props.close} />
+              <NavigationClose onClick = {props.close} />
             </IconButton>
           }
         />
@@ -39,6 +40,13 @@ function Modal(props) {
       </ReactModal>
     </div>
   )
+}
+
+Modal.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.node.isRequired,
+  close: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
 }
 
 export default Modal

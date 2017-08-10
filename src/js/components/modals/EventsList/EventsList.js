@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 
 import ListCard from 'atoms/ListCard'
 
 import MDApi from 'utils/MDApi'
-
+// TODO rename PlaceList
 export default class PlacesList extends Component {
-  constructor(props) {
+    constructor(props) {
     super(props)
     this.state = {
       id: props.place.id,
@@ -67,4 +68,11 @@ export default class PlacesList extends Component {
       </div>
     )
   }
+}
+
+PlacesList.propTypes = {
+  place: PropTypes.shape({
+    id: PropTypes.string,
+    type: PropTypes.string,
+  })
 }

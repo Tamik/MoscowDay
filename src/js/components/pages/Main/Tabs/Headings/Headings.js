@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import ReactModal from 'react-modal'
+
+import Modal from '../../../../modals/Modal'
+import EventsList from '../../../../modals/EventsList'
 
 import { GridList, GridTile } from 'material-ui/GridList'
-import AppBar from 'material-ui/AppBar'
-import IconButton from 'material-ui/IconButton'
-import NavigationClose from 'material-ui/svg-icons/navigation/close'
-
-import EventsList from '../../../../modals/EventsList'
 
 import MDApi from 'utils/MDApi'
 
@@ -29,8 +26,8 @@ export default class Headings extends Component {
     super(props)
 
     this.state = {
-      isEventsViewModalVisible: false,
-      eventsViewModalTitle: null,
+      isModalVisible: false,
+      modalTitle: null,
       headings: [],
     }
 
@@ -52,15 +49,16 @@ export default class Headings extends Component {
 
   openEventsViewModal(title, catId) {
     this.setState({
-      isEventsViewModalVisible: true,
-      categoryId: catId,
-      eventsViewModalTitle: title,
+      id: catId,
+      type: 'headings',
+      isModalVisible: true,
+      modalTitle: title,
     })
   }
 
   closeEventsViewModal() {
     this.setState({
-      isEventsViewModalVisible: false,
+      isModalVisible: false,
     })
   }
 
@@ -79,38 +77,13 @@ export default class Headings extends Component {
             />
           ))}
         </GridList>
-        <div>
-          <ReactModal
-            isOpen={this.state.isEventsViewModalVisible}
-            contentLabel='Minimal Modal Example'
-            onAfterOpen={this.afterOpenModal}
-            shouldCloseOnOverlayClick={false}
-            style={{
-              overlay: {
-                zIndex: 1200,
-              },
-              content: {
-                border: 'none',
-                borderRadius: 0,
-                padding: 0,
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-              },
-            }}
-          >
-            <AppBar
-              title={this.state.eventsViewModalTitle}
-              iconElementLeft={
-                <IconButton>
-                  <NavigationClose onClick={this.closeEventsViewModal} />
-                </IconButton>
-              }
-            />
-            <EventsList category={this.state.categoryId} />
-          </ReactModal>
-        </div>
+
+        <Modal
+          isOpen = {this.state.isModalVisible}
+          title = {this.state.modalTitle || ''}
+          content = {<EventsList place={this.state} />}
+          close = {this.closeEventsViewModal}
+        />
       </div>
     )
   }

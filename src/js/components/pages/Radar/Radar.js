@@ -43,7 +43,7 @@ export default class Radar extends Component {
     return (
       <div>
         <AppBar title='События рядом' showMenuIconButton={false} />
-        <Map points={this.state.events} panToMyLocation={true} />
+        <Map points={this.state.events} panToMyLocation />
       </div>
     )
   }

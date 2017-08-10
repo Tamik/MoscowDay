@@ -48,7 +48,6 @@ export default class Timeline extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         {this.state.events.map(event => (

@@ -28,9 +28,11 @@ export default class Main extends Component {
     }
   }
 
-  handleChange = (index) => this.setState({
-    slideIndex: index,
-  });
+  handleChange = (index) => {
+    this.setState({
+      slideIndex: index,
+    })
+  }
 
   render() {
     return (

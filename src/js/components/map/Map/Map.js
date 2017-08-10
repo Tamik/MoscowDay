@@ -167,6 +167,7 @@ export default class Map extends Component {
           instanceRef={(ref) => { this.map = ref }}
           options={{
             minZoom: MIN_ZOOM,
+            yandexMapDisablePoiInteractivity: true,
           }}
         >
           <Clusterer

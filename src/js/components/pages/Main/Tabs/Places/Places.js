@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
-import ReactModal from 'react-modal'
+import Modal from '../../../../modals/Modal'
+
+//import ReactModal from 'react-modal'
 
 import { GridList, GridTile } from 'material-ui/GridList'
-import AppBar from 'material-ui/AppBar'
-import IconButton from 'material-ui/IconButton'
-import NavigationClose from 'material-ui/svg-icons/navigation/close'
+import PlacesList from '../../../../modals/EventsList'
 
-import PlacesList from '../../../../modals/PlacesList'
+//import AppBar from 'material-ui/AppBar'
+//import IconButton from 'material-ui/IconButton'
+//import NavigationClose from 'material-ui/svg-icons/navigation/close'
+
 
 import MDApi from 'utils/MDApi'
 
@@ -29,8 +32,8 @@ export default class Places extends Component {
     super(props)
 
     this.state = {
-      isPlacesViewModalVisible: false,
-      placesViewModalTitle: null,
+      isModalVisible: false,
+      modalTitle: null,
       places: [],
     }
 
@@ -52,15 +55,16 @@ export default class Places extends Component {
 
   openPlacesViewModal(title, pId) {
     this.setState({
-      isPlacesViewModalVisible: true,
-      placeId: pId,
-      placesViewModalTitle: title,
+      id: pId,
+      type: 'place',
+      isModalVisible: true,
+      modalTitle: title,
     })
   }
 
   closePlacesViewModal() {
     this.setState({
-      isPlacesViewModalVisible: false,
+      isModalVisible: false,
     })
   }
 
@@ -79,38 +83,13 @@ export default class Places extends Component {
             />
           ))}
         </GridList>
-        <div>
-          <ReactModal
-            isOpen={this.state.isPlacesViewModalVisible}
-            contentLabel='Minimal Modal Example'
-            onAfterOpen={this.afterOpenModal}
-            shouldCloseOnOverlayClick={false}
-            style={{
-              overlay: {
-                zIndex: 1200,
-              },
-              content: {
-                border: 'none',
-                borderRadius: 0,
-                padding: 0,
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-              },
-            }}
-          >
-            <AppBar
-              title={this.state.placesViewModalTitle}
-              iconElementLeft={
-                <IconButton>
-                  <NavigationClose onClick={this.closePlacesViewModal} />
-                </IconButton>
-              }
-            />
-            <PlacesList place={this.state.placeId} />
-          </ReactModal>
-        </div>
+
+        <Modal
+          isOpen = {this.state.isModalVisible}
+          title = {this.state.modalTitle || ''}
+          content = {<PlacesList place={this.state} />}
+          close = {this.closePlacesViewModal}
+        />
       </div>
     )
   }

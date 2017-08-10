@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import ReactModal from 'react-modal'
 
 import ListCard from 'atoms/ListCard'
 
 import MDApi from 'utils/MDApi'
 
-export default class EventsList extends Component {
+export default class PlacesList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isEventModalVisible: false,
+      id: props.place.id,
+      type: props.place.type,
+      isModalVisible: false,
       title: null,
-      categoryId: props.category,
       events: [],
     }
 
@@ -20,29 +20,41 @@ export default class EventsList extends Component {
   }
 
   componentDidMount() {
-    MDApi.getEvents({
-      category: this.state.categoryId,
-    })
-      .then((response) => {
+    switch (this.state.type) {
+      case 'place': MDApi.getEvents({
+        place: this.state.id,
+      }).then((response) => {
         return response.json()
-      })
-      .then((response) => {
+      }).then((response) => {
         this.setState({
           events: response.data,
         })
       })
+        break;
+
+      case 'headings': MDApi.getEvents({
+        category: this.state.id,
+      }).then((response) => {
+        return response.json()
+      }).then((response) => {
+        this.setState({
+          events: response.data,
+        })
+      })
+        break;
+    }
   }
 
   openEventViewModal(payload) {
     this.setState({
-      isEventModalVisible: true,
+      isModalVisible: true,
       data: payload,
     })
   }
 
   closeEventViewModal() {
     this.setState({
-      isEventModalVisible: false,
+      isModalVisible: false,
     })
   }
 

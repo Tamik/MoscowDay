@@ -1,2 +1,2 @@
 export { default as EventsList } from './EventsList'
-export { default as PlacesList } from './PlacesList'
+export { default as Modal } from './Modal'

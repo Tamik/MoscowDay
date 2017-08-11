@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import localforage from 'localforage'
 
+import { Step, Stepper, StepButton } from 'material-ui/Stepper'
+import IconButton from 'material-ui/IconButton'
+import Star from 'material-ui/svg-icons/toggle/star'
+import EmptyStar from 'material-ui/svg-icons/toggle/star-border'
 
 import { Modal } from 'components/modals'
 
@@ -85,15 +89,21 @@ export default class Timeline extends Component {
   render() {
     return (
       <div>
-        {this.state.events.map(event => (
-          <h2
-            key = {event.id}
-            onClick = {() => this.openEventsViewModal(event.title, event.id)}
-          >
-            {event.title}
-          </h2>
-        ))}
-
+        <Stepper
+          activeStep={0}
+          linear={false}
+          orientation='vertical'
+        >
+          {this.state.events.map(event => (
+            <Step key={event.id}>
+              <StepButton
+                onTouchTap={() => this.openEventsModal(event.id, event.title, event)}
+              >
+                {event.title}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
         <Modal
           isOpen={this.state.isModalVisible}
           title={this.state.modalTitle || ''}
@@ -102,6 +112,11 @@ export default class Timeline extends Component {
               <h1 style={{ marginBottom: 2 }}>{this.state.payload.title}</h1>
               <span style={{ display: 'block', marginBottom: 16, opacity: 0.25 }}>{this.state.payload.location_title}</span>
               <p style={{ marginBottom: 16 }}>{this.state.payload.description}</p>
+              <IconButton
+                onTouchTap={() => this.handleFavorites(this.state.payload.id, this.state.payload)}
+              >
+                {this.state.inFavorites ? <Star /> : <EmptyStar />}
+              </IconButton>
             </div>
           }
           close={this.closeEventsModal}

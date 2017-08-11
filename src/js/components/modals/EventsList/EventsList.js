@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import FlatButton from 'material-ui/FlatButton'
+
 import { ListCard } from 'atoms'
 
 import MDApi from 'utils/MDApi'
@@ -14,6 +16,8 @@ export default class EventsList extends Component {
       isModalVisible: false,
       title: null,
       events: [],
+      currentPage: 1,
+      endOfEvents: false,
     }
 
     this.openEventViewModal = this.openEventViewModal.bind(this)
@@ -21,29 +25,50 @@ export default class EventsList extends Component {
   }
 
   componentDidMount() {
+    this.getEvents()
+  }
+
+  getEvents = () => {
     switch (this.state.type) {
       case 'place': MDApi.getEvents({
         place: this.state.id,
+        items_per_page: 1,
+        page: this.state.currentPage,
       }).then((response) => {
         return response.json()
       }).then((response) => {
+        const isEnd = (response.data.length === 0) ? true : false
         this.setState({
-          events: response.data,
+          events: this.state.events.concat(response.data),
+          endOfEvents: isEnd,
         })
       })
         break
       case 'headings': MDApi.getEvents({
         category: this.state.id,
+        items_per_page: 1,
+        page: this.state.currentPage,
       }).then((response) => {
         return response.json()
       }).then((response) => {
+        console.log(response.data)
+        const isEnd = (response.data.length === 0) ? true : false
         this.setState({
-          events: response.data,
+          events: this.state.events.concat(response.data),
+          endOfEvents: isEnd,
         })
+        console.log(isEnd)
       })
         break
       default: break
     }
+  }
+
+  showMoreEvents = () => {
+    this.setState({
+      currentPage: ++this.state.currentPage,
+    })
+    this.getEvents()
   }
 
   openEventViewModal(payload) {
@@ -65,6 +90,9 @@ export default class EventsList extends Component {
         {this.state.events.map(item => (
           <ListCard key={item.id} {...item} />
         ))}
+        {this.state.endOfEvents ? ''
+          : <FlatButton label='Показать еще' onTouchTap={() => this.showMoreEvents()} />
+        }
       </div>
     )
   }

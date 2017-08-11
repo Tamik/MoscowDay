@@ -100,14 +100,20 @@ export default class Favorites extends Component {
       <div>
         <AppBar title='Избранное' showMenuIconButton={false} />
         <Paper style={style} zDepth={1}>
-          {this.state.favorites.map(event => (
+          {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
             <Card
               key={event.id}
               onTouchTap={() => this.handleOpenModal(event.id, event.title, event)}
             >
               <CardTitle title={event.title} subtitle={event.location_title} />
             </Card>
-          ))}
+          ))
+            : <Card
+              key='notevents'
+            >
+              <CardTitle title='Пусто!' subtitle='Добавьте что-нибудь в избранное. ;)' />
+            </Card>
+          }
         </Paper>
         <Modal
           isOpen={this.state.isModalVisible}
@@ -115,7 +121,14 @@ export default class Favorites extends Component {
           content={
             <div style={{ margin: 16 }}>
               <h1 style={{ marginBottom: 2 }}>{this.state.payload.title}</h1>
-              <span style={{ display: 'block', marginBottom: 16, opacity: 0.25 }}>{this.state.payload.location_title}</span>
+              <span style={{
+                display: 'block',
+                marginBottom: 16,
+                opacity: 0.25,
+              }}
+              >
+                {this.state.payload.location_title}
+              </span>
               <p style={{ marginBottom: 16 }}>{this.state.payload.description}</p>
               <IconButton
                 onTouchTap={() => this.handleFavorites(this.state.payload.id, this.state.payload)}

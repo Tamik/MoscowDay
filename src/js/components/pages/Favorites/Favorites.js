@@ -149,7 +149,7 @@ export default class Favorites extends Component {
         </Paper>
         <Modal
           isOpen={this.state.isModalVisible}
-          title={this.state.modalTitle || ''}
+          title={this.state.modalTitle}
           content={
             <div style={{ margin: 16 }}>
               <h1 style={{ marginBottom: 2 }}>{this.state.payload.title}</h1>

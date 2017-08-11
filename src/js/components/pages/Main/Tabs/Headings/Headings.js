@@ -81,8 +81,8 @@ export default class Headings extends Component {
         </GridList>
         <Modal
           isOpen={this.state.isModalVisible}
-          title={this.state.modalTitle || ''}
-          topBar={true}
+          title={this.state.modalTitle}
+          isVisibleTopBar={true}
           content={<EventsList event={this.state} />}
           close={this.closeEventsViewModal}
         />

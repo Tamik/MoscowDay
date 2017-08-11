@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 import ListCard from 'atoms/ListCard'
 
 import MDApi from 'utils/MDApi'
 
 export default class EventsList extends Component {
-    constructor(props) {
+  constructor(props) {
     super(props)
     this.state = {
       id: props.event.id,
@@ -31,8 +31,7 @@ export default class EventsList extends Component {
           events: response.data,
         })
       })
-        break;
-
+        break
       case 'headings': MDApi.getEvents({
         category: this.state.id,
       }).then((response) => {
@@ -42,7 +41,8 @@ export default class EventsList extends Component {
           events: response.data,
         })
       })
-        break;
+        break
+      default: break
     }
   }
 
@@ -71,7 +71,7 @@ export default class EventsList extends Component {
 }
 
 EventsList.propTypes = {
-    place: PropTypes.shape({
+  place: PropTypes.shape({
     id: PropTypes.string,
     type: PropTypes.string,
   })

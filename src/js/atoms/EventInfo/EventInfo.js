@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import localforage from 'localforage'
 
 import Paper from 'material-ui/Paper'
 import { Divider } from 'material-ui'
@@ -12,6 +14,12 @@ import IconCalendar from 'material-ui/svg-icons/action/date-range'
 import IconClock from 'material-ui/svg-icons/device/access-time'
 import IconPlace from 'material-ui/svg-icons/maps/place'
 import IconArrowBot from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import IconEmptyStar from 'material-ui/svg-icons/toggle/star-border'
+import IconFullStar from 'material-ui/svg-icons/toggle/star'
+
+const FavoritesStore = localforage.createInstance({
+  name: 'Favorites',
+})
 
 const style = {
   //height: 200,
@@ -19,43 +27,137 @@ const style = {
 }
 
 styled(ListItem)`
-  padding: 10
-  color: 
+  padding: 10;
 `
-const EventInfo = (props) => {
-  const { title, begin_time, location_title, description } = props.event
-  console.log(begin_time);
-  return (
-    <div>
-      <Paper style={style} zDepth={1}>
-        <Card>
-          <CardMedia>
-            <img src='//placehold.it/256x256' alt='' />
-          </CardMedia>
-          <CardTitle title = { title } />
-        </Card>
-        <List>
-          <ListItem primaryText="ДАТА" leftIcon={<IconCalendar />}/>
-          <Divider />
+const Button = styled.button`
+  position: absolute;
+  bottom: 25%;
+  right: 30px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px solid #cecece;
+`
 
-          <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />}/>
-          <Divider />
+export default class EventInfo extends Component {
+  constructor(props) {
+    super(props)
 
-          <ListItem primaryText = {location_title} leftIcon={<IconPlace />}/>
-          <Divider />
+    this.state = {
+      inFavorites: false,
+    }
+  }
 
-          <ListItem primaryText="Описание" leftIcon={<IconArrowBot />}/>
-          <Divider />
+  addToFavorites = (id, value) => {
+    FavoritesStore.setItem(id, value)
+      .then(() => {
+        this.setState({
+          inFavorites: true,
+        })
+      })
+  }
 
-          <ListItem
-            // primaryText = {description}
-            primaryText="День бездомных животных — напоминание всему человечеству о важности оказания помощи тем, кому она необходима. 19 августа фонд «Дарящие надежду» и бренд кормов для домашних животных PURINA проведут фестиваль собак и кошек из приютов, которые очень хотят «Домой!»"
-          />
-        </List>
-      </Paper>
-    </div>
-  )
+  removeFromFavorites = (id) => {
+    FavoritesStore.removeItem(id)
+      .then(() => {
+        this.setState({
+          inFavorites: false,
+        })
+      })
+  }
+
+  inFavorites = (id) => {
+    FavoritesStore.getItem(id)
+      .then((response) => {
+        if(response !== null) {
+          this.setState({
+            inFavorites: true,
+          })
+          return
+        }
+        this.setState({
+          inFavorites: false,
+        })
+      })
+  }
+
+  handleFavorites = (id, value) => {
+    if(this.state.inFavorites) {
+      this.removeFromFavorites(id)
+    }
+    else {
+      this.addToFavorites(id, value)
+    }
+  }
+
+  render() {
+    // const { title, begin_time, location_title, description } = props.event
+    return (
+      <div>
+        <Paper style={style} zDepth={1}>
+          <Card>
+            <CardMedia>
+              <img src='//placehold.it/256x256' alt='' />
+            </CardMedia>
+            <CardTitle title = { this.props.event.title } style={{position: 'relative'}}>
+              <Button onClick={() => this.handleFavorites(this.props.event.id, this.props.event)}>{this.state.inFavorites ? <IconFullStar /> : <IconEmptyStar />}</Button>
+            </CardTitle>
+          </Card>
+          <List>
+            <ListItem primaryText="ДАТА" leftIcon={<IconCalendar />}/>
+            <Divider />
+            <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />}/>
+            <Divider />
+            <ListItem primaryText = {this.props.event.location_title} leftIcon={<IconPlace />}/>
+            <Divider />
+            <ListItem primaryText="Описание" leftIcon={<IconArrowBot />}/>
+            <Divider />
+            <ListItem
+              // primaryText = {description}
+              primaryText="День бездомных животных — напоминание всему человечеству о важности оказания помощи тем, кому она необходима. 19 августа фонд «Дарящие надежду» и бренд кормов для домашних животных PURINA проведут фестиваль собак и кошек из приютов, которые очень хотят «Домой!»"
+            />
+          </List>
+        </Paper>
+      </div>
+    )
+  }
 }
+// const EventInfo = (props) => {
+//   const { title, begin_time, location_title, description } = props.event
+//
+//   return (
+//     <div>
+//       <Paper style={style} zDepth={1}>
+//         <Card>
+//           <CardMedia>
+//             <img src='//placehold.it/256x256' alt='' />
+//           </CardMedia>
+//           <CardTitle title = { title } style={{position: 'relative'}}>
+//             <Button onClick={handle}><IconEmptyStar/></Button>
+//           </CardTitle>
+//         </Card>
+//         <List>
+//           <ListItem primaryText="ДАТА" leftIcon={<IconCalendar />}/>
+//           <Divider />
+//
+//           <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />}/>
+//           <Divider />
+//
+//           <ListItem primaryText = {location_title} leftIcon={<IconPlace />}/>
+//           <Divider />
+//
+//           <ListItem primaryText="Описание" leftIcon={<IconArrowBot />}/>
+//           <Divider />
+//
+//           <ListItem
+//             // primaryText = {description}
+//             primaryText="День бездомных животных — напоминание всему человечеству о важности оказания помощи тем, кому она необходима. 19 августа фонд «Дарящие надежду» и бренд кормов для домашних животных PURINA проведут фестиваль собак и кошек из приютов, которые очень хотят «Домой!»"
+//           />
+//         </List>
+//       </Paper>
+//     </div>
+//   )
+// }
 
 EventInfo.propTypes = {
   event: PropTypes.shape({
@@ -66,4 +168,4 @@ EventInfo.propTypes = {
   }).isRequired,
 }
 
-export default EventInfo
+// export default EventInfo

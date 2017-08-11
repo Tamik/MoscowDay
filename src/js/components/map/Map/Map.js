@@ -73,12 +73,10 @@ export default class Map extends Component {
   }
 
   componentDidMount() {
+    this.isComponentMounted = true
     MapStore.getItem('map')
       .then((response) => {
         this.setState(response)
-      })
-      .then(() => {
-        this.isComponentMounted = true
       })
   }
 
@@ -95,7 +93,6 @@ export default class Map extends Component {
    */
   onGeolocationSuccess(pos) {
     const position = [pos.coords.latitude, pos.coords.longitude]
-    console.log('onGeolocationSuccess: ', this.isComponentMounted)
     /**
      * @description Добавляем метку с моим местоположением
      */
@@ -139,7 +136,7 @@ export default class Map extends Component {
    * @param {*} error 
    */
   onGeolocationError(error) {
-    console.log(`code: ${error.code}\n message: ${error.message}\n`)
+    // console.log(`code: ${error.code}\n message: ${error.message}\n`)
   }
 
   /**
@@ -213,6 +210,8 @@ export default class Map extends Component {
             yandexMapDisablePoiInteractivity: true,
             suppressMapOpenBlock: true,
           }}
+          width={this.props.width||'100%'}
+          height={this.props.height||'100%'}
         >
           <Clusterer
             options={{

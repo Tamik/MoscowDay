@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import localforage from 'localforage'
 
-import Modal from 'components/modals/Modal'
 
 import { Modal } from 'components/modals'
 
@@ -17,6 +16,7 @@ export default class Timeline extends Component {
     modalTitle: null,
     events: [],
     payload: {},
+    inFavorites: false,
   }
 
   componentDidMount() {
@@ -41,6 +41,7 @@ export default class Timeline extends Component {
       modalTitle: title,
       payload: payload,
     })
+    this.inFavorites(id)
   }
 
   closeEventsModal = () => {
@@ -55,6 +56,30 @@ export default class Timeline extends Component {
 
   removeFromFavorites = (id) => {
     FavoritesStore.removeItem(id)
+  }
+
+  inFavorites = (id) => {
+    FavoritesStore.getItem(id)
+      .then((response) => {
+        if (response !== null) {
+          this.setState({
+            inFavorites: true,
+          })
+          return
+        }
+        this.setState({
+          inFavorites: false,
+        })
+      })
+  }
+
+  handleFavorites(id, value) {
+    if (this.state.inFavorites) {
+      this.removeFromFavorites(id)
+    }
+    else {
+      this.addToFavorites(id, value)
+    }
   }
 
   render() {

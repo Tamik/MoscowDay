@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
+import localforage from 'localforage'
 
 import Modal from 'components/modals/Modal'
 
+import { Modal } from 'components/modals'
+
 import MDApi from 'utils/MDApi'
 
+const FavoritesStore = localforage.createInstance({
+  name: 'Favorites',
+})
+
 export default class Timeline extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isModalVisible: false,
-      modalTitle: null,
-      events: [],
-    }
-
-    this.openEventsViewModal = this.openEventsViewModal.bind(this)
-    this.closeEventsViewModal = this.closeEventsViewModal.bind(this)
+  state = {
+    isModalVisible: false,
+    modalTitle: null,
+    events: [],
+    payload: {},
   }
 
   componentDidMount() {
@@ -33,15 +34,18 @@ export default class Timeline extends Component {
   }
 
   openEventsViewModal(title, id) {
+  openEventsModal = (id, title, payload) => {
     this.setState({
       id: id,
       type: 'events',
       isModalVisible: true,
-      modalTitle: title
+      modalTitle: title,
+      payload: payload,
     })
   }
 
   closeEventsViewModal() {
+  closeEventsModal = () => {
     this.setState({
       isModalVisible: false,
     })

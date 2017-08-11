@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-import Modal from 'components/modals/Modal'
-import PlacesList from 'components/modals/EventsList'
-
 import { GridList, GridTile } from 'material-ui/GridList'
+
+import Modal from 'components/modals/Modal'
+import EventsList from 'components/modals/EventsList'
 
 import MDApi from 'utils/MDApi'
 
@@ -20,19 +20,23 @@ const styles = {
   },
 }
 
-
 export default class Places extends Component {
-  constructor(props) {
-    super(props)
+  // constructor(props) {
+  //   super(props)
 
-    this.state = {
-      isModalVisible: false,
-      modalTitle: null,
-      places: [],
-    }
+  //   this.state = {
+  //     isModalVisible: false,
+  //     modalTitle: null,
+  //     places: [],
+  //   }
 
-    this.openPlacesViewModal = this.openPlacesViewModal.bind(this)
-    this.closePlacesViewModal = this.closePlacesViewModal.bind(this)
+  //   this.openPlacesViewModal = this.openPlacesViewModal.bind(this)
+  //   this.closePlacesViewModal = this.closePlacesViewModal.bind(this)
+  // }
+  state = {
+    isModalVisible: false,
+    modalTitle: null,
+    places: [],
   }
 
   componentDidMount() {
@@ -47,7 +51,7 @@ export default class Places extends Component {
       })
   }
 
-  openPlacesViewModal(title, pId) {
+  openPlacesViewModal = (title, pId) => {
     this.setState({
       id: pId,
       type: 'place',
@@ -56,13 +60,11 @@ export default class Places extends Component {
     })
   }
 
-  closePlacesViewModal() {
+  closePlacesViewModal = () => {
     this.setState({
       isModalVisible: false,
     })
   }
-
-  afterOpenModal() {}
 
   render() {
     return (
@@ -77,12 +79,11 @@ export default class Places extends Component {
             />
           ))}
         </GridList>
-
         <Modal
-          isOpen = {this.state.isModalVisible}
-          title = {this.state.modalTitle || ''}
-          content = {<PlacesList event = {this.state} />}
-          close = {this.closePlacesViewModal}
+          isOpen={this.state.isModalVisible}
+          title={this.state.modalTitle || ''}
+          content={<EventsList event={this.state} />}
+          close={this.closePlacesViewModal}
         />
       </div>
     )

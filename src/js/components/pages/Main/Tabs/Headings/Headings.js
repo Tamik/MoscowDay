@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
+import { GridList, GridTile } from 'material-ui/GridList'
+
 import Modal from 'components/modals/Modal'
 import EventsList from 'components/modals/EventsList'
-
-import { GridList, GridTile } from 'material-ui/GridList'
 
 import MDApi from 'utils/MDApi'
 
@@ -20,19 +20,23 @@ const styles = {
   },
 }
 
-
 export default class Headings extends Component {
-  constructor(props) {
-    super(props)
+  // constructor(props) {
+  //   super(props)
 
-    this.state = {
-      isModalVisible: false,
-      modalTitle: null,
-      headings: [],
-    }
+  //   this.state = {
+  //     isModalVisible: false,
+  //     modalTitle: null,
+  //     headings: [],
+  //   }
 
-    this.openEventsViewModal = this.openEventsViewModal.bind(this)
-    this.closeEventsViewModal = this.closeEventsViewModal.bind(this)
+  //   this.openEventsViewModal = this.openEventsViewModal.bind(this)
+  //   this.closeEventsViewModal = this.closeEventsViewModal.bind(this)
+  // }
+  state = {
+    isModalVisible: false,
+    modalTitle: null,
+    headings: [],
   }
 
   componentDidMount() {
@@ -47,7 +51,7 @@ export default class Headings extends Component {
       })
   }
 
-  openEventsViewModal(title, catId) {
+  openEventsViewModal = (title, catId) => {
     this.setState({
       id: catId,
       type: 'headings',
@@ -56,13 +60,11 @@ export default class Headings extends Component {
     })
   }
 
-  closeEventsViewModal() {
+  closeEventsViewModal = () => {
     this.setState({
       isModalVisible: false,
     })
   }
-
-  afterOpenModal() {}
 
   render() {
     return (
@@ -77,12 +79,11 @@ export default class Headings extends Component {
             />
           ))}
         </GridList>
-
         <Modal
-          isOpen = {this.state.isModalVisible}
-          title = {this.state.modalTitle || ''}
-          content = {<EventsList event = {this.state} />}
-          close = {this.closeEventsViewModal}
+          isOpen={this.state.isModalVisible}
+          title={this.state.modalTitle || ''}
+          content={<EventsList event={this.state} />}
+          close={this.closeEventsViewModal}
         />
       </div>
     )

@@ -35,14 +35,17 @@ export default class ListCard extends Component {
   render() {
     return (
       <Layout onClick={this.openEventsViewModal}>
-        <h3>{this.props.title}</h3>
-        <p>{this.props.begin_time}</p>
+        <Image><img src="" /></Image>
+        <Content>
+          <h3>{this.props.title}</h3>
+          <p>{this.props.begin_time}</p>
+        </Content>
+
         <Modal
-          isOpen={this.state.isModalVisible}
-          title={this.props.title}
-          isVisibleTopBar={false}
-          content={<EventInfo />}
-          close={this.closeEventsViewModal}
+          isOpen = {this.state.isModalVisible}
+          isVisibleTopBar = {false}
+          content = {<EventInfo event = {this.props} />}
+          close = {this.closeEventsViewModal}
         />
       </Layout>
     )

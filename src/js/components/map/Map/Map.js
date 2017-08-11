@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
+import localforage from 'localforage'
 import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
+
+const MapStore = localforage.createInstance({
+  name: 'Map',
+})
 
 /**
  * Map
@@ -73,7 +78,13 @@ export default class Map extends Component {
      * а в componentWillUnmount кешировать
      */
     console.log('componentDidMount')
-    this.isComponentMounted = true
+    MapStore.getItem('map')
+      .then((response) => {
+        this.setState(response)
+      })
+      .then(() => {
+        this.isComponentMounted = true
+      })
   }
 
   componentWillUnmount() {
@@ -97,6 +108,17 @@ export default class Map extends Component {
      */
     if (this.isComponentMounted && this.map) {
       this.setState({
+        myLocationPoint: {
+          ...this.state.myLocationPoint,
+          lat: position[0],
+          lng: position[1],
+        },
+        mapState: {
+          ...this.state.mapState,
+          center: position,
+        },
+      })
+      MapStore.setItem('map', {
         myLocationPoint: {
           ...this.state.myLocationPoint,
           lat: position[0],

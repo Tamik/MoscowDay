@@ -21,11 +21,8 @@ const styles = {
 }
 
 export default class Main extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      slideIndex: 0,
-    }
+  state = {
+    slideIndex: 0,
   }
 
   handleChange = (index) => {

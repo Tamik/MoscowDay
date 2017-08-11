@@ -33,7 +33,6 @@ export default class Timeline extends Component {
       })
   }
 
-  openEventsViewModal(title, id) {
   openEventsModal = (id, title, payload) => {
     this.setState({
       id: id,
@@ -44,11 +43,18 @@ export default class Timeline extends Component {
     })
   }
 
-  closeEventsViewModal() {
   closeEventsModal = () => {
     this.setState({
       isModalVisible: false,
     })
+  }
+
+  addToFavorites = (id, value) => {
+    FavoritesStore.setItem(id, value)
+  }
+
+  removeFromFavorites = (id) => {
+    FavoritesStore.removeItem(id)
   }
 
   render() {

@@ -3,15 +3,12 @@ import React, { Component } from 'react'
 import AppBar from 'material-ui/AppBar'
 
 import { Map } from 'components/map'
+
 import MDApi from 'utils/MDApi'
 
 export default class Radar extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      events: [],
-    }
+  state = {
+    events: [],
   }
 
   componentDidMount() {

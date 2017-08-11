@@ -35,11 +35,11 @@ const MYLOCATION_PLACEMARK_OPTIONS = {
 export default class Map extends Component {
   constructor(props) {
     super(props)
-
     this.isComponentMounted = false
     this.watchLocationID = null
-
-    // Устанавливаем тип "event" меткам, если тип не установлен
+    /**
+     * @description Устанавливаем тип 'event' меткам, если тип не установлен
+     */
     props.points.forEach((item, i) => {
       if (props.points[i].type === undefined) {
         props.points[i].type = POINT_TYPES.EVENT
@@ -68,11 +68,12 @@ export default class Map extends Component {
   }
 
   componentDidMount() {
+    /**
+     * @todo Восстанавливать последнюю позицию на карте, зум и прошлое мое местоположение,
+     * а в componentWillUnmount кешировать
+     */
     console.log('componentDidMount')
     this.isComponentMounted = true
-
-    // @todo: Восстанавливать последнюю позицию на карте, зум и прошлое мое местоположение
-    // а в componentWillUnmount кешировать
   }
 
   componentWillUnmount() {
@@ -84,14 +85,16 @@ export default class Map extends Component {
   }
 
   /**
-   * Обработчик выполнится после успешно определенной текущего местоположения
+   * @description Обработчик выполнится после успешно определенной текущего местоположения
    * @param {Object} position 
    * @see https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/
    */
   onGeolocationSuccess(pos) {
     const position = [pos.coords.latitude, pos.coords.longitude]
     console.log('onGeolocationSuccess: ', this.isComponentMounted)
-    // Добавляем метку с моим местоположением
+    /**
+     * @description Добавляем метку с моим местоположением
+     */
     if (this.isComponentMounted && this.map) {
       this.setState({
         myLocationPoint: {
@@ -106,13 +109,17 @@ export default class Map extends Component {
       })
     }
 
-    // Если не задан zoom, то ставим зум сами
+    /**
+     * @description Если не задан zoom, то ставим зум сами
+     */
     if (!this.props.zoom) {
       this.setZoom(16)
     }
 
-    // Центрируем карту на мое местоположение, если разрешено
-    // @todo: Подумать, как сделать через state
+    /**
+     * @description Центрируем карту на мое местоположение, если разрешено
+     * @todo Подумать, как сделать через {state}
+     */
     if (this.props.panToMyLocation
       && this.map
       && this.isComponentMounted) {
@@ -124,7 +131,7 @@ export default class Map extends Component {
   }
 
   /**
-   * Обработчик ошибки определения текущего местоположения
+   * @description Обработчик ошибки определения текущего местоположения
    * @param {*} error 
    */
   onGeolocationError(error) {
@@ -132,7 +139,7 @@ export default class Map extends Component {
   }
 
   /**
-   * Выполнится, как только API Яндекс карт загрузился и готов к использованию
+   * @description Выполнится, как только API Яндекс карт загрузился и готов к использованию
    * @param {*} yMapsApiEvent 
    */
   onMapsApiReady(yMapsApiEvent) {

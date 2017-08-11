@@ -75,6 +75,17 @@ export default class Favorites extends Component {
 
   addToFavorites = (id, value) => {
     FavoritesStore.setItem(id, value)
+      .then(() => {
+        this.setState({
+          inFavorites: true,
+        })
+      })
+      .then(() => {
+        FavoritesStore.keys()
+          .then((response) => {
+            this.reRenderFavorites(response)
+          })
+      })
   }
 
   removeFromFavorites = (id) => {

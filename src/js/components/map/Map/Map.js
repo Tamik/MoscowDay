@@ -73,11 +73,6 @@ export default class Map extends Component {
   }
 
   componentDidMount() {
-    /**
-     * @todo Восстанавливать последнюю позицию на карте, зум и прошлое мое местоположение,
-     * а в componentWillUnmount кешировать
-     */
-    console.log('componentDidMount')
     MapStore.getItem('map')
       .then((response) => {
         this.setState(response)
@@ -88,9 +83,7 @@ export default class Map extends Component {
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount')
     this.isComponentMounted = false
-
     this.stopWatchGeolocation()
     this.watchLocationID = 0
   }
@@ -108,17 +101,6 @@ export default class Map extends Component {
      */
     if (this.isComponentMounted && this.map) {
       this.setState({
-        myLocationPoint: {
-          ...this.state.myLocationPoint,
-          lat: position[0],
-          lng: position[1],
-        },
-        mapState: {
-          ...this.state.mapState,
-          center: position,
-        },
-      })
-      MapStore.setItem('map', {
         myLocationPoint: {
           ...this.state.myLocationPoint,
           lat: position[0],
@@ -189,6 +171,7 @@ export default class Map extends Component {
         zoom: newZoom,
       },
     })
+    MapStore.setItem('map', this.state)
   }
 
   setCenter(coords) {

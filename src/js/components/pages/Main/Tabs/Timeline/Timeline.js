@@ -7,6 +7,7 @@ import Star from 'material-ui/svg-icons/toggle/star'
 import EmptyStar from 'material-ui/svg-icons/toggle/star-border'
 
 import { Modal } from 'components/modals'
+import { EventInfo } from 'atoms'
 
 import MDApi from 'utils/MDApi'
 
@@ -111,21 +112,9 @@ export default class Timeline extends Component {
           ))}
         </Stepper>
         <Modal
-          isOpen={this.state.isModalVisible}
-          title={this.state.modalTitle || ''}
-          content={
-            <div style={{ margin: 16 }}>
-              <h1 style={{ marginBottom: 2 }}>{this.state.payload.title}</h1>
-              <span style={{ display: 'block', marginBottom: 16, opacity: 0.25 }}>{this.state.payload.location_title}</span>
-              <p style={{ marginBottom: 16 }}>{this.state.payload.description}</p>
-              <IconButton
-                onTouchTap={() => this.handleFavorites(this.state.payload.id, this.state.payload)}
-              >
-                {this.state.inFavorites ? <Star /> : <EmptyStar />}
-              </IconButton>
-            </div>
-          }
-          close={this.closeEventsModal}
+          isOpen = {this.state.isModalVisible}
+          title = {this.state.modalTitle || ''}
+          content = {<EventInfo close={this.closeEventsViewModal} />}
         />
       </div>
     )

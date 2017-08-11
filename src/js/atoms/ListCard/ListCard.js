@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { Modal } from 'components/modals'
+import { EventInfo } from 'atoms'
 
 const Layout = styled.div`
   color: black;
@@ -39,8 +40,8 @@ export default class ListCard extends Component {
         <Modal
           isOpen={this.state.isModalVisible}
           title={this.props.title}
-          content={<p>{this.props.description}</p>}
-          close={this.closeEventsViewModal}
+          //topBar={true}
+          content= {<EventInfo close={this.closeEventsViewModal}/>}
         />
       </Layout>
     )

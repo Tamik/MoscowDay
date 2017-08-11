@@ -1,22 +1,27 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
-import Modal from 'components/modals/Modal';
+
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+
+import { Modal } from 'components/modals'
+
+const Layout = styled.div`
+  color: black;
+`
 
 export default class ListCard extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
-      isModalVisible: false
+      isModalVisible: false,
     }
-
     this.openEventsViewModal = this.openEventsViewModal.bind(this)
     this.closeEventsViewModal = this.closeEventsViewModal.bind(this)
   }
 
   openEventsViewModal() {
     this.setState({
-      isModalVisible: true
+      isModalVisible: true,
     })
   }
 
@@ -28,17 +33,16 @@ export default class ListCard extends Component {
 
   render() {
     return (
-      <div onClick = {this.openEventsViewModal}>
+      <Layout onClick={this.openEventsViewModal}>
         <h3>{this.props.title}</h3>
         <p>{this.props.begin_time}</p>
-
         <Modal
-          isOpen = {this.state.isModalVisible}
-          title = {this.props.title}
-          content = {<p>{this.props.description} Plotva</p>}
-          close = {this.closeEventsViewModal}
+          isOpen={this.state.isModalVisible}
+          title={this.props.title}
+          content={<p>{this.props.description}</p>}
+          close={this.closeEventsViewModal}
         />
-      </div>
+      </Layout>
     )
   }
 }

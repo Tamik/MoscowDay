@@ -46,6 +46,7 @@ Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   close: PropTypes.func,
   isVisibleTopBar: PropTypes.bool,
+
 }
 
 export default Modal

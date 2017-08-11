@@ -18,6 +18,7 @@ const TopBar = (props) => {
       title = {props.title}
       style = {style}
       zDepth = {isShadow}
+      showMenuIconButton = {props.showButton}
       iconElementLeft = {
         <IconButton>
           <NavigationBack onClick = {props.close} />
@@ -31,6 +32,7 @@ TopBar.propTypes = {
   title: PropTypes.string,
   close: PropTypes.func,
   isVisible: PropTypes.bool,
+  showButton: PropTypes.bool,
 }
 
 export default TopBar

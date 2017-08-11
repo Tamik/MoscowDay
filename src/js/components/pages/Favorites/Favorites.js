@@ -90,6 +90,17 @@ export default class Favorites extends Component {
 
   removeFromFavorites = (id) => {
     FavoritesStore.removeItem(id)
+      .then(() => {
+        this.setState({
+          inFavorites: false,
+        })
+      })
+      .then(() => {
+        FavoritesStore.keys()
+          .then((response) => {
+            this.reRenderFavorites(response)
+          })
+      })
   }
 
   inFavorites = (id) => {

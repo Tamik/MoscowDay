@@ -32,19 +32,29 @@ export default class Favorites extends Component {
   componentDidMount() {
     FavoritesStore.keys()
       .then((response) => {
-        response.map((id) => {
-          FavoritesStore.getItem(id)
-            .then((event) => {
-              const tempState = this.state.favorites
-              tempState.push(event)
-              this.setState({
-                favorites: tempState,
-              })
-              return event
-            })
-        })
-        return response
+        this.reRenderFavorites(response)
       })
+  }
+
+  reRenderFavorites = (eventKeys) => {
+    const events = []
+
+    if (eventKeys.length === 0) {
+      this.setState({
+        favorites: events,
+      })
+      return
+    }
+
+    eventKeys.map((id) => {
+      FavoritesStore.getItem(id)
+        .then((item) => {
+          events.push(item)
+          this.setState({
+            favorites: events,
+          })
+        })
+    })
   }
 
   handleOpenModal = (id, title, payload) => {

@@ -1,21 +1,27 @@
 import React, { Component } from 'react'
+import localforage from 'localforage'
+
+import { Step, Stepper, StepButton } from 'material-ui/Stepper'
+import IconButton from 'material-ui/IconButton'
+import Star from 'material-ui/svg-icons/toggle/star'
+import EmptyStar from 'material-ui/svg-icons/toggle/star-border'
 
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
+
 import MDApi from 'utils/MDApi'
 
+const FavoritesStore = localforage.createInstance({
+  name: 'Favorites',
+})
+
 export default class Timeline extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isModalVisible: false,
-      modalTitle: null,
-      events: [],
-    }
-
-    this.openEventsViewModal = this.openEventsViewModal.bind(this)
-    this.closeEventsViewModal = this.closeEventsViewModal.bind(this)
+  state = {
+    isModalVisible: false,
+    modalTitle: null,
+    events: [],
+    payload: {},
+    inFavorites: false,
   }
 
   componentDidMount() {
@@ -32,33 +38,79 @@ export default class Timeline extends Component {
       })
   }
 
-  openEventsViewModal(title, id) {
+  openEventsModal = (id, title, payload) => {
     this.setState({
       id: id,
       type: 'events',
       isModalVisible: true,
-      modalTitle: title
+      modalTitle: title,
+      payload: payload,
     })
+    this.inFavorites(id)
   }
 
-  closeEventsViewModal() {
+  closeEventsModal = () => {
     this.setState({
       isModalVisible: false,
     })
   }
 
+  addToFavorites = (id, value) => {
+    FavoritesStore.setItem(id, value)
+    this.setState({
+      inFavorites: true,
+    })
+  }
+
+  removeFromFavorites = (id) => {
+    FavoritesStore.removeItem(id)
+    this.setState({
+      inFavorites: false,
+    })
+  }
+
+  inFavorites = (id) => {
+    FavoritesStore.getItem(id)
+      .then((response) => {
+        if (response !== null) {
+          this.setState({
+            inFavorites: true,
+          })
+          return
+        }
+        this.setState({
+          inFavorites: false,
+        })
+      })
+  }
+
+  handleFavorites(id, value) {
+    if (this.state.inFavorites) {
+      this.removeFromFavorites(id)
+    }
+    else {
+      this.addToFavorites(id, value)
+    }
+  }
+
   render() {
     return (
       <div>
-        {this.state.events.map(event => (
-          <h2
-            key = {event.id}
-            onClick = {() => this.openEventsViewModal(event.title, event.id)}
-          >
-            {event.title}
-          </h2>
-        ))}
-
+        <Stepper
+          activeStep={0}
+          linear={false}
+          orientation='vertical'
+        >
+          {this.state.events.map(event => (
+            <Step key={event.id}>
+              <StepButton
+                onTouchTap={() => this.openEventsModal(event.id, event.title, event)}
+              >
+                {event.title}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
         <Modal
           isOpen = {this.state.isModalVisible}
           title = {this.state.modalTitle || ''}

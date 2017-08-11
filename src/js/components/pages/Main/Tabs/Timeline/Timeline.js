@@ -61,8 +61,10 @@ export default class Timeline extends Component {
 
         <Modal
           isOpen = {this.state.isModalVisible}
-          title = {this.state.modalTitle || ''}
-          content = {<EventInfo close={this.closeEventsViewModal} />}
+          title = {this.state.modalTitle}
+          isVisibleTopBar={false}
+          content = {<EventInfo  />}
+          close = {this.closeEventsViewModal}
         />
       </div>
     )

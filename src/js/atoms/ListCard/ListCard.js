@@ -40,8 +40,9 @@ export default class ListCard extends Component {
         <Modal
           isOpen={this.state.isModalVisible}
           title={this.props.title}
-          //topBar={true}
-          content= {<EventInfo close={this.closeEventsViewModal}/>}
+          isVisibleTopBar={false}
+          content={<EventInfo />}
+          close={this.closeEventsViewModal}
         />
       </Layout>
     )

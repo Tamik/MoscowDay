@@ -82,8 +82,8 @@ export default class Places extends Component {
 
         <Modal
           isOpen={this.state.isModalVisible}
-          title={this.state.modalTitle || ''}
-          topBar={true}
+          title={this.state.modalTitle}
+          isVisibleTopBar={true}
           content={<EventsList event={this.state} />}
           close={this.closePlacesViewModal}
         />

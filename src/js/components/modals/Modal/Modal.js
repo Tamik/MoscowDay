@@ -7,13 +7,11 @@ import { TopBar } from 'molecules'
 
 
 const Modal = props => {
-  const TopBarApp = props.topBar ? <TopBar title={props.title} close={props.close} /> : null
-
   return (
     <div>
       <ReactModal
         isOpen={props.isOpen}
-        contentLabel={props.title}
+        contentLabel={props.title || ''}
         shouldCloseOnOverlayClick={false}
         style={{
           overlay: {
@@ -30,7 +28,11 @@ const Modal = props => {
           },
         }}
       >
-        {TopBarApp}
+        <TopBar
+          isVisible = {props.isVisibleTopBar}
+          close = {props.close}
+          title = {props.title}
+        />
 
         {props.content}
       </ReactModal>
@@ -40,10 +42,11 @@ const Modal = props => {
 
 Modal.propTypes = {
   title: PropTypes.string,
-  //content: PropTypes.node.isRequired,
+  content: PropTypes.node.isRequired,
   isOpen: PropTypes.bool.isRequired,
   close: PropTypes.func,
   topBar: PropTypes.bool,
+  isVisibleTopBar: PropTypes.bool,
 }
 
 export default Modal

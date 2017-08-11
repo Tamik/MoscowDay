@@ -5,7 +5,12 @@
 # Windows
 Thumbs.db
 
+# JetBrains IDEs
+.idea
+
 # Project
 node_modules/
+hooks/
 platforms/
 plugins/
+www/*[!.gitkeep]

@@ -56,10 +56,16 @@ export default class Timeline extends Component {
 
   addToFavorites = (id, value) => {
     FavoritesStore.setItem(id, value)
+    this.setState({
+      inFavorites: true,
+    })
   }
 
   removeFromFavorites = (id) => {
     FavoritesStore.removeItem(id)
+    this.setState({
+      inFavorites: false,
+    })
   }
 
   inFavorites = (id) => {

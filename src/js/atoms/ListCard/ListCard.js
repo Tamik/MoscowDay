@@ -38,11 +38,10 @@ export default class ListCard extends Component {
         <h3>{this.props.title}</h3>
         <p>{this.props.begin_time}</p>
         <Modal
-          isOpen={this.state.isModalVisible}
-          title={this.props.title}
-          isVisibleTopBar={false}
-          content={<EventInfo />}
-          close={this.closeEventsViewModal}
+          isOpen = {this.state.isModalVisible}
+          isVisibleTopBar = {false}
+          content = {<EventInfo event = {this.props}/>}
+          close = {this.closeEventsViewModal}
         />
       </Layout>
     )

@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 
+import localforage from 'localforage'
+
 import AppBar from 'material-ui/AppBar'
 import Paper from 'material-ui/Paper'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+const FavoritesStore = localforage.createInstance({
+  name: 'Favorites',
+})
 
 const style = {
   // height: 200,

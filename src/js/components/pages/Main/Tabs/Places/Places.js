@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 
 import { GridList, GridTile } from 'material-ui/GridList'
 
-import Modal from 'components/modals/Modal'
-import EventsList from 'components/modals/EventsList'
+import { Modal } from 'components/modals'
+import { EventsList } from 'components/modals'
 
 import MDApi from 'utils/MDApi'
 
@@ -79,9 +79,11 @@ export default class Places extends Component {
             />
           ))}
         </GridList>
+
         <Modal
           isOpen={this.state.isModalVisible}
           title={this.state.modalTitle || ''}
+          topBar={true}
           content={<EventsList event={this.state} />}
           close={this.closePlacesViewModal}
         />

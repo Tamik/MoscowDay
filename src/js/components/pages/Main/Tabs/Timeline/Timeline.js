@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Modal from 'components/modals/Modal'
-
+import { Modal } from 'components/modals'
+import { EventInfo } from 'atoms'
 import MDApi from 'utils/MDApi'
 
 export default class Timeline extends Component {
@@ -62,8 +62,7 @@ export default class Timeline extends Component {
         <Modal
           isOpen = {this.state.isModalVisible}
           title = {this.state.modalTitle || ''}
-          content = {<p>Plotva</p>}
-          close = {this.closeEventsViewModal}
+          content = {<EventInfo close={this.closeEventsViewModal} />}
         />
       </div>
     )

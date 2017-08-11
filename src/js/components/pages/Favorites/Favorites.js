@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 
 import localforage from 'localforage'
 
-import AppBar from 'material-ui/AppBar'
+import { TopBar } from 'molecules'
 import Paper from 'material-ui/Paper'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+import styled from 'styled-components'
+
 import IconButton from 'material-ui/IconButton'
 import Star from 'material-ui/svg-icons/toggle/star'
 import EmptyStar from 'material-ui/svg-icons/toggle/star-border'
@@ -19,6 +21,17 @@ const style = {
   // height: 200,
   margin: 10,
 }
+
+const PageContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`
+const TopBarWrap = styled.div``
+const ContentWrap = styled.div`
+  flex: 1;
+`
+
 
 export default class Favorites extends Component {
   state = {
@@ -129,24 +142,32 @@ export default class Favorites extends Component {
 
   render() {
     return (
-      <div>
-        <AppBar title='Избранное' showMenuIconButton={false} />
-        <Paper style={style} zDepth={1}>
-          {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
-            <Card
-              key={event.id}
-              onTouchTap={() => this.handleOpenModal(event.id, event.title, event)}
-            >
-              <CardTitle title={event.title} subtitle={event.location_title} />
-            </Card>
-          ))
-            : <Card
-              key='notevents'
-            >
-              <CardTitle title='Пусто!' subtitle='Добавьте что-нибудь в избранное. ;)' />
-            </Card>
-          }
-        </Paper>
+      <PageContent>
+        <TopBarWrap>
+          <TopBar
+            title='Избранное'
+            isVisible
+            showMenuIconButton={false}
+          />
+        </TopBarWrap>
+        <ContentWrap>
+          <Paper style={style} zDepth={1}>
+            {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
+              <Card
+                key={event.id}
+                onTouchTap={() => this.handleOpenModal(event.id, event.title, event)}
+              >
+                <CardTitle title={event.title} subtitle={event.location_title} />
+              </Card>
+            ))
+              : <Card
+                key='notevents'
+              >
+                <CardTitle title='Пусто!' subtitle='Добавьте что-нибудь в избранное. ;)' />
+              </Card>
+            }
+          </Paper>
+        </ContentWrap>
         <Modal
           isOpen={this.state.isModalVisible}
           title={this.state.modalTitle}
@@ -171,7 +192,7 @@ export default class Favorites extends Component {
           }
           close={this.handleCloseModal}
         />
-      </div>
+      </PageContent>
     )
   }
 }

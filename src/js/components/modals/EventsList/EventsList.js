@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import ListCard from 'atoms/ListCard'
+import { ListCard } from 'atoms'
 
 import MDApi from 'utils/MDApi'
 

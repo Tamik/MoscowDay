@@ -64,10 +64,16 @@ export default class Timeline extends Component {
         ))}
 
         <Modal
-          isOpen = {this.state.isModalVisible}
-          title = {this.state.modalTitle || ''}
-          content = {<p>Plotva</p>}
-          close = {this.closeEventsViewModal}
+          isOpen={this.state.isModalVisible}
+          title={this.state.modalTitle || ''}
+          content={
+            <div style={{ margin: 16 }}>
+              <h1 style={{ marginBottom: 2 }}>{this.state.payload.title}</h1>
+              <span style={{ display: 'block', marginBottom: 16, opacity: 0.25 }}>{this.state.payload.location_title}</span>
+              <p style={{ marginBottom: 16 }}>{this.state.payload.description}</p>
+            </div>
+          }
+          close={this.closeEventsModal}
         />
       </div>
     )

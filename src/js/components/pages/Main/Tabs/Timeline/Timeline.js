@@ -111,12 +111,13 @@ export default class Timeline extends Component {
             </Step>
           ))}
         </Stepper>
+
         <Modal
           isOpen = {this.state.isModalVisible}
           title = {this.state.modalTitle}
           isVisibleTopBar={false}
           content = {<EventInfo  />}
-          close = {this.closeEventsViewModal}
+          close = {this.closeEventsModal}
         />
       </div>
     )

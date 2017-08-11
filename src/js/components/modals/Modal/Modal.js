@@ -45,7 +45,6 @@ Modal.propTypes = {
   content: PropTypes.node.isRequired,
   isOpen: PropTypes.bool.isRequired,
   close: PropTypes.func,
-  topBar: PropTypes.bool,
   isVisibleTopBar: PropTypes.bool,
 }
 

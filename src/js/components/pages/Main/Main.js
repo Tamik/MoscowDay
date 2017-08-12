@@ -51,7 +51,7 @@ export default class Main extends Component {
           <TopBar
             title='Главное'
             isVisible
-            showMenuIconButton={false}
+            showButton={false}
           />
         </TopBarWrap>
         <ContentWrap>

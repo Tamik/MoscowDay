@@ -34,7 +34,7 @@ export default class Radar extends Component {
        * date = today
        * @todo: Решить проблему с разницей в часовых поясах
        */
-      data: `${date.getFullYear()}-${month}-${day}`,
+      date: `${date.getFullYear()}-${month}-${day}`,
     })
       .then((response) => {
         return response.json()

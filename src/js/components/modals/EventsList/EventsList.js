@@ -37,10 +37,10 @@ export default class EventsList extends Component {
       }).then((response) => {
         return response.json()
       }).then((response) => {
-        //const isEnd = (response.data.length === 0) ? true : false
+        const isEnd = (response.data.length === 0) ? true : false
         this.setState({
           events: this.state.events.concat(response.data),
-          //endOfEvents: isEnd,
+          endOfEvents: isEnd,
         })
       })
         break
@@ -52,7 +52,7 @@ export default class EventsList extends Component {
         return response.json()
       }).then((response) => {
         console.log(response.data)
-        const isEnd = (response.data.length === 0) ? truex : false
+        const isEnd = (response.data.length === 0) ? true : false
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,

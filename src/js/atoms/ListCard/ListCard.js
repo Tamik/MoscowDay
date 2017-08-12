@@ -37,7 +37,6 @@ export default class ListCard extends Component {
   }
 
   render() {
-    console.log(this.proprs);
     return (
       <Layout onClick={this.openEventsViewModal}>
         <Image><img src='//placehold.it/50x60' /></Image>

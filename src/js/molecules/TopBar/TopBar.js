@@ -7,21 +7,37 @@ import NavigationBack from 'material-ui/svg-icons/navigation/arrow-back'
 
 const TopBar = (props) => {
   const style = !props.isVisible ? {
-    backgroundColor: "transparent",
-    position: "fixed",
-  } : null
+    block: {
+      backgroundColor: "transparent",
+      position: "fixed",
+    },
+    title: {
 
-  const isShadow = !props.isVisible ? 0 : 1;
+    }
+  } : {
+    block: {
+      textAlign: "center",
+      backgroundColor: "#fff",
+    },
+    title: {
+      height: 50,
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: "#000",
+      textTransform: 'uppercase',
+    }
+  }
 
   return (
     <AppBar
       title = {props.title}
-      style = {style}
-      zDepth = {isShadow}
+      titleStyle = {style.title}
+      style = {style.block}
+      zDepth = {0}
       showMenuIconButton = {props.showButton}
       iconElementLeft = {
         <IconButton>
-          <NavigationBack onClick = {props.close} />
+          <NavigationBack onClick = {props.close} color = {'black'}/>
         </IconButton>
       }
     />

@@ -7,7 +7,11 @@ import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
 
 const Layout = styled.div`
+  display: flex;
   color: black;
+`
+const Content = styled.div`
+  flex: 1;
 `
 
 export default class ListCard extends Component {
@@ -33,9 +37,10 @@ export default class ListCard extends Component {
   }
 
   render() {
+    console.log(this.proprs);
     return (
       <Layout onClick={this.openEventsViewModal}>
-        <Image><img src="" /></Image>
+        <Image><img src='//placehold.it/50x60' /></Image>
         <Content>
           <h3>{this.props.title}</h3>
           <p>{this.props.begin_time}</p>

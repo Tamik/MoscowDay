@@ -184,7 +184,7 @@ export default class Favorites extends Component {
 
                 <CardWrap>
                   <Title>{event.title}</Title>
-                  <Text>{event.begin_time}</Text>
+                    <Text>{event.dateFormatted.time}, {event.dateFormatted.day} {event.dateFormatted.month}</Text>
                 </CardWrap>
               </Card>
             ))

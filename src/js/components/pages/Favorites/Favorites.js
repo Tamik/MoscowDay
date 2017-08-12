@@ -167,7 +167,7 @@ export default class Favorites extends Component {
           <TopBar
             title='Избранные события'
             isVisible
-            showMenuIconButton={false}
+            showButton={false}
           />
         </TopBarWrap>
         <ContentWrap>

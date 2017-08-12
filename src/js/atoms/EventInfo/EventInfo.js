@@ -16,6 +16,7 @@ import IconPlace from 'material-ui/svg-icons/maps/place'
 import IconArrowBot from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import IconEmptyStar from 'material-ui/svg-icons/toggle/star-border'
 import IconFullStar from 'material-ui/svg-icons/toggle/star'
+import {grey700} from 'material-ui/styles/colors';
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
@@ -29,6 +30,7 @@ const style = {
 styled(ListItem)`
   padding: 10;
 `
+
 const Button = styled.button`
   position: absolute;
   bottom: 25%;
@@ -36,7 +38,7 @@ const Button = styled.button`
   padding: 5px;
   background-color: white;
   border-radius: 50%;
-  border: 2px solid #cecece;
+  border: 2px solid #616161;
 `
 
 export default class EventInfo extends Component {
@@ -93,17 +95,21 @@ export default class EventInfo extends Component {
   render() {
     // const { title, begin_time, location_title, description } = props.event
     return (
-      <div>
-        <Paper style={style} zDepth={1}>
+      <div >
+        <Paper zDepth={1}>
           <Card>
             <CardMedia>
-              <img src='//placehold.it/256x256' alt='' />
+              <img src='//placehold.it/256x256' height='256' alt='' />
             </CardMedia>
             <CardTitle title = { this.props.event.title } style={{position: 'relative'}}>
-              <Button onClick={() => this.handleFavorites(this.props.event.id, this.props.event)}>{this.state.inFavorites ? <IconFullStar /> : <IconEmptyStar />}</Button>
+              <Button onClick={() =>
+                this.handleFavorites(this.props.event.id, this.props.event)}>{this.state.inFavorites
+                ? <IconFullStar color={grey700}/>
+                : <IconEmptyStar color={grey700} />}
+              </Button>
             </CardTitle>
           </Card>
-          <List>
+          <List style={{paddingTop: '0'}}>
             <ListItem primaryText="ДАТА" leftIcon={<IconCalendar />}/>
             <Divider />
             <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />}/>

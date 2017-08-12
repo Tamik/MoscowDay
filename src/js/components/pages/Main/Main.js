@@ -17,8 +17,8 @@ const styles = {
     fontWeight: 400,
   },
   slide: {
-    padding: 10,
-  },
+    padding: 5,
+  }
 }
 
 const PageContent = styled.div`
@@ -30,7 +30,9 @@ const PageContent = styled.div`
 const TopBarWrap = styled.div``
 
 const ContentWrap = styled.div`
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 `
 
 export default class Main extends Component {
@@ -60,7 +62,7 @@ export default class Main extends Component {
             <Tab label='Рубрики' value={1} />
             <Tab label='Места' value={2} />
           </Tabs>
-          <SwipableViews index={this.state.slideIndex} onChangeIndex={this.handleChange}>
+          <SwipableViews style={{display: 'flex', flexDirection: 'column', flex: 1}} index={this.state.slideIndex} onChangeIndex={this.handleChange}>
             <div>
               <Timeline />
             </div>

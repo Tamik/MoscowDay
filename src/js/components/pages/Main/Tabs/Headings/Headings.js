@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 
-import { GridList, GridTile } from 'material-ui/GridList'
-
 import { Modal } from 'components/modals'
 import { EventsList } from 'components/modals'
-
+import styled from 'styled-components'
+import Icon from 'material-ui/svg-icons/social/sentiment-neutral'
 import MDApi from 'utils/MDApi'
 
 const styles = {
@@ -12,13 +11,31 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-  },
-  gridList: {
-    width: 500, // 500
-    height: 300, // 450
-    overflowY: 'auto',
-  },
+  }
 }
+
+const GridList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: -10px;
+  overflow-y: auto;
+`
+const GridItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 110px;
+  width: 49%;
+  margin-bottom: 10px;
+`
+const Image = styled.img`
+  display: block;
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+`
 
 export default class Headings extends Component {
   // constructor(props) {
@@ -69,14 +86,13 @@ export default class Headings extends Component {
   render() {
     return (
       <div style={styles.root}>
-        <GridList cellHeight={60} style={styles.gridList}>
+        <GridList>
           {this.state.headings.map(heading => (
-            <GridTile
-              key={heading.id}
-              title={heading.title}
-              subtitle={heading.events_count}
-              onClick={() => this.openEventsViewModal(heading.title, heading.id)}
-            />
+            <GridItem key={heading.id} onClick={() => this.openEventsViewModal(heading.title, heading.id)}>
+              {/*<Image src=""/>*/}
+              <Icon style={{width: 60, height: 60}}/>
+              <p>{heading.title} ({heading.events_count})</p>
+            </GridItem>
           ))}
         </GridList>
         <Modal

@@ -56,7 +56,7 @@ export default class Radar extends Component {
           <TopBar
             title='События рядом'
             isVisible
-            showMenuIconButton={false}
+            showButton={false}
           />
         </TopBarWrap>
         <MapWrap>

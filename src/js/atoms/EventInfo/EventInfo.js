@@ -28,7 +28,7 @@ const style = {
 }
 
 styled(ListItem)`
-  padding: 10;
+  padding: 5;
 `
 
 const Button = styled.button`

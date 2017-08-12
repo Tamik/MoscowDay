@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-import { GridList, GridTile } from 'material-ui/GridList'
-
 import { Modal } from 'components/modals'
 import { EventsList } from 'components/modals'
+import { Paper } from 'material-ui'
+import styled from 'styled-components'
 
 import MDApi from 'utils/MDApi'
 
@@ -13,12 +13,39 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
-  gridList: {
-    width: 500, // 500
-    height: 300, // 450
-    overflowY: 'auto',
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: 120,
+    width: '49%',
+    marginBottom: 5,
+    paddingBottom: 7,
+    overflowY: 'hidden',
+    boxSizing: 'border-box',
   },
+
 }
+
+
+const GridList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: -5px;
+  overflow-y: auto;
+  background-color: #cfd8dc;
+`
+const Text = styled.div`
+  padding: 0 5px;
+  font-size: 12px;
+`
+const Image = styled.img`
+  display: block;
+  width: 100%;
+  height: 80px;
+  margin-bottom: 5px;
+  object-fit: cover;
+`
 
 export default class Places extends Component {
   // constructor(props) {
@@ -69,14 +96,12 @@ export default class Places extends Component {
   render() {
     return (
       <div style={styles.root}>
-        <GridList cellHeight={180} style={styles.gridList}>
+        <GridList zDepth={1}>
           {this.state.places.map(place => (
-            <GridTile
-              key={place.id}
-              title={place.title}
-              subtitle={place.events_count}
-              onClick={() => this.openPlacesViewModal(place.title, place.id)}
-            />
+            <Paper zDepth={1} style={styles.paper} key={place.id} onClick={() => this.openPlacesViewModal(place.title, place.id)}>
+              <Image src='//placehold.it/80x100' />
+              <Text>{place.title} ({place.events_count})</Text>
+            </Paper>
           ))}
         </GridList>
 

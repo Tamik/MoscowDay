@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
-import FontIcon from 'material-ui/FontIcon'
 
-const eventsIcon = <FontIcon className='material-icons'>h</FontIcon>
-const favoritesIcon = <FontIcon className='material-icons'>f</FontIcon>
-const radarIcon = <FontIcon className='material-icons'>r</FontIcon>
+import IconHome from 'material-ui/svg-icons/action/home'
+import IconFullStar from 'material-ui/svg-icons/toggle/star'
+import IconNavigation from 'material-ui/svg-icons/maps/navigation'
 
 class NavigationBarContainer extends Component {
   /**
@@ -28,9 +27,9 @@ class NavigationBarContainer extends Component {
   render() {
     return (
       <BottomNavigation selectedIndex={this.state.selectedIndex}>
-        <BottomNavigationItem label='home' icon={eventsIcon} onTouchTap={this.changeRoute(0, '/')} />
-        <BottomNavigationItem label='favorites' icon={favoritesIcon} onTouchTap={this.changeRoute(1, '/favorites')} />
-        <BottomNavigationItem label='near me' icon={radarIcon} onTouchTap={this.changeRoute(2, '/radar')} />
+        <BottomNavigationItem label='home' icon={<IconHome />} onTouchTap={this.changeRoute(0, '/')} />
+        <BottomNavigationItem label='favorites' icon={<IconFullStar />} onTouchTap={this.changeRoute(1, '/favorites')} />
+        <BottomNavigationItem label='near me' icon={<IconNavigation />} onTouchTap={this.changeRoute(2, '/radar')} />
       </BottomNavigation>
     )
   }

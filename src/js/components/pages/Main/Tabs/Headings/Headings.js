@@ -69,7 +69,7 @@ export default class Headings extends Component {
   render() {
     return (
       <div style={styles.root}>
-        <GridList cellHeight={180} style={styles.gridList}>
+        <GridList cellHeight={60} style={styles.gridList}>
           {this.state.headings.map(heading => (
             <GridTile
               key={heading.id}

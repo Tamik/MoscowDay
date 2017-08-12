@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 
 import localforage from 'localforage'
 
+import { EventInfo } from 'atoms'
 import { TopBar } from 'molecules'
 import Paper from 'material-ui/Paper'
-import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import styled from 'styled-components'
 
 import IconButton from 'material-ui/IconButton'
@@ -17,21 +18,40 @@ const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
 
-const style = {
-  // height: 200,
-  margin: 10,
-}
-
 const PageContent = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  background-color: #cfd8dc;
 `
 const TopBarWrap = styled.div``
 const ContentWrap = styled.div`
   flex: 1;
+  padding: 5px;
+`
+const CardWrap = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+`
+const Title = styled.h2`
+  height: 55px;
+  margin-bottom: 10px;
+  color: #000;
+  font-size: 16px;
+  font-weight: normal;
+  overflow: hidden;
+`
+const Text = styled.p`
+  font-size: 14px;
+  color: #000;
 `
 
+const style = {
+  borderRadius: 0,
+}
 
 export default class Favorites extends Component {
   state = {
@@ -145,19 +165,27 @@ export default class Favorites extends Component {
       <PageContent>
         <TopBarWrap>
           <TopBar
-            title='Избранное'
+            title='Избранные события'
             isVisible
             showMenuIconButton={false}
           />
         </TopBarWrap>
         <ContentWrap>
-          <Paper style={style} zDepth={1}>
+          <Paper style={style} zDepth={0}>
             {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
               <Card
+                containerStyle={{display: 'flex', padding: 0}}
                 key={event.id}
                 onTouchTap={() => this.handleOpenModal(event.id, event.title, event)}
               >
-                <CardTitle title={event.title} subtitle={event.location_title} />
+                <CardMedia>
+                  <img src='//placehold.it/100x110' width='100' height='110'/>
+                </CardMedia>
+
+                <CardWrap>
+                  <Title>{event.title}</Title>
+                  <Text>{event.begin_time}</Text>
+                </CardWrap>
               </Card>
             ))
               : <Card
@@ -168,28 +196,10 @@ export default class Favorites extends Component {
             }
           </Paper>
         </ContentWrap>
+
         <Modal
           isOpen={this.state.isModalVisible}
-          title={this.state.modalTitle}
-          content={
-            <div style={{ margin: 16 }}>
-              <h1 style={{ marginBottom: 2 }}>{this.state.payload.title}</h1>
-              <span style={{
-                display: 'block',
-                marginBottom: 16,
-                opacity: 0.25,
-              }}
-              >
-                {this.state.payload.location_title}
-              </span>
-              <p style={{ marginBottom: 16 }}>{this.state.payload.description}</p>
-              <IconButton
-                onTouchTap={() => this.handleFavorites(this.state.payload.id, this.state.payload)}
-              >
-                {this.state.inFavorites ? <Star /> : <EmptyStar />}
-              </IconButton>
-            </div>
-          }
+          content={<EventInfo event={this.state.payload} />}
           close={this.handleCloseModal}
         />
       </PageContent>

@@ -33,7 +33,6 @@ const GridList = styled.div`
   justify-content: space-between;
   margin-bottom: -5px;
   overflow-y: auto;
-  background-color: #cfd8dc;
 `
 const Text = styled.div`
   padding: 0 5px;
@@ -96,7 +95,7 @@ export default class Places extends Component {
   render() {
     return (
       <div style={styles.root}>
-        <GridList zDepth={1}>
+        <GridList>
           {this.state.places.map(place => (
             <Paper zDepth={1} style={styles.paper} key={place.id} onClick={() => this.openPlacesViewModal(place.title, place.id)}>
               <Image src='//placehold.it/80x100' />

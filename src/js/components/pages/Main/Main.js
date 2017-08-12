@@ -18,6 +18,19 @@ const styles = {
   },
   slide: {
     padding: 5,
+  },
+  tabs: {
+    borderBottom: '1px solid #dbe2e5',
+  },
+  tabsWrap: {
+    height: 40,
+    width: '80%',
+    margin: '0 auto',
+    backgroundColor: 'white',
+  },
+  tab: {
+    color: 'rgba(255, 255, 255)',
+    fontSize: '16px!important',
   }
 }
 
@@ -47,20 +60,28 @@ export default class Main extends Component {
   }
 
   render() {
+
     return (
       <PageContent>
         <TopBarWrap>
           <TopBar
-            title='Главное'
+            title='События'
             isVisible
             showButton={false}
           />
         </TopBarWrap>
         <ContentWrap>
-          <Tabs onChange={this.handleChange} value={this.state.slideIndex}>
-            <Tab label='Главное' value={0} />
-            <Tab label='Рубрики' value={1} />
-            <Tab label='Места' value={2} />
+          <Tabs
+            className={'eventsTabs'}
+            style={styles.tabs}
+            inkBarStyle={{backgroundColor: '#607d8b',}}
+            tabItemContainerStyle={styles.tabsWrap}
+            onChange={this.handleChange}
+            value={this.state.slideIndex}
+          >
+            <Tab className={'eventTab'} style={styles.tab} label='Главное' value={0} />
+            <Tab className={'eventTab'} style={styles.tab} label='Рубрики' value={1} />
+            <Tab className={'eventTab'} style={styles.tab} label='Места' value={2} />
           </Tabs>
           <SwipableViews style={{display: 'flex', flexDirection: 'column', flex: 1}} index={this.state.slideIndex} onChangeIndex={this.handleChange}>
             <div>

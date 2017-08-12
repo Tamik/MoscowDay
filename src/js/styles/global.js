@@ -18,4 +18,8 @@ export const globalStyle = css`
     -webkit-text-size-adjust: none;
     -webkit-user-select: none;
   }
+  
+  .eventsTabs > div:nth-child(2){
+    margin: auto;
+  }
 `

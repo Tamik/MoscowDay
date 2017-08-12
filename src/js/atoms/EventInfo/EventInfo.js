@@ -171,7 +171,7 @@ EventInfo.propTypes = {
     description: PropTypes.string,
     begin_time: PropTypes.string,
     location_title: PropTypes.string,
-  }).isRequired,
+  }),
 }
 
 // export default EventInfo

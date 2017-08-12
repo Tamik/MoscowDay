@@ -10,6 +10,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  font-family: "Arial", sans-serif;
 `
 const ContentWrap = styled.div`
   display: flex;

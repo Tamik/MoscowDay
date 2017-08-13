@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 import { Map } from 'components/map'
 import { TopBar } from 'molecules'
+import { Modal } from 'components/modals'
+import { EventInfo } from 'atoms'
 
 import MDApi from 'utils/MDApi'
 
@@ -16,14 +18,28 @@ const TopBarWrap = styled.div`
 `
 const MapWrap = styled.div`
   flex-grow: 1;
+  display: flex;
 `
 
 export default class Radar extends Component {
-  state = {
-    events: [],
+  constructor(props) {
+    super(props)
+
+    this.isComponentMounted = false
+
+    this.state = {
+      events: [],
+      payload: {},
+      isModalVisible: false,
+      modalTitle: '',
+    }
+
+    this.closeEventsModal = this.closeEventsModal.bind(this)
   }
 
   componentDidMount() {
+    this.isComponentMounted = true
+
     const date = new Date()
     const month = '0'.concat(date.getMonth() + 1).slice(-2)
     const day = '0'.concat(date.getDate()).slice(-2)
@@ -40,6 +56,9 @@ export default class Radar extends Component {
         return response.json()
       })
       .then((response) => {
+        if (!this.isComponentMounted) {
+          return
+        }
         this.setState({
           events: response.data,
         })
@@ -49,6 +68,19 @@ export default class Radar extends Component {
       })
   }
 
+  componentWillUnmount() {
+    this.isComponentMounted = false
+  }
+
+  closeEventsModal() {
+    if (!this.isComponentMounted) {
+      return
+    }
+    this.setState({
+      isModalVisible: false,
+    })
+  }
+
   render() {
     return (
       <PageContent>
@@ -56,15 +88,22 @@ export default class Radar extends Component {
           <TopBar
             title='События рядом'
             isVisible
-            showMenuIconButton={false}
+            showButton={false}
           />
         </TopBarWrap>
         <MapWrap>
           <Map
             points={this.state.events}
-            width={'100vw'}
-            height={'84vh'}
             panToMyLocation
+            sharedState={this.state}
+            parent={this}
+          />
+          <Modal
+            isOpen={this.state.isModalVisible}
+            isVisibleTopBar
+            title={this.state.modalTitle}
+            content={<EventInfo event={this.state.payload} />}
+            close={this.closeEventsModal}
           />
         </MapWrap>
       </PageContent>

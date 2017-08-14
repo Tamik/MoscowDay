@@ -101,6 +101,11 @@ export default class EventsList extends Component {
           ? ''
           : <FlatButton
             label='Показать еще'
+            style={{
+              display: 'block',
+              width: '100%',
+              margin: '8px auto',
+            }}
             onTouchTap={() => this.showMoreEvents()}
           />
         }

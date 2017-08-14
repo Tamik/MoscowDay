@@ -6,14 +6,14 @@ import styled from 'styled-components'
 import { TopBar } from 'molecules'
 import { Tabs, Tab } from 'material-ui/Tabs'
 
-import { Timeline, Headings, Places } from './Tabs'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
+import { Timeline, Headings, Places } from './Tabs'
+
 const myTheme = {
   tabs: {
-    textColor: '#cfd8dc',
+    textColor: '#969696',
     selectedTextColor: '#607d8b',
   },
 }
@@ -26,7 +26,9 @@ const styles = {
     fontWeight: 400,
   },
   slide: {
-    padding: 5,
+    padding: 8,
+    overflowY: 'scroll',
+    WebkitOverflowScroll: 'touch',
   },
   tabs: {
     borderBottom: '1px solid #dbe2e5',
@@ -38,8 +40,8 @@ const styles = {
     backgroundColor: 'white',
   },
   tab: {
-    fontSize: '16px!important',
-  }
+    fontSize: '18px !important',
+  },
 }
 
 const PageContent = styled.div`
@@ -68,14 +70,13 @@ export default class Main extends Component {
   }
 
   render() {
-
     return (
       <PageContent>
         <TopBarWrap>
           <TopBar
             title='События'
-            isVisible
             showButton={false}
+            isVisible
           />
         </TopBarWrap>
         <ContentWrap>
@@ -83,19 +84,29 @@ export default class Main extends Component {
             <Tabs
               className={'eventsTabs'}
               style={styles.tabs}
-              inkBarStyle={{backgroundColor: '#607d8b',}}
+              inkBarStyle={{
+                backgroundColor: '#607d8b',
+              }}
               tabItemContainerStyle={styles.tabsWrap}
               onChange={this.handleChange}
               value={this.state.slideIndex}
             >
-              <Tab disableTouchRipple style={styles.tab} label='Главное' value={0} />
-              <Tab disableTouchRipple style={styles.tab} label='Рубрики' value={1} />
-              <Tab disableTouchRipple style={styles.tab} label='Места' value={2} />
+              <Tab label='Главное' value={0} style={styles.tab} disableTouchRipple />
+              <Tab label='Рубрики' value={1} style={styles.tab} disableTouchRipple />
+              <Tab label='Места' value={2} style={styles.tab} disableTouchRipple />
             </Tabs>
           </MuiThemeProvider>
 
-          <SwipableViews style={{display: 'flex', flexDirection: 'column', flex: 1}} index={this.state.slideIndex} onChangeIndex={this.handleChange}>
-            <div>
+          <SwipableViews
+            style={{
+              display: 'flex',
+              flex: 1,
+              flexDirection: 'column',
+            }}
+            index={this.state.slideIndex}
+            onChangeIndex={this.handleChange}
+          >
+            <div style={styles.slide}>
               <Timeline />
             </div>
             <div style={styles.slide}>

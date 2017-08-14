@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import localforage from 'localforage'
 
 import Paper from 'material-ui/Paper'
-import { Divider } from 'material-ui'
-import { List, ListItem } from 'material-ui';
+import { List, ListItem, Divider } from 'material-ui'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
-
-import styled from 'styled-components'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 
 import IconCalendar from 'material-ui/svg-icons/action/date-range'
 import IconClock from 'material-ui/svg-icons/device/access-time'
@@ -16,30 +15,25 @@ import IconPlace from 'material-ui/svg-icons/maps/place'
 import IconArrowBot from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import IconEmptyStar from 'material-ui/svg-icons/toggle/star-border'
 import IconFullStar from 'material-ui/svg-icons/toggle/star'
-import {grey700} from 'material-ui/styles/colors';
+import { grey500, grey700 } from 'material-ui/styles/colors'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
 
-const style = {
-  //height: 200,
-  //margin: 10,
-}
-
 styled(ListItem)`
   padding: 5;
 `
 
-const Button = styled.button`
-  position: absolute;
-  bottom: 25%;
-  right: 30px;
-  padding: 5px;
-  background-color: white;
-  border-radius: 50%;
-  border: 2px solid #616161;
-`
+// const Button = styled.button`
+//   position: absolute;
+//   bottom: 25%;
+//   right: 30px;
+//   padding: 5px;
+//   background-color: white;
+//   border-radius: 50%;
+//   border: 2px solid #616161;
+// `
 
 export default class EventInfo extends Component {
   constructor(props) {
@@ -48,6 +42,10 @@ export default class EventInfo extends Component {
     this.state = {
       inFavorites: false,
     }
+  }
+
+  componentDidMount() {
+    this.inFavorites(this.props.event.id)
   }
 
   addToFavorites = (id, value) => {
@@ -71,7 +69,7 @@ export default class EventInfo extends Component {
   inFavorites = (id) => {
     FavoritesStore.getItem(id)
       .then((response) => {
-        if(response !== null) {
+        if (response !== null) {
           this.setState({
             inFavorites: true,
           })
@@ -84,7 +82,7 @@ export default class EventInfo extends Component {
   }
 
   handleFavorites = (id, value) => {
-    if(this.state.inFavorites) {
+    if (this.state.inFavorites) {
       this.removeFromFavorites(id)
     }
     else {
@@ -93,7 +91,6 @@ export default class EventInfo extends Component {
   }
 
   render() {
-    // const { title, begin_time, location_title, description } = props.event
     return (
       <div >
         <Paper zDepth={1}>
@@ -101,22 +98,41 @@ export default class EventInfo extends Component {
             <CardMedia>
               <img src='//placehold.it/256x256' height='256' alt='' />
             </CardMedia>
-            <CardTitle title = { this.props.event.title } style={{position: 'relative'}}>
-              <Button onClick={() =>
-                this.handleFavorites(this.props.event.id, this.props.event)}>{this.state.inFavorites
-                ? <IconFullStar color={grey700}/>
-                : <IconEmptyStar color={grey700} />}
-              </Button>
+            <CardTitle
+              title={this.props.event.title}
+              style={{
+                position: 'relative',
+              }}
+            >
+              <FloatingActionButton
+                onTouchTap={() => this.handleFavorites(this.props.event.id, this.props.event)}
+                secondary={this.state.inFavorites}
+                backgroundColor={grey500}
+                style={{
+                  position: 'absolute',
+                  top: -28,
+                  right: 28,
+                }}
+              >
+                {this.state.inFavorites
+                  ? <IconFullStar color={grey700} />
+                  : <IconEmptyStar color={grey700} />
+                }
+              </FloatingActionButton>
             </CardTitle>
           </Card>
-          <List style={{paddingTop: '0'}}>
-            <ListItem primaryText="ДАТА" leftIcon={<IconCalendar />}/>
+          <List
+            style={{
+              paddingTop: 0,
+            }}
+          >
+            <ListItem primaryText="ДАТА" leftIcon={<IconCalendar />} />
             <Divider />
-            <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />}/>
+            <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />} />
             <Divider />
-            <ListItem primaryText = {this.props.event.location_title} leftIcon={<IconPlace />}/>
+            <ListItem primaryText={this.props.event.location_title} leftIcon={<IconPlace />} />
             <Divider />
-            <ListItem primaryText="Описание" leftIcon={<IconArrowBot />}/>
+            <ListItem primaryText="Описание" leftIcon={<IconArrowBot />} />
             <Divider />
             <ListItem
               // primaryText = {description}
@@ -128,42 +144,6 @@ export default class EventInfo extends Component {
     )
   }
 }
-// const EventInfo = (props) => {
-//   const { title, begin_time, location_title, description } = props.event
-//
-//   return (
-//     <div>
-//       <Paper style={style} zDepth={1}>
-//         <Card>
-//           <CardMedia>
-//             <img src='//placehold.it/256x256' alt='' />
-//           </CardMedia>
-//           <CardTitle title = { title } style={{position: 'relative'}}>
-//             <Button onClick={handle}><IconEmptyStar/></Button>
-//           </CardTitle>
-//         </Card>
-//         <List>
-//           <ListItem primaryText="ДАТА" leftIcon={<IconCalendar />}/>
-//           <Divider />
-//
-//           <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />}/>
-//           <Divider />
-//
-//           <ListItem primaryText = {location_title} leftIcon={<IconPlace />}/>
-//           <Divider />
-//
-//           <ListItem primaryText="Описание" leftIcon={<IconArrowBot />}/>
-//           <Divider />
-//
-//           <ListItem
-//             // primaryText = {description}
-//             primaryText="День бездомных животных — напоминание всему человечеству о важности оказания помощи тем, кому она необходима. 19 августа фонд «Дарящие надежду» и бренд кормов для домашних животных PURINA проведут фестиваль собак и кошек из приютов, которые очень хотят «Домой!»"
-//           />
-//         </List>
-//       </Paper>
-//     </div>
-//   )
-// }
 
 EventInfo.propTypes = {
   event: PropTypes.shape({
@@ -173,5 +153,3 @@ EventInfo.propTypes = {
     location_title: PropTypes.string,
   }),
 }
-
-// export default EventInfo

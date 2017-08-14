@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 import { Modal } from 'components/modals'
 import { EventsList } from 'components/modals'
 import styled from 'styled-components'
-import Icon from 'material-ui/svg-icons/social/sentiment-neutral'
+import Icon from 'atoms/Icon'
+import IconsPack from 'atoms/IconsPack'
+
 import MDApi from 'utils/MDApi'
 
 const styles = {
@@ -89,8 +91,7 @@ export default class Headings extends Component {
         <GridList>
           {this.state.headings.map(heading => (
             <GridItem key={heading.id} onClick={() => this.openEventsViewModal(heading.title, heading.id)}>
-              {/*<Image src=""/>*/}
-              <Icon style={{width: 60, height: 60}}/>
+              <Icon path={IconsPack.CAT_ACTIVE_RECREATION} size='56' viewBox="0 0 512 512" />
               <p>{heading.title} ({heading.events_count})</p>
             </GridItem>
           ))}
@@ -98,7 +99,7 @@ export default class Headings extends Component {
         <Modal
           isOpen={this.state.isModalVisible}
           title={this.state.modalTitle}
-          isVisibleTopBar={true}
+          isVisibleTopBar
           content={<EventsList event={this.state} />}
           close={this.closeEventsViewModal}
         />

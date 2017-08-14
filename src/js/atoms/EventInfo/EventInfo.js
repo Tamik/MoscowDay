@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
 import localforage from 'localforage'
 
@@ -15,20 +14,19 @@ import IconPlace from 'material-ui/svg-icons/maps/place'
 import IconArrowBot from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import IconEmptyStar from 'material-ui/svg-icons/toggle/star-border'
 import IconFullStar from 'material-ui/svg-icons/toggle/star'
-import { grey500, grey700 } from 'material-ui/styles/colors'
+
+
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
 
-// styled(ListItem)`
-//   padding: 5;
-//   font-size: 14px;
-// `
-
 const styles = {
   item: {
     fontSize: 14,
+  },
+  img: {
+    objectFit: 'cover',
   }
 }
 export default class EventInfo extends Component {
@@ -88,12 +86,13 @@ export default class EventInfo extends Component {
   }
 
   render() {
+
     return (
       <div>
         <Paper zDepth={0}>
           <Card style={{boxShadow: 'none',}} containerStyle={{paddingBottom: 0,}}>
             <CardMedia>
-              <img src='//placehold.it/256x256' height='256' alt='' />
+              <img style={styles.img} data-object-fit="cover" src='//placehold.it/256x256' height='256' alt='' />
             </CardMedia>
             <CardTitle
               title={this.props.event.title}

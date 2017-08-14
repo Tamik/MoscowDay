@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 
 import localforage from 'localforage'
 
-import { EventInfo } from 'atoms'
-import { TopBar } from 'molecules'
 import Paper from 'material-ui/Paper'
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import styled from 'styled-components'
+
+import { EventInfo } from 'atoms'
+import { TopBar } from 'molecules'
+import { Modal } from 'components/modals'
 
 import IconButton from 'material-ui/IconButton'
 import Star from 'material-ui/svg-icons/toggle/star'
 import EmptyStar from 'material-ui/svg-icons/toggle/star-border'
-
-import { Modal } from 'components/modals'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
@@ -174,17 +174,20 @@ export default class Favorites extends Component {
           <Paper style={style} zDepth={0}>
             {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
               <Card
-                containerStyle={{display: 'flex', padding: 0}}
+                containerStyle={{
+                  display: 'flex',
+                  padding: 0,
+                }}
                 key={event.id}
                 onTouchTap={() => this.handleOpenModal(event.id, event.title, event)}
               >
                 <CardMedia>
-                  <img src='//placehold.it/100x110' width='100' height='110'/>
+                  <img src='//placehold.it/100x110' alt='' width='100' height='110' />
                 </CardMedia>
 
                 <CardWrap>
                   <Title>{event.title}</Title>
-                    <Text>{event.dateFormatted.time}, {event.dateFormatted.day} {event.dateFormatted.month}</Text>
+                  <Text>{event.dateFormatted.time}, {event.dateFormatted.day} {event.dateFormatted.month}</Text>
                 </CardWrap>
               </Card>
             ))
@@ -196,7 +199,6 @@ export default class Favorites extends Component {
             }
           </Paper>
         </ContentWrap>
-
         <Modal
           isOpen={this.state.isModalVisible}
           content={<EventInfo event={this.state.payload} />}

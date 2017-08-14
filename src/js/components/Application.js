@@ -1,7 +1,7 @@
 import React from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import styled from 'styled-components'
-
+import { Paper } from 'material-ui'
 import { Main, Favorites, Radar } from './pages'
 
 import { NavigationBar } from '../molecules'
@@ -17,8 +17,6 @@ const ContentWrap = styled.div`
   flex-direction: column;
   flex: 1;
 `
-const BottomBar = styled.div`
-`
 
 const Application = () => (
   <Router>
@@ -28,9 +26,9 @@ const Application = () => (
         <Route path='/favorites' component={Favorites} />
         <Route path='/radar' component={Radar} />
       </ContentWrap>
-      <BottomBar>
+      <Paper zDepth={1}>
         <NavigationBar />
-      </BottomBar>
+      </Paper>
     </Layout>
   </Router>
 )

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
 
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardMedia } from 'material-ui/Card'
 
 const CardWrap = styled.div`
   flex: 1;
@@ -59,7 +59,7 @@ export default class ListCard extends Component {
     return (
       <div>
         <Card
-          containerStyle={{display: 'flex', padding: 0}}
+          containerStyle={{display: 'flex', padding: 0, marginBottom: 5}}
           onTouchTap={() => this.openEventsViewModal()}
         >
           <CardMedia>
@@ -84,6 +84,7 @@ export default class ListCard extends Component {
 }
 
 ListCard.propTypes = {
-  //title: PropTypes.string.isRequired,
-  //begin_time: PropTypes.string.isRequired,
+  event: PropTypes.shape({
+
+  })
 }

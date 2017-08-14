@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import localforage from 'localforage'
 
 import { Step, Stepper, StepButton } from 'material-ui/Stepper'
-import IconButton from 'material-ui/IconButton'
-import Star from 'material-ui/svg-icons/toggle/star'
-import EmptyStar from 'material-ui/svg-icons/toggle/star-border'
 
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'

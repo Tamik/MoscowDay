@@ -112,7 +112,7 @@ export default class EventInfo extends Component {
               </FloatingActionButton>
             </CardTitle>
           </Card>
-          
+
           <List
             style={{
               paddingTop: 0,

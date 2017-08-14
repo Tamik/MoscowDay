@@ -4,7 +4,7 @@ import { Modal } from 'components/modals'
 import { EventsList } from 'components/modals'
 import styled from 'styled-components'
 import Icon from 'atoms/Icon'
-import IconsPack from 'atoms/IconsPack'
+import CategoryIconsPack from 'atoms/iconsPacks/CategoryIconsPack'
 
 import MDApi from 'utils/MDApi'
 
@@ -99,7 +99,7 @@ export default class Headings extends Component {
             <GridItem key={heading.id} onClick={() => this.openEventsViewModal(heading.title, heading.id)}>
               <IconWrap>
                 <Icon
-                  path={IconsPack[heading.icon_name]}
+                  path={CategoryIconsPack[heading.icon_name]}
                   size='56'
                   viewBox='0 0 512 512'
                   color={ICON_COLOR}

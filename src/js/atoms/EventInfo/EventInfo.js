@@ -21,10 +21,16 @@ const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
 
-styled(ListItem)`
-  padding: 5;
-`
+// styled(ListItem)`
+//   padding: 5;
+//   font-size: 14px;
+// `
 
+const styles = {
+  item: {
+    fontSize: 14,
+  }
+}
 export default class EventInfo extends Component {
   constructor(props) {
     super(props)
@@ -93,21 +99,34 @@ export default class EventInfo extends Component {
               title={this.props.event.title}
               style={{
                 position: 'relative',
+                backgroundColor: '#455a64',
+              }}
+              titleStyle={{
+                color: '#fff',
+                fontSize: 16,
+                fontWeight: 'bold',
+                lineHeight: '1.2em'
               }}
             >
               <FloatingActionButton
                 onTouchTap={() => this.handleFavorites(this.props.event.id, this.props.event)}
-                secondary={this.state.inFavorites}
-                backgroundColor={grey500}
+                backgroundColor='#fff'
+                mini
                 style={{
                   position: 'absolute',
-                  top: -28,
-                  right: 28,
+                  bottom: -20,
+                  right: 20,
+                  width: 40,
+                  height: 40,
+                  zIndex: 1000
+                }}
+                iconStyle={{
+                  fill: '#455a64'
                 }}
               >
                 {this.state.inFavorites
-                  ? <IconFullStar color={grey700} />
-                  : <IconEmptyStar color={grey700} />
+                  ? <IconFullStar />
+                  : <IconEmptyStar />
                 }
               </FloatingActionButton>
             </CardTitle>
@@ -119,18 +138,15 @@ export default class EventInfo extends Component {
             }}
           >
             <Divider />
-            <ListItem primaryText={this.props.event.dateFormatted.day + ' ' + this.props.event.dateFormatted.month} leftIcon={<IconCalendar />} />
+            <ListItem style={styles.item} primaryText={this.props.event.dateFormatted.day + ' ' + this.props.event.dateFormatted.month} leftIcon={<IconCalendar />} />
             <Divider />
-            <ListItem primaryText={this.props.event.dateFormatted.time} leftIcon={<IconClock />} />
+            <ListItem style={styles.item} primaryText={this.props.event.dateFormatted.time} leftIcon={<IconClock />} />
             <Divider />
-            <ListItem primaryText={this.props.event.location_title} leftIcon={<IconPlace />} />
+            <ListItem style={styles.item} primaryText={this.props.event.location_title} leftIcon={<IconPlace />} />
             <Divider />
-            <ListItem primaryText="Описание" leftIcon={<IconArrowBot />} />
+            <ListItem style={styles.item} primaryText="Описание" leftIcon={<IconArrowBot />} />
             <Divider />
-            <ListItem
-              // primaryText = {description}
-              primaryText="День бездомных животных — напоминание всему человечеству о важности оказания помощи тем, кому она необходима. 19 августа фонд «Дарящие надежду» и бренд кормов для домашних животных PURINA проведут фестиваль собак и кошек из приютов, которые очень хотят «Домой!»"
-            />
+            <ListItem style={styles.item} primaryText = {this.props.event.description}/>
           </List>
         </Paper>
       </div>

@@ -33,7 +33,6 @@ export default class EventsList extends Component {
     switch (this.state.type) {
       case 'place': MDApi.getEvents({
         place: this.state.id,
-        items_per_page: 1,
         page: this.state.currentPage,
       }).then((response) => {
         return response.json()
@@ -47,18 +46,15 @@ export default class EventsList extends Component {
         break
       case 'headings': MDApi.getEvents({
         category: this.state.id,
-        items_per_page: 1,
         page: this.state.currentPage,
       }).then((response) => {
         return response.json()
       }).then((response) => {
-        console.log(response.data)
         const isEnd = (response.data.length === 0) ? true : false
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
         })
-        console.log(isEnd)
       })
         break
       default: break

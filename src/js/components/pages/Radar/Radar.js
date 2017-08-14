@@ -97,6 +97,7 @@ export default class Radar extends Component {
             panToMyLocation
             sharedState={this.state}
             parent={this}
+            height={'81.1vh'}
           />
           <Modal
             isOpen={this.state.isModalVisible}

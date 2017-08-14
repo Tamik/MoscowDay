@@ -100,7 +100,7 @@ export default class Headings extends Component {
               <IconWrap>
                 <Icon
                   path={CategoryIconsPack[heading.icon_name]}
-                  size='56'
+                  size={56}
                   viewBox='0 0 512 512'
                   color={ICON_COLOR}
                 />

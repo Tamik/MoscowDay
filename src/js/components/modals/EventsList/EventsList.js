@@ -20,9 +20,6 @@ export default class EventsList extends Component {
       currentPage: 1,
       endOfEvents: false,
     }
-
-    this.openEventViewModal = this.openEventViewModal.bind(this)
-    this.closeEventViewModal = this.closeEventViewModal.bind(this)
   }
 
   componentDidMount() {
@@ -37,7 +34,13 @@ export default class EventsList extends Component {
       }).then((response) => {
         return response.json()
       }).then((response) => {
-        const isEnd = (response.data.length === 0) ? true : false
+        let isEnd
+        if (response.data.length === 0) {
+          isEnd = true
+        }
+        else {
+          isEnd = false
+        }
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
@@ -50,7 +53,13 @@ export default class EventsList extends Component {
       }).then((response) => {
         return response.json()
       }).then((response) => {
-        const isEnd = (response.data.length === 0) ? true : false
+        let isEnd
+        if (response.data.length === 0) {
+          isEnd = true
+        }
+        else {
+          isEnd = false
+        }
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
@@ -68,14 +77,14 @@ export default class EventsList extends Component {
     this.getEvents()
   }
 
-  openEventViewModal(payload) {
+  openEventViewModal = (payload) => {
     this.setState({
       isModalVisible: true,
       data: payload,
     })
   }
 
-  closeEventViewModal() {
+  closeEventViewModal = () => {
     this.setState({
       isModalVisible: false,
     })
@@ -86,10 +95,14 @@ export default class EventsList extends Component {
       <div>
         <DatePicker id={this.state.id} />
         {this.state.events.map(item => (
-          <ListCard key={item.id} event={item}/>
+          <ListCard key={item.id} event={item} />
         ))}
-        {this.state.endOfEvents ? ''
-          : <FlatButton label='Показать еще' onTouchTap={() => this.showMoreEvents()} />
+        {this.state.endOfEvents
+          ? ''
+          : <FlatButton
+            label='Показать еще'
+            onTouchTap={() => this.showMoreEvents()}
+          />
         }
       </div>
     )

@@ -25,16 +25,6 @@ styled(ListItem)`
   padding: 5;
 `
 
-// const Button = styled.button`
-//   position: absolute;
-//   bottom: 25%;
-//   right: 30px;
-//   padding: 5px;
-//   background-color: white;
-//   border-radius: 50%;
-//   border: 2px solid #616161;
-// `
-
 export default class EventInfo extends Component {
   constructor(props) {
     super(props)
@@ -42,6 +32,7 @@ export default class EventInfo extends Component {
     this.state = {
       inFavorites: false,
     }
+    console.log(props);
   }
 
   componentDidMount() {
@@ -92,9 +83,9 @@ export default class EventInfo extends Component {
 
   render() {
     return (
-      <div >
-        <Paper zDepth={1}>
-          <Card>
+      <div>
+        <Paper zDepth={0}>
+          <Card style={{boxShadow: 'none',}} containerStyle={{paddingBottom: 0,}}>
             <CardMedia>
               <img src='//placehold.it/256x256' height='256' alt='' />
             </CardMedia>
@@ -121,14 +112,16 @@ export default class EventInfo extends Component {
               </FloatingActionButton>
             </CardTitle>
           </Card>
+          
           <List
             style={{
               paddingTop: 0,
             }}
           >
-            <ListItem primaryText="ДАТА" leftIcon={<IconCalendar />} />
             <Divider />
-            <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />} />
+            <ListItem primaryText={this.props.event.dateFormatted.day + ' ' + this.props.event.dateFormatted.month} leftIcon={<IconCalendar />} />
+            <Divider />
+            <ListItem primaryText={this.props.event.dateFormatted.time} leftIcon={<IconClock />} />
             <Divider />
             <ListItem primaryText={this.props.event.location_title} leftIcon={<IconPlace />} />
             <Divider />

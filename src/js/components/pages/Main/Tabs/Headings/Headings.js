@@ -13,14 +13,16 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-  }
+  },
 }
+
+const ICON_COLOR = '#607D8B'
 
 const GridList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: -10px;
+  padding-bottom: 10px;
   overflow-y: auto;
 `
 const GridItem = styled.div`
@@ -30,14 +32,18 @@ const GridItem = styled.div`
   align-items: center;
   height: 110px;
   width: 49%;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `
-const Image = styled.img`
-  display: block;
-  width: 100%;
-  height: 60px;
-  object-fit: cover;
+
+const IconWrap = styled.div`
+  margin-top: 22px;
 `
+
+const CategoryTitle = styled.p`
+  color:#607D8B;
+  font-size: 11pt;
+`
+
 
 export default class Headings extends Component {
   // constructor(props) {
@@ -91,8 +97,15 @@ export default class Headings extends Component {
         <GridList>
           {this.state.headings.map(heading => (
             <GridItem key={heading.id} onClick={() => this.openEventsViewModal(heading.title, heading.id)}>
-              <Icon path={IconsPack.CAT_ACTIVE_RECREATION} size='56' viewBox="0 0 512 512" />
-              <p>{heading.title} ({heading.events_count})</p>
+              <IconWrap>
+                <Icon
+                  path={IconsPack[heading.icon_name]}
+                  size='56'
+                  viewBox='0 0 512 512'
+                  color={ICON_COLOR}
+                />
+              </IconWrap>
+              <CategoryTitle>{heading.title} ({heading.events_count})</CategoryTitle>
             </GridItem>
           ))}
         </GridList>

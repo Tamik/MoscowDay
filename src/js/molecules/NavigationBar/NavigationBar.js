@@ -27,9 +27,21 @@ class NavigationBarContainer extends Component {
   render() {
     return (
       <BottomNavigation selectedIndex={this.state.selectedIndex}>
-        <BottomNavigationItem label='home' icon={<IconHome />} onTouchTap={this.changeRoute(0, '/')} />
-        <BottomNavigationItem label='favorites' icon={<IconFullStar />} onTouchTap={this.changeRoute(1, '/favorites')} />
-        <BottomNavigationItem label='near me' icon={<IconNavigation />} onTouchTap={this.changeRoute(2, '/radar')} />
+        <BottomNavigationItem
+          label='События'
+          icon={<IconHome />}
+          onTouchTap={this.changeRoute(0, '/')}
+        />
+        <BottomNavigationItem
+          label='Избранное'
+          icon={<IconFullStar />}
+          onTouchTap={this.changeRoute(1, '/favorites')}
+        />
+        <BottomNavigationItem
+          label='Рядом'
+          icon={<IconNavigation />}
+          onTouchTap={this.changeRoute(2, '/radar')}
+        />
       </BottomNavigation>
     )
   }

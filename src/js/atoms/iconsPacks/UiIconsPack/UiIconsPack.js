@@ -2,7 +2,7 @@ const UiIconsPack = {
   MODULE_EVENTS: '',
   MODULE_FAVS: '',
   MODULE_RADAR: '',
-  MODULE_ADDTOFAV: '',
+  ADD_TO_FAV: '',
 }
 
 export default UiIconsPack

@@ -26,7 +26,9 @@ const styles = {
     fontWeight: 400,
   },
   slide: {
-    padding: 5,
+    padding: 8,
+    overflowY: 'scroll',
+    WebkitOverflowScroll: 'touch',
   },
   tabs: {
     borderBottom: '1px solid #dbe2e5',

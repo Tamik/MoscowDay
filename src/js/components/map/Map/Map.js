@@ -87,7 +87,10 @@ export default class Map extends Component {
     this.isComponentMounted = false
     this.stopWatchGeolocation()
     this.watchLocationID = 0
-    MapStore.setItem('map', this.state)
+
+    if (this.props.panToLocation === undefined) {
+      MapStore.setItem('map', this.state)
+    }
   }
 
   /**
@@ -100,6 +103,25 @@ export default class Map extends Component {
     /**
      * @description Добавляем метку с моим местоположением
      */
+    if (this.props.panToLocation !== undefined) {
+      this.doAutoPan = false
+      if (this.isComponentMounted && this.map) {
+        this.setState({
+          myLocationPoint: {
+            ...this.state.myLocationPoint,
+            lat: position[0],
+            lng: position[1],
+          },
+          mapState: {
+            ...this.state.mapState,
+            center: this.props.panToLocation,
+            zoom: this.props.zoom || MAP_ZOOM_TO_MY_LOCATION,
+          },
+        })
+      }
+      return
+    }
+
     if (this.isComponentMounted && this.map) {
       this.setState({
         myLocationPoint: {
@@ -134,6 +156,7 @@ export default class Map extends Component {
     }
   }
 
+
   /**
    * @description Обработчик ошибки определения текущего местоположения
    * @param {*} error 
@@ -161,26 +184,16 @@ export default class Map extends Component {
       return
     }
 
-    MapStore.getItem('map')
-      .then((response) => {
-        this.setState(response)
-      })
-
     if (this.watchLocationID) {
       return
     }
 
-    setTimeout(() => {
-      this.watchLocationID = navigator.geolocation.watchPosition(
-        this.onGeolocationSuccess,
-        this.onGeolocationError,
-        {
-          timeout: GEOLOCATION_WATCH_TIMEOUT,
-          enableHighAccuracy: true,
-          maximumAge: 3000,
-        }
-      )
-    }, 10)
+    if (this.props.panToLocation === undefined) {
+      MapStore.getItem('map')
+        .then((response) => {
+          this.setState(response)
+        })
+    }
   }
 
   /**
@@ -194,14 +207,21 @@ export default class Map extends Component {
 
     const geoObjects = []
 
+    // Creating placemarks
     this.props.points.map((point, idx) => {
       geoObjects.push(this.createPlacemark(point, idx))
       return point
     })
 
-    refClusterer.add(geoObjects)
-    this.map.geoObjects.add(refClusterer)
+    // Adding placemarks on map via clusterer
+    if (!this.props.isOneEvent) {
+      refClusterer.add(geoObjects)
+      this.map.geoObjects.add(refClusterer)
+    } else {
+      this.map.geoObjects.add(geoObjects[0])
+    }
 
+    // Clic handler on btn More on balloon
     const onClickBtnMore = (ev) => {
       if (ev.target
         && this.lastOpenedBalloon
@@ -209,6 +229,7 @@ export default class Map extends Component {
         const btnMore = this.lastOpenedBalloon.querySelector('#mapBtnMore')
         const idx = btnMore.getAttribute('data-point-idx')
         const point = this.props.parent.state.events[idx]
+
         this.props.parent.setState({
           payload: point,
           isModalVisible: true,
@@ -257,6 +278,18 @@ export default class Map extends Component {
     this.map.events.add('mousedown', (e) => {
       this.doAutoPan = false
     })
+
+    setTimeout(() => {
+      this.watchLocationID = navigator.geolocation.watchPosition(
+        this.onGeolocationSuccess,
+        this.onGeolocationError,
+        {
+          timeout: GEOLOCATION_WATCH_TIMEOUT,
+          enableHighAccuracy: true,
+          maximumAge: 3000,
+        }
+      )
+    }, 10)
   }
 
   setZoom(newZoom) {
@@ -267,7 +300,9 @@ export default class Map extends Component {
       },
     })
     this.doAutoPan = false
-    MapStore.setItem('map', this.state)
+    if (this.props.panToLocation === undefined) {
+      MapStore.setItem('map', this.state)
+    }
   }
 
   setCenter(coords) {
@@ -281,6 +316,10 @@ export default class Map extends Component {
   }
 
   getPlaceMarkContent(item, idx) {
+    if (this.props.isOneEvent !== undefined
+      && this.props.isOneEvent === true) {
+      return {}
+    }
     return {
       balloonContentBody: `
         <div>
@@ -293,12 +332,6 @@ export default class Map extends Component {
         </div>`,
       clusterCaption: `Событие ${idx}`,
     }
-  }
-
-  closeEventsModal() {
-    this.setState({
-      isModalVisible: false,
-    })
   }
 
   createPlacemark(pointData, idx) {
@@ -330,7 +363,7 @@ export default class Map extends Component {
             suppressMapOpenBlock: true,
           }}
           width={this.props.width || '100%'}
-          height={'75vh'}
+          height={this.props.height || '100%'}
         >
           <Clusterer
             instanceRef={(ref) => {

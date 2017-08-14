@@ -9,6 +9,9 @@ import { List, ListItem, Divider } from 'material-ui'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 
+import { Modal } from 'components/modals'
+import EventOnMap from 'atoms/EventOnMap'
+
 import IconCalendar from 'material-ui/svg-icons/action/date-range'
 import IconClock from 'material-ui/svg-icons/device/access-time'
 import IconPlace from 'material-ui/svg-icons/maps/place'
@@ -21,7 +24,7 @@ const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
 
-styled(ListItem)`
+styled(ListItem) `
   padding: 5;
 `
 
@@ -40,6 +43,7 @@ export default class EventInfo extends Component {
     super(props)
 
     this.state = {
+      isModalVisible: false,
       inFavorites: false,
     }
   }
@@ -90,6 +94,18 @@ export default class EventInfo extends Component {
     }
   }
 
+  openEventOnMapModal = () => {
+    this.setState({
+      isModalVisible: true,
+    })
+  }
+
+  closeEventOnMapModal = () => {
+    this.setState({
+      isModalVisible: false,
+    })
+  }
+
   render() {
     return (
       <div >
@@ -130,7 +146,11 @@ export default class EventInfo extends Component {
             <Divider />
             <ListItem primaryText="ВРЕМЯ" leftIcon={<IconClock />} />
             <Divider />
-            <ListItem primaryText={this.props.event.location_title} leftIcon={<IconPlace />} />
+            <ListItem
+              primaryText={this.props.event.location_title}
+              leftIcon={<IconPlace />}
+              onClick={this.openEventOnMapModal}
+            />
             <Divider />
             <ListItem primaryText="Описание" leftIcon={<IconArrowBot />} />
             <Divider />
@@ -140,6 +160,14 @@ export default class EventInfo extends Component {
             />
           </List>
         </Paper>
+        <Modal
+          isOpen={this.state.isModalVisible}
+          isVisibleTopBar
+          showBackButton
+          title={this.props.event.title}
+          content={<EventOnMap event={this.props.event} />}
+          close={this.closeEventOnMapModal}
+        />
       </div>
     )
   }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import FlatButton from 'material-ui/FlatButton'
 
 import { ListCard } from 'atoms'
+import { DatePicker } from 'molecules'
 
 import MDApi from 'utils/MDApi'
 
@@ -87,6 +88,7 @@ export default class EventsList extends Component {
   render() {
     return (
       <div>
+        <DatePicker id={this.state.id} />
         {this.state.events.map(item => (
           <ListCard key={item.id} event={item}/>
         ))}

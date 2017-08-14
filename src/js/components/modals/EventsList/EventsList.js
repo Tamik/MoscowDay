@@ -88,7 +88,7 @@ export default class EventsList extends Component {
     return (
       <div>
         {this.state.events.map(item => (
-          <ListCard key={item.id} {...item} />
+          <ListCard key={item.id} event={item}/>
         ))}
         {this.state.endOfEvents ? ''
           : <FlatButton label='Показать еще' onTouchTap={() => this.showMoreEvents()} />

@@ -13,7 +13,7 @@ import { Timeline, Headings, Places } from './Tabs'
 
 const myTheme = {
   tabs: {
-    textColor: '#cfd8dc',
+    textColor: '#969696',
     selectedTextColor: '#607d8b',
   },
 }
@@ -38,7 +38,7 @@ const styles = {
     backgroundColor: 'white',
   },
   tab: {
-    fontSize: '16px!important',
+    fontSize: '18px !important',
   },
 }
 

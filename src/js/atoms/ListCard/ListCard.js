@@ -27,11 +27,7 @@ const Text = styled.p`
   font-size: 14px;
   color: #000;
 `
-const styles = {
-  img: {
-    objectFit: 'cover',
-  }
-}
+
 export default class ListCard extends Component {
   constructor(props) {
     super(props)
@@ -67,7 +63,7 @@ export default class ListCard extends Component {
           onTouchTap={() => this.openEventsViewModal()}
         >
           <CardMedia>
-            <img style={styles.img} src='//placehold.it/100x110' width='100' height='110'/>
+            <img src='//placehold.it/100x110' width='100' height='110'/>
           </CardMedia>
 
           <CardWrap>

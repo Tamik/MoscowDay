@@ -15,8 +15,6 @@ import IconArrowBot from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import IconEmptyStar from 'material-ui/svg-icons/toggle/star-border'
 import IconFullStar from 'material-ui/svg-icons/toggle/star'
 
-
-
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
@@ -24,9 +22,6 @@ const FavoritesStore = localforage.createInstance({
 const styles = {
   item: {
     fontSize: 14,
-  },
-  img: {
-    objectFit: 'cover',
   }
 }
 export default class EventInfo extends Component {
@@ -86,13 +81,12 @@ export default class EventInfo extends Component {
   }
 
   render() {
-
     return (
       <div>
         <Paper zDepth={0}>
           <Card style={{boxShadow: 'none',}} containerStyle={{paddingBottom: 0,}}>
-            <CardMedia>
-              <img style={styles.img} data-object-fit="cover" src='//placehold.it/256x256' height='256' alt='' />
+            <CardMedia style={{height: 256}}>
+               <div style={{backgroundImage:'url(http://io.yamblz.ru/i/events/'+this.props.event.id+'_large.jpg)'}}></div>
             </CardMedia>
             <CardTitle
               title={this.props.event.title}

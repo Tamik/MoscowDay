@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 
 import localforage from 'localforage'
 
-
 import { EventInfo } from 'atoms'
 import { TopBar } from 'molecules'
 import Paper from 'material-ui/Paper'
@@ -24,25 +23,6 @@ const TopBarWrap = styled.div``
 const ContentWrap = styled.div`
   flex: 1;
   padding: 5px;
-`
-const CardWrap = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-`
-const Title = styled.h2`
-  height: 55px;
-  margin-bottom: 10px;
-  color: #000;
-  font-size: 16px;
-  font-weight: normal;
-  overflow: hidden;
-`
-const Text = styled.p`
-  font-size: 14px;
-  color: #000;
 `
 
 const style = {
@@ -100,8 +80,8 @@ export default class Favorites extends Component {
         <ContentWrap style={{backgroundColor: '#e7ebec'}}>
           <Paper style={style} zDepth={0}>
             {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
-                <ListCard key={event.id} event={event} />
-              ))
+              <ListCard key={event.id} event={event} />
+            ))
               : <Card
                 key='notevents'
               >

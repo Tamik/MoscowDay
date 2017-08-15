@@ -34,7 +34,6 @@ const Image = styled.img`
   display: block;
   width: 100%;
   height: 60px;
-  object-fit: cover;
 `
 
 export default class Headings extends Component {

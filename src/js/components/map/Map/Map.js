@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import localforage from 'localforage'
 import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
-import styled from 'styled-components'
 
 const MapStore = localforage.createInstance({
   name: 'Map',

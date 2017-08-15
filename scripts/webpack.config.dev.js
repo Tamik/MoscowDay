@@ -17,7 +17,6 @@ module.exports = {
         'react-hot-loader/patch',
         'webpack-dev-server/client?http://127.0.0.1:8080',
         'webpack/hot/only-dev-server',
-        'object-fit-polyfill/dist/object-fit-polyfill',
         path.join(__dirname, '../src/js/index.js'),
     ],
     output: {

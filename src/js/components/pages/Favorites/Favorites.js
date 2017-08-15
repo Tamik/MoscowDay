@@ -1,19 +1,13 @@
 import React, { Component } from 'react'
-
+import styled from 'styled-components'
 import localforage from 'localforage'
 
-import { EventInfo } from 'atoms'
-import { TopBar } from 'molecules'
 import Paper from 'material-ui/Paper'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import styled from 'styled-components'
+import { Card, CardTitle } from 'material-ui/Card'
 
-import IconButton from 'material-ui/IconButton'
-import Star from 'material-ui/svg-icons/toggle/star'
-import EmptyStar from 'material-ui/svg-icons/toggle/star-border'
-
-import { Modal } from 'components/modals'
 import { ListCard } from 'atoms'
+import { TopBar } from 'molecules'
+
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
@@ -102,9 +96,10 @@ export default class Favorites extends Component {
         </TopBarWrap>
         <ContentWrap>
           <Paper style={style} zDepth={0}>
-            {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
-              <ListCard key={event.id} event={event} />
-            ))
+            {this.state.favorites.length !== 0
+              ? this.state.favorites.map(event => (
+                <ListCard key={event.id} event={event} parent={this} />
+              ))
               : <Card
                 key='notevents'
               >

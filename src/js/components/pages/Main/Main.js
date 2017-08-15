@@ -119,6 +119,7 @@ export default class Main extends Component {
             }}
             index={this.state.slideIndex}
             onChangeIndex={this.handleChange}
+            disabled
           >
             <div style={styles.slide}>
               <Timeline />

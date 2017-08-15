@@ -27,6 +27,7 @@ const TopBar = (props) => {
     title: {
       height: 50,
       fontSize: 18,
+      paddingRight: 24,
       fontWeight: 'bold',
       color: '#000',
       textTransform: 'uppercase',

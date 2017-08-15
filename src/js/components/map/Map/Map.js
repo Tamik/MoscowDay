@@ -259,7 +259,6 @@ export default class Map extends Component {
 
     // Добавляем кнопку - Вернуться к событию
     if (this.props.panToLocation !== undefined) {
-      console.log(this.props.panToLocation )
       const btnGoToEventLocation = new yMapsApi.control.Button(
         {
           data: {
@@ -275,6 +274,7 @@ export default class Map extends Component {
         this.map.panTo(this.props.panToLocation, {
           duration: 1000,
           flying: true,
+          checkZoomRange: true,
         }).then(() => {
           this.map.setZoom(this.props.zoom || MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
         })

@@ -1,30 +1,17 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 
-import RaisedButton from 'material-ui/RaisedButton'
-import Popover from 'material-ui/Popover/Popover'
-import { Menu, MenuItem } from 'material-ui/Menu'
+import DropDownMenu from 'material-ui/DropDownMenu'
+import MenuItem from 'material-ui/MenuItem'
 
 import MDApi from 'utils/MDApi'
-
-moment.locale('ru')
 
 export default class DatePicker extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isOpen: false,
-      label: moment(new Date()).fromNow(),
       datesId: props.id,
       dates: [],
-      anchorOrigin: {
-        horizontal: 'left',
-        vertical: 'bottom',
-      },
-      targetOrigin: {
-        horizontal: 'left',
-        vertical: 'top',
-      },
+      selectedValue: props.currentDate,
     }
   }
 
@@ -34,69 +21,50 @@ export default class DatePicker extends Component {
         return response.json()
       })
       .then((response) => {
+        const today = new Date()
         this.setState({
           dates: response.data,
+          selectedValue: today.getUTCDate(),
         })
       })
   }
 
-  setAnchor = (positionElement, position) => {
-    const target = this.state.targetOrigin
-    target[positionElement] = position
-    this.setState({
-      targetOrigin: target,
-    })
+  formatDate = (date) => {
+    const today = new Date()
+    if (date.day === today.getUTCDate()) {
+      return 'Сегодня'
+    }
+    else if (date.day > today.getUTCDate() && date.day - today.getUTCDate() === 1) {
+      return 'Завтра'
+    }
+    return `${date.day} ${date.month}`
   }
 
-  handleTouchTap = (event) => {
-    event.preventDefault()
+  handleChange = (event, index, value) => {
     this.setState({
-      isOpen: true,
-      anchorOrigin: event.currentTarget,
+      selectedValue: value,
     })
-  }
-
-  handleRequestClose = () => {
-    this.setState({
-      isOpen: false,
-    })
-  }
-
-  handleSelectDate = (title) => {
-    this.setState({
-      isOpen: false,
-      label: title,
-    })
+    this.props.parent.filterEvents(value)
   }
 
   render() {
     return (
-      <div>
-        <RaisedButton label={this.state.label} onTouchTap={this.handleTouchTap} />
-        <Popover
-          open={this.state.isOpen}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={this.state.anchorOrigin}
-          targetOrigin={this.state.targetOrigin}
-          onRequestClose={this.handleRequestClose}
-        >
-          <Menu>
-            <MenuItem
-              key='Today'
-              primaryText={moment(new Date()).fromNow()}
-              onClick={() => this.handleSelectDate(moment(new Date()).fromNow())}
-            />
-            {this.state.dates.map(event => (
-              <MenuItem
-                key={event.dt}
-                primaryText={moment(event.dt).fromNow()}
-                onClick={() => this.handleSelectDate(moment(event.dt).fromNow())}
-              />
-            )
-            )}
-          </Menu>
-        </Popover>
-      </div>
+      <DropDownMenu
+        key={'ref'}
+        value={this.state.selectedValue}
+        onChange={this.handleChange}
+        style={{
+          display: 'block',
+        }}
+      >
+        {this.state.dates.map(event => (
+          <MenuItem
+            key={event.id}
+            value={event.dateFormatted.day}
+            primaryText={this.formatDate(event.dateFormatted)}
+          />
+        ))}
+      </DropDownMenu>
     )
   }
 }

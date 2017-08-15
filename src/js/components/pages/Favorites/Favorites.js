@@ -5,7 +5,7 @@ import localforage from 'localforage'
 import { EventInfo } from 'atoms'
 import { TopBar } from 'molecules'
 import Paper from 'material-ui/Paper'
-import { Card, CardTitle} from 'material-ui/Card'
+
 import styled from 'styled-components'
 
 import { Modal } from 'components/modals'
@@ -16,12 +16,21 @@ const FavoritesStore = localforage.createInstance({
 
 const PageContent = styled.div`
   display: flex;
+  display: -webkit-box;
+  'display': '-webkit-flex';
   flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-grow: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
 `
 const TopBarWrap = styled.div``
 const ContentWrap = styled.div`
   flex: 1;
+  -webkit-flex: 1;
+  -webkit-box-flex: 1;
   padding: 5px;
 `
 

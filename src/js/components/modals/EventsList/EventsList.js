@@ -51,13 +51,11 @@ export default class EventsList extends Component {
       }).then((response) => {
         return response.json()
       }).then((response) => {
-        console.log(response.data)
         const isEnd = (response.data.length === 0) ? true : false
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
         })
-        console.log(isEnd)
       })
         break
       default: break

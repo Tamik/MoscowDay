@@ -46,16 +46,30 @@ const styles = {
 
 const PageContent = styled.div`
   display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
   flex-direction: column;
-  flex-grow:1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-grow: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
 `
 
 const TopBarWrap = styled.div``
 
 const ContentWrap = styled.div`
   display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
   flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-grow: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
 `
 
 export default class Main extends Component {
@@ -100,8 +114,15 @@ export default class Main extends Component {
           <SwipableViews
             style={{
               display: 'flex',
+              display: '-webkit-box',
+              display: '-webkit-flex',
               flex: 1,
+              '-webkit-box-flex': 1,
+              '-webkit-flex': 1,
               flexDirection: 'column',
+              '-webkit-box-orient': 'vertical',
+              '-webkit-box-direction': 'normal',
+              '-webkit-flex-direction': 'column',
             }}
             index={this.state.slideIndex}
             onChangeIndex={this.handleChange}

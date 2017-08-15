@@ -36,7 +36,8 @@ const GridList = styled.div`
 `
 const Text = styled.div`
   padding: 0 5px;
-  font-size: 12px;
+  font-size: 12pt;
+  rgb(69,90,100);
 `
 const Image = styled.img`
   display: block;

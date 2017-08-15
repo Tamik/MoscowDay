@@ -15,8 +15,8 @@ const Icon = (props) => {
   return (
     <svg
       style={styles.svg}
-      width={`${props.size}px`}
-      height={`${props.size}px`}
+      width={props.size}
+      height={props.size}
       viewBox={props.viewBox}
     >
       <path style={styles.path} d={props.path} />
@@ -26,13 +26,13 @@ const Icon = (props) => {
 
 Icon.propTypes = {
   path: PropTypes.string.isRequired,
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string.isRequired,
   viewBox: PropTypes.string,
 }
 
 Icon.defaultProps = {
-  size: 16,
+  size: '16px',
   color: 'rgba(0,0,0,0.7)',
   viewBox: '0 0 512 512',
 }

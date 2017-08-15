@@ -40,8 +40,8 @@ const IconWrap = styled.div`
 `
 
 const CategoryTitle = styled.p`
-  color:#607D8B;
-  font-size: 11pt;
+  color: rgb(69, 90, 100);
+  font-size: 12pt;
 `
 
 
@@ -100,7 +100,7 @@ export default class Headings extends Component {
               <IconWrap>
                 <Icon
                   path={CategoryIconsPack[heading.icon_name]}
-                  size={56}
+                  size='56px'
                   viewBox='0 0 512 512'
                   color={ICON_COLOR}
                 />

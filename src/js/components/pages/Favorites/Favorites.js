@@ -5,12 +5,8 @@ import localforage from 'localforage'
 import { EventInfo } from 'atoms'
 import { TopBar } from 'molecules'
 import Paper from 'material-ui/Paper'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardTitle} from 'material-ui/Card'
 import styled from 'styled-components'
-
-import IconButton from 'material-ui/IconButton'
-import Star from 'material-ui/svg-icons/toggle/star'
-import EmptyStar from 'material-ui/svg-icons/toggle/star-border'
 
 import { Modal } from 'components/modals'
 import { ListCard } from 'atoms'
@@ -22,35 +18,16 @@ const PageContent = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-color: #cfd8dc;
 `
 const TopBarWrap = styled.div``
 const ContentWrap = styled.div`
   flex: 1;
   padding: 5px;
 `
-const CardWrap = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-`
-const Title = styled.h2`
-  height: 55px;
-  margin-bottom: 10px;
-  color: #000;
-  font-size: 16px;
-  font-weight: normal;
-  overflow: hidden;
-`
-const Text = styled.p`
-  font-size: 14px;
-  color: #000;
-`
 
 const style = {
   borderRadius: 0,
+  backgroundColor: 'transparent'
 }
 
 export default class Favorites extends Component {
@@ -100,18 +77,18 @@ export default class Favorites extends Component {
             showButton={false}
           />
         </TopBarWrap>
-        <ContentWrap>
-          <Paper style={style} zDepth={0}>
-            {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
-              <ListCard key={event.id} event={event} />
+        <ContentWrap style={{backgroundColor: '#e7ebec'}}>
+          {this.state.favorites.length !== 0
+            ? this.state.favorites.map(event => (
+              <Paper style={style} zDepth={0}>
+                <ListCard key={event.id} event={event} />
+              </Paper>
             ))
-              : <Card
-                key='notevents'
-              >
-                <CardTitle title='Пусто!' subtitle='Добавьте что-нибудь в избранное. ;)' />
-              </Card>
-            }
-          </Paper>
+            : <p key='notevents' style={{textAlign: 'center', paddingTop: '20px', color: '#455A64',}}>
+                Вы ещё ничего не добавили<br/> в избранное
+              </p>
+
+          }
         </ContentWrap>
       </PageContent>
     )

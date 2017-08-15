@@ -119,8 +119,7 @@ export default class EventsList extends Component {
               margin: '8px auto',
             }}
             onTouchTap={() => this.showMoreEvents()}
-          />
-        }
+          />}
       </div>
     )
   }

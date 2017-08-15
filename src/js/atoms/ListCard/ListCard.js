@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import localforage from 'localforage'
 
+import { Card, CardMedia } from 'material-ui/Card'
+
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
-
-import { Card, CardMedia } from 'material-ui/Card'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
@@ -78,10 +78,10 @@ export default class ListCard extends Component {
         >
           <CardMedia
             style={{
-              height: '110px',
-              width: '100px',
+              height: 110,
+              width: 100,
               backgroundSize: 'cover',
-              backgroundImage: 'url(http://io.yamblz.ru/i/events/' + this.props.event.id + '_small.jpg)'
+              backgroundImage: `url(http://io.yamblz.ru/i/events/${this.props.event.id}_small.jpg)`,
             }}
           />
           <CardWrap>
@@ -100,8 +100,6 @@ export default class ListCard extends Component {
   }
 }
 
-ListCard.propTypes = {
-  event: PropTypes.shape({
-
-  })
-}
+// ListCard.propTypes = {
+//   event: PropTypes.shape({})
+// }

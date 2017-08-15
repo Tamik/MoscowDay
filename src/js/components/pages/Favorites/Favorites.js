@@ -78,17 +78,17 @@ export default class Favorites extends Component {
           />
         </TopBarWrap>
         <ContentWrap style={{backgroundColor: '#e7ebec'}}>
-          <Paper style={style} zDepth={0}>
-            {this.state.favorites.length !== 0 ? this.state.favorites.map(event => (
-              <ListCard key={event.id} event={event} />
+          {this.state.favorites.length !== 0
+            ? this.state.favorites.map(event => (
+              <Paper style={style} zDepth={0}>
+                <ListCard key={event.id} event={event} />
+              </Paper>
             ))
-              : <Card
-                key='notevents'
-              >
-                <CardTitle title='Пусто!' subtitle='Добавьте что-нибудь в избранное. ;)' />
-              </Card>
-            }
-          </Paper>
+            : <p key='notevents' style={{textAlign: 'center', paddingTop: '20px', color: '#455A64',}}>
+                Вы ещё ничего не добавили<br/> в избранное
+              </p>
+
+          }
         </ContentWrap>
       </PageContent>
     )

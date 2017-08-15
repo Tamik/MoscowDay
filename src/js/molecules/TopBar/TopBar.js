@@ -15,6 +15,7 @@ const TopBar = (props) => {
       background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent)',
       position: 'fixed',
       paddingTop: '20px',
+      paddingRight: 24,
     },
     btn: 'white',
   } : {
@@ -27,9 +28,8 @@ const TopBar = (props) => {
     title: {
       height: 50,
       fontSize: 18,
-      paddingRight: 24,
       fontWeight: 'bold',
-      color: '#000',
+      color: '#263238',
       textTransform: 'uppercase',
     },
     btn: 'black',

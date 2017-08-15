@@ -101,7 +101,7 @@ export default class Timeline extends Component {
           {this.state.events.map(event => (
             <Step key={event.id}>
               <StepButton
-                onTouchTap={() => this.openEventsModal(event.id, event.title, event)}
+                onClick={() => this.openEventsModal(event.id, event.title, event)}
               >
                 {event.title}
               </StepButton>

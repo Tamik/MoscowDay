@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import PropTypes from 'prop-types'
 
 const Icon = (props) => {
@@ -27,7 +27,7 @@ const Icon = (props) => {
 Icon.propTypes = {
   path: PropTypes.string.isRequired,
   size: PropTypes.string,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   viewBox: PropTypes.string,
 }
 

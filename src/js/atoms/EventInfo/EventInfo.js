@@ -25,7 +25,7 @@ const FavoritesStore = localforage.createInstance({
 const styles = {
   item: {
     fontSize: 14,
-  }
+  },
 }
 
 //TODO
@@ -111,15 +111,24 @@ export default class EventInfo extends Component {
     return (
       <div>
         <Paper zDepth={0}>
-          <Card style={{boxShadow: 'none', webkitBoxShadow: 'none',}} containerStyle={{paddingBottom: 0,}}>
+
+          <Card
+            style={{
+              boxShadow: 'none',
+              webkitBoxShadow: 'none',
+            }}
+            containerStyle={{
+              paddingBottom: 0,
+            }}
+          >
+
             <CardMedia
-               style={{
-                 height: '35vh',
-                 backgroundSize: 'cover',
-                 backgroundImage: 'url(http://io.yamblz.ru/i/events/' + this.props.event.id + '_large.jpg)'
-               }}
-            >
-            </CardMedia>
+              style={{
+                height: '35vh',
+                backgroundSize: 'cover',
+                backgroundImage: `url(http://io.yamblz.ru/i/events/${this.props.event.id}_large.jpg)`,
+              }}
+            />
             <CardTitle
               title={this.props.event.title}
               style={{
@@ -130,7 +139,7 @@ export default class EventInfo extends Component {
                 color: '#fff',
                 fontSize: 16,
                 fontWeight: 'bold',
-                lineHeight: '1.2em'
+                lineHeight: '1.2em',
               }}
             >
               <FloatingActionButton
@@ -143,10 +152,10 @@ export default class EventInfo extends Component {
                   right: 20,
                   width: 40,
                   height: 40,
-                  zIndex: 1000
+                  zIndex: 1000,
                 }}
                 iconStyle={{
-                  fill: '#455a64'
+                  fill: '#455a64',
                 }}
               >
                 {this.state.inFavorites
@@ -163,20 +172,35 @@ export default class EventInfo extends Component {
             }}
           >
             <Divider />
-            <ListItem style={styles.item} primaryText={this.props.event.dateFormatted.day + ' ' + this.props.event.dateFormatted.month} leftIcon={<IconCalendar />} />
-            <Divider />
-            <ListItem style={styles.item} primaryText={this.props.event.dateFormatted.time} leftIcon={<IconClock />} />
+            <ListItem
+              primaryText={`${this.props.event.dateFormatted.day} ${this.props.event.dateFormatted.month}`}
+              style={styles.item}
+              leftIcon={<IconCalendar />}
+            />
             <Divider />
             <ListItem
+              primaryText={this.props.event.dateFormatted.time}
               style={styles.item}
+              leftIcon={<IconClock />}
+            />
+            <Divider />
+            <ListItem
               primaryText={this.props.event.location_title}
+              style={styles.item}
               leftIcon={<IconPlace />}
               onClick={this.openEventOnMapModal}
             />
             <Divider />
-            <ListItem style={styles.item} primaryText="Описание" leftIcon={<IconArrowBot />} />
+            <ListItem
+              primaryText="Описание"
+              style={styles.item}
+              leftIcon={<IconArrowBot />}
+            />
             <Divider />
-            <ListItem style={styles.item} primaryText = {this.props.event.description}/>
+            <ListItem
+              primaryText={this.props.event.description}
+              style={styles.item}
+            />
           </List>
         </Paper>
         <Modal

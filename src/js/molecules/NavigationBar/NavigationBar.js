@@ -18,7 +18,7 @@ const myTheme = {
   },
   menuItem: {
     padding: 0,
-  }
+  },
 }
 
 class NavigationBarContainer extends Component {
@@ -41,23 +41,23 @@ class NavigationBarContainer extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
-      <BottomNavigation selectedIndex={this.state.selectedIndex}>
-        <BottomNavigationItem
-          label='События'
-          icon={<Icon path={UiIconsPack.MODULE_EVENTS} size='25px' color="" viewBox="0 0 37 35"/>}
-          onTouchTap={this.changeRoute(0, '/')}
-        />
-        <BottomNavigationItem
-          label='Избранное'
-          icon={<Icon path={UiIconsPack.MODULE_FAVS} size='25px' color="" viewBox="0 0 480 470"/>}
-          onTouchTap={this.changeRoute(1, '/favorites')}
-        />
-        <BottomNavigationItem
-          label='Рядом'
-          icon={<Icon path={UiIconsPack.MODULE_RADAR} size='25px' color="" viewBox="0 0 520 510"/>}
-          onTouchTap={this.changeRoute(2, '/radar')}
-        />
-      </BottomNavigation>
+        <BottomNavigation selectedIndex={this.state.selectedIndex}>
+          <BottomNavigationItem
+            label='События'
+            icon={<Icon path={UiIconsPack.MODULE_EVENTS} size='25px' color='' viewBox='0 0 37 35' />}
+            onTouchTap={this.changeRoute(0, '/')}
+          />
+          <BottomNavigationItem
+            label='Избранное'
+            icon={<Icon path={UiIconsPack.MODULE_FAVS} size='25px' color='' viewBox='0 0 480 470' />}
+            onTouchTap={this.changeRoute(1, '/favorites')}
+          />
+          <BottomNavigationItem
+            label='Рядом'
+            icon={<Icon path={UiIconsPack.MODULE_RADAR} size='25px' color='' viewBox='0 0 520 510' />}
+            onTouchTap={this.changeRoute(2, '/radar')}
+          />
+        </BottomNavigation>
       </MuiThemeProvider>
     )
   }

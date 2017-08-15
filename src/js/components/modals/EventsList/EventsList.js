@@ -4,12 +4,14 @@ import PropTypes from 'prop-types'
 import FlatButton from 'material-ui/FlatButton'
 
 import { ListCard } from 'atoms'
+import { DatePicker } from 'molecules'
 
 import MDApi from 'utils/MDApi'
 
 export default class EventsList extends Component {
   constructor(props) {
     super(props)
+    const today = new Date()
     this.state = {
       id: props.event.id,
       type: props.event.type,
@@ -18,10 +20,8 @@ export default class EventsList extends Component {
       events: [],
       currentPage: 1,
       endOfEvents: false,
+      selectDate: today.getUTCDate(),
     }
-
-    this.openEventViewModal = this.openEventViewModal.bind(this)
-    this.closeEventViewModal = this.closeEventViewModal.bind(this)
   }
 
   componentDidMount() {
@@ -32,12 +32,17 @@ export default class EventsList extends Component {
     switch (this.state.type) {
       case 'place': MDApi.getEvents({
         place: this.state.id,
-        items_per_page: 1,
         page: this.state.currentPage,
       }).then((response) => {
         return response.json()
       }).then((response) => {
-        const isEnd = (response.data.length === 0) ? true : false
+        let isEnd
+        if (response.data.length === 0) {
+          isEnd = true
+        }
+        else {
+          isEnd = false
+        }
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
@@ -46,12 +51,17 @@ export default class EventsList extends Component {
         break
       case 'headings': MDApi.getEvents({
         category: this.state.id,
-        items_per_page: 1,
         page: this.state.currentPage,
       }).then((response) => {
         return response.json()
       }).then((response) => {
-        const isEnd = (response.data.length === 0) ? true : false
+        let isEnd
+        if (response.data.length === 0) {
+          isEnd = true
+        }
+        else {
+          isEnd = false
+        }
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
@@ -62,6 +72,12 @@ export default class EventsList extends Component {
     }
   }
 
+  filterEvents = (day) => {
+    this.setState({
+      selectDate: day,
+    })
+  }
+
   showMoreEvents = () => {
     this.setState({
       currentPage: ++this.state.currentPage,
@@ -69,14 +85,14 @@ export default class EventsList extends Component {
     this.getEvents()
   }
 
-  openEventViewModal(payload) {
+  openEventViewModal = (payload) => {
     this.setState({
       isModalVisible: true,
       data: payload,
     })
   }
 
-  closeEventViewModal() {
+  closeEventViewModal = () => {
     this.setState({
       isModalVisible: false,
     })
@@ -85,12 +101,25 @@ export default class EventsList extends Component {
   render() {
     return (
       <div>
-        {this.state.events.map(item => (
-          <ListCard key={item.id} event={item}/>
-        ))}
-        {this.state.endOfEvents ? ''
-          : <FlatButton label='Показать еще' onTouchTap={() => this.showMoreEvents()} />
-        }
+        <DatePicker id={this.state.id} currentDate={this.state.selectDate} parent={this} />
+        {this.state.events.map((event) => {
+          if (event.dateFormatted.day === this.state.selectDate) {
+            return (
+              <ListCard key={event.id} event={event} />
+            )
+          }
+        })}
+        {this.state.endOfEvents
+          ? ''
+          : <FlatButton
+            label='Показать еще'
+            style={{
+              display: 'block',
+              width: '100%',
+              margin: '8px auto',
+            }}
+            onTouchTap={() => this.showMoreEvents()}
+          />}
       </div>
     )
   }

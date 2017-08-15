@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
-
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import localforage from 'localforage'
+
+import { Card, CardMedia } from 'material-ui/Card'
 
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
 
-import { Card, CardMedia } from 'material-ui/Card'
+const FavoritesStore = localforage.createInstance({
+  name: 'Favorites',
+})
 
 const CardWrap = styled.div`
   display: flex;
@@ -47,59 +51,68 @@ export default class ListCard extends Component {
       modalTitle: null,
       payload: {},
     }
-
-    this.openEventsViewModal = this.openEventsViewModal.bind(this)
-    this.closeEventsViewModal = this.closeEventsViewModal.bind(this)
   }
 
-  openEventsViewModal() {
+  openEventsViewModal = () => {
     this.setState({
       isModalVisible: true,
     })
   }
 
-  closeEventsViewModal() {
-    this.setState({
-      isModalVisible: false,
-    })
+  closeEventsViewModal = () => {
+    if (window.location.hash === '#/favorites') {
+      FavoritesStore.keys()
+        .then(response => this.props.parent.reRenderFavorites(response))
+        .then(() => this.setState({
+          isModalVisible: false,
+        }))
+    }
+    else {
+      this.setState({
+        isModalVisible: false,
+      })
+    }
   }
 
   render() {
     return (
       <div>
         <Card
-          containerStyle={{'display': 'flex', 'display': '-webkit-box', 'display': '-webkit-flex', padding: 0, marginBottom: 5}}
+
+          containerStyle={{
+            'display': 'flex',
+            'display': '-webkit-box',
+            'display': '-webkit-flex',
+            padding: 0,
+            marginBottom: 5,
+          }}
+
           onTouchTap={() => this.openEventsViewModal()}
         >
           <CardMedia
             style={{
-              height: '110px',
-              width: '100px',
+              height: 110,
+              width: 100,
               backgroundSize: 'cover',
-              backgroundImage: 'url(http://io.yamblz.ru/i/events/' + this.props.event.id + '_small.jpg)'
+              backgroundImage: `url(http://io.yamblz.ru/i/events/${this.props.event.id}_small.jpg)`,
             }}
-          >
-          </CardMedia>
-
+          />
           <CardWrap>
             <Title>{this.props.event.title}</Title>
             <Text>{this.props.event.dateFormatted.time}, {this.props.event.dateFormatted.day} {this.props.event.dateFormatted.month}</Text>
           </CardWrap>
         </Card>
-
         <Modal
-          isOpen = {this.state.isModalVisible}
-          isVisibleTopBar = {false}
-          content = {<EventInfo event = {this.props.event} />}
-          close = {this.closeEventsViewModal}
+          isOpen={this.state.isModalVisible}
+          isVisibleTopBar={false}
+          content={<EventInfo event={this.props.event} />}
+          close={this.closeEventsViewModal}
         />
       </div>
     )
   }
 }
 
-ListCard.propTypes = {
-  event: PropTypes.shape({
-
-  })
-}
+// ListCard.propTypes = {
+//   event: PropTypes.shape({})
+// }

@@ -5,7 +5,6 @@ import localforage from 'localforage'
 import Paper from 'material-ui/Paper'
 import { Card, CardTitle } from 'material-ui/Card'
 
-import { Modal } from 'components/modals'
 import { ListCard } from 'atoms'
 import { TopBar } from 'molecules'
 
@@ -26,7 +25,7 @@ const ContentWrap = styled.div`
 
 const style = {
   borderRadius: 0,
-  backgroundColor: 'transparent'
+  backgroundColor: 'transparent',
 }
 
 export default class Favorites extends Component {
@@ -76,16 +75,24 @@ export default class Favorites extends Component {
             isVisible
           />
         </TopBarWrap>
-        <ContentWrap style={{backgroundColor: '#e7ebec'}}>
+        <ContentWrap style={{
+          backgroundColor: '#e7ebec',
+        }}
+        >
           {this.state.favorites.length !== 0
             ? this.state.favorites.map(event => (
               <Paper style={style} zDepth={0}>
-                <ListCard key={event.id} event={event} />
+                <ListCard key={event.id} event={event} parent={this} />
               </Paper>
             ))
-            : <p key='notevents' style={{textAlign: 'center', paddingTop: '20px', color: '#455A64',}}>
-                Вы ещё ничего не добавили<br/> в избранное
-              </p>
+            : <p
+              key='notevents'
+              style={{
+                textAlign: 'center',
+                paddingTop: 20,
+                color: '#455A64',
+              }}
+            >Вы ещё ничего не добавили <br /> в избранное</p>
 
           }
         </ContentWrap>

@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
-
+import styled from 'styled-components'
 import localforage from 'localforage'
 
-import { EventInfo } from 'atoms'
-import { TopBar } from 'molecules'
 import Paper from 'material-ui/Paper'
-import { Card, CardTitle} from 'material-ui/Card'
-import styled from 'styled-components'
+import { Card, CardTitle } from 'material-ui/Card'
 
 import { Modal } from 'components/modals'
 import { ListCard } from 'atoms'
+import { TopBar } from 'molecules'
+
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
@@ -73,8 +72,8 @@ export default class Favorites extends Component {
         <TopBarWrap>
           <TopBar
             title='Избранные события'
-            isVisible
             showButton={false}
+            isVisible
           />
         </TopBarWrap>
         <ContentWrap style={{backgroundColor: '#e7ebec'}}>

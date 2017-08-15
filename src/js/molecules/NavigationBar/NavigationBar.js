@@ -44,17 +44,17 @@ class NavigationBarContainer extends Component {
         <BottomNavigation selectedIndex={this.state.selectedIndex}>
           <BottomNavigationItem
             label='События'
-            icon={<Icon path={UiIconsPack.MODULE_EVENTS} size='25px' viewBox='0 0 37 35' />}
+            icon={<Icon path={UiIconsPack.MODULE_EVENTS} size='25px' color='' viewBox='0 0 37 35' />}
             onTouchTap={this.changeRoute(0, '/')}
           />
           <BottomNavigationItem
             label='Избранное'
-            icon={<Icon path={UiIconsPack.MODULE_FAVS} size='25px' viewBox='0 0 480 470' />}
+            icon={<Icon path={UiIconsPack.MODULE_FAVS} size='25px' color='' viewBox='0 0 480 470' />}
             onTouchTap={this.changeRoute(1, '/favorites')}
           />
           <BottomNavigationItem
             label='Рядом'
-            icon={<Icon path={UiIconsPack.MODULE_RADAR} size='25px' viewBox='0 0 520 510' />}
+            icon={<Icon path={UiIconsPack.MODULE_RADAR} size='25px' color='' viewBox='0 0 520 510' />}
             onTouchTap={this.changeRoute(2, '/radar')}
           />
         </BottomNavigation>

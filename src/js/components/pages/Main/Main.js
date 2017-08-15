@@ -91,12 +91,26 @@ export default class Main extends Component {
               onChange={this.handleChange}
               value={this.state.slideIndex}
             >
-              <Tab label='Главное' value={0} style={styles.tab}  disableTouchRipple />
-              <Tab label='Рубрики' value={1} style={styles.tab} disableTouchRipple />
-              <Tab label='Места' value={2} style={styles.tab} disableTouchRipple />
+              <Tab
+                label='Главное'
+                value={0}
+                style={styles.tab}
+                disableTouchRipple
+              />
+              <Tab
+                label='Рубрики'
+                value={1}
+                style={styles.tab}
+                disableTouchRipple
+              />
+              <Tab
+                label='Места'
+                value={2}
+                style={styles.tab}
+                disableTouchRipple
+              />
             </Tabs>
           </MuiThemeProvider>
-
           <SwipableViews
             style={{
               display: 'flex',

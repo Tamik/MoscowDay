@@ -102,25 +102,6 @@ export default class Map extends Component {
     /**
      * @description Добавляем метку с моим местоположением
      */
-    if (this.props.panToLocation !== undefined) {
-      this.doAutoPan = false
-      if (this.isComponentMounted && this.map) {
-        this.setState({
-          myLocationPoint: {
-            ...this.state.myLocationPoint,
-            lat: position[0],
-            lng: position[1],
-          },
-          mapState: {
-            ...this.state.mapState,
-            center: this.props.panToLocation,
-            zoom: this.props.zoom || MAP_ZOOM_TO_MY_LOCATION,
-          },
-        })
-      }
-      return
-    }
-
     if (this.isComponentMounted && this.map) {
       this.setState({
         myLocationPoint: {
@@ -128,11 +109,14 @@ export default class Map extends Component {
           lat: position[0],
           lng: position[1],
         },
-        mapState: {
-          ...this.state.mapState,
-          center: position,
-        },
       })
+    }
+
+    /**
+     * Не будем центрировать карту на мое местоположение,
+     */
+    if (this.props.panToLocation !== undefined) {
+      return
     }
 
     /**
@@ -192,6 +176,19 @@ export default class Map extends Component {
         .then((response) => {
           this.setState(response)
         })
+    }
+
+    if (this.props.panToLocation !== undefined) {
+      this.doAutoPan = false
+      if (this.isComponentMounted && this.map) {
+        this.setState({
+          mapState: {
+            ...this.state.mapState,
+            center: this.props.panToLocation,
+            zoom: this.props.zoom || MAP_ZOOM_TO_MY_LOCATION,
+          },
+        })
+      }
     }
   }
 
@@ -259,6 +256,32 @@ export default class Map extends Component {
     })
 
     this.map.controls.add(btnGoToMyLocation, { float: 'right' })
+
+    // Добавляем кнопку - Вернуться к событию
+    if (this.props.panToLocation !== undefined) {
+      const btnGoToEventLocation = new yMapsApi.control.Button(
+        {
+          data: {
+            content: '<strong>Событие</strong>',
+          },
+          options: {
+            selectOnClick: false,
+          },
+        }
+      )
+
+      btnGoToEventLocation.events.add('click', (e) => {
+        this.map.panTo(this.props.panToLocation, {
+          duration: 1000,
+          flying: true,
+          checkZoomRange: true,
+        }).then(() => {
+          this.map.setZoom(this.props.zoom || MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
+        })
+      })
+
+      this.map.controls.add(btnGoToEventLocation, { float: 'left' })
+    }
 
 
     this.map.events.add('balloonopen', (e) => {

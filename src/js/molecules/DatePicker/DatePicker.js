@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 
-import RaisedButton from 'material-ui/RaisedButton'
-import Popover from 'material-ui/Popover/Popover'
-import { Menu, MenuItem } from 'material-ui/Menu'
+import DropDownMenu from 'material-ui/DropDownMenu'
+import MenuItem from 'material-ui/MenuItem'
 
 import MDApi from 'utils/MDApi'
 
@@ -68,32 +67,22 @@ export default class DatePicker extends Component {
 
   render() {
     return (
-      <div>
-        <RaisedButton label={this.state.label} onTouchTap={this.handleTouchTap} />
-        <Popover
-          open={this.state.isOpen}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={this.state.anchorOrigin}
-          targetOrigin={this.state.targetOrigin}
-          onRequestClose={this.handleRequestClose}
-        >
-          <Menu>
-            <MenuItem
-              key='Today'
-              primaryText={moment(new Date()).fromNow()}
-              onClick={() => this.handleSelectDate(moment(new Date()).fromNow())}
-            />
-            {this.state.dates.map(event => (
-              <MenuItem
-                key={event.dt}
-                primaryText={moment(event.dt).fromNow()}
-                onClick={() => this.handleSelectDate(moment(event.dt).fromNow())}
-              />
-            )
-            )}
-          </Menu>
-        </Popover>
-      </div>
+      <DropDownMenu
+        key={'ref'}
+        value={this.state.selectedValue}
+        onChange={this.handleChange}
+        style={{
+          display: 'block',
+        }}
+      >
+        {this.state.dates.map(event => (
+          <MenuItem
+            key={event.id}
+            value={event.dateFormatted.day}
+            primaryText={this.formatDate(event.dateFormatted)}
+          />
+        ))}
+      </DropDownMenu>
     )
   }
 }

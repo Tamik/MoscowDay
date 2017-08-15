@@ -2,11 +2,15 @@ import React, { Component } from 'react'
 
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import localforage from 'localforage'
 
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
 
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+const FavoritesStore = localforage.createInstance({
+  name: 'Favorites',
+})
 
 const CardWrap = styled.div`
   flex: 1;
@@ -53,6 +57,17 @@ export default class ListCard extends Component {
     this.setState({
       isModalVisible: false,
     })
+    if (window.location.hash === '#/favorites') {
+      FavoritesStore.keys()
+        .then(response => this.props.parent.reRenderFavorites(response))
+        .then(() => this.setState({
+          isModalVisible: false,
+        }))
+    }
+    else {
+      this.setState({
+        isModalVisible: false,
+      })
   }
 
   render() {

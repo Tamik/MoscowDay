@@ -67,7 +67,7 @@ export default class ListCard extends Component {
               height: '110px',
               width: '100px',
               backgroundSize: 'cover',
-              backgroundImage: 'url(http://io.yamblz.ru/i/events' + this.props.event.id + '_small.jpg)'
+              backgroundImage: 'url(http://io.yamblz.ru/i/events/' + this.props.event.id + '_small.jpg)'
             }}
           >
           </CardMedia>

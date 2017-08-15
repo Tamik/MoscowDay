@@ -9,18 +9,9 @@ export default class DatePicker extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isOpen: false,
-      label: moment(new Date()).fromNow(),
       datesId: props.id,
       dates: [],
-      anchorOrigin: {
-        horizontal: 'left',
-        vertical: 'bottom',
-      },
-      targetOrigin: {
-        horizontal: 'left',
-        vertical: 'top',
-      },
+      selectedValue: props.currentDate,
     }
   }
 
@@ -30,39 +21,30 @@ export default class DatePicker extends Component {
         return response.json()
       })
       .then((response) => {
+        const today = new Date()
         this.setState({
           dates: response.data,
+          selectedValue: today.getUTCDate(),
         })
       })
   }
 
-  setAnchor = (positionElement, position) => {
-    const target = this.state.targetOrigin
-    target[positionElement] = position
-    this.setState({
-      targetOrigin: target,
-    })
+  formatDate = (date) => {
+    const today = new Date()
+    if (date.day === today.getUTCDate()) {
+      return 'Сегодня'
+    }
+    else if (date.day > today.getUTCDate() && date.day - today.getUTCDate() === 1) {
+      return 'Завтра'
+    }
+    return `${date.day} ${date.month}`
   }
 
-  handleTouchTap = (event) => {
-    event.preventDefault()
+  handleChange = (event, index, value) => {
     this.setState({
-      isOpen: true,
-      anchorOrigin: event.currentTarget,
+      selectedValue: value,
     })
-  }
-
-  handleRequestClose = () => {
-    this.setState({
-      isOpen: false,
-    })
-  }
-
-  handleSelectDate = (title) => {
-    this.setState({
-      isOpen: false,
-      label: title,
-    })
+    this.props.parent.filterEvents(value)
   }
 
   render() {

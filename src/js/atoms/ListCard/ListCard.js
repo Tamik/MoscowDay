@@ -72,12 +72,18 @@ export default class ListCard extends Component {
           containerStyle={{
             display: 'flex',
             padding: 0,
+            marginBottom: 5,
           }}
           onTouchTap={() => this.openEventsViewModal()}
         >
-          <CardMedia>
-            <img src='//placehold.it/100x110' alt='' width='100' height='110' />
-          </CardMedia>
+          <CardMedia
+            style={{
+              height: '110px',
+              width: '100px',
+              backgroundSize: 'cover',
+              backgroundImage: 'url(http://io.yamblz.ru/i/events/' + this.props.event.id + '_small.jpg)'
+            }}
+          />
           <CardWrap>
             <Title>{this.props.event.title}</Title>
             <Text>{this.props.event.dateFormatted.time}, {this.props.event.dateFormatted.day} {this.props.event.dateFormatted.month}</Text>
@@ -95,6 +101,7 @@ export default class ListCard extends Component {
 }
 
 ListCard.propTypes = {
-  // title: PropTypes.string.isRequired,
-  // begin_time: PropTypes.string.isRequired,
+  event: PropTypes.shape({
+
+  })
 }

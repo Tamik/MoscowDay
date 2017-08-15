@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import localforage from 'localforage'
 import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
-import styled from 'styled-components'
 
 const MapStore = localforage.createInstance({
   name: 'Map',
@@ -87,7 +86,10 @@ export default class Map extends Component {
     this.isComponentMounted = false
     this.stopWatchGeolocation()
     this.watchLocationID = 0
-    MapStore.setItem('map', this.state)
+
+    if (this.props.panToLocation === undefined) {
+      MapStore.setItem('map', this.state)
+    }
   }
 
   /**
@@ -107,11 +109,14 @@ export default class Map extends Component {
           lat: position[0],
           lng: position[1],
         },
-        mapState: {
-          ...this.state.mapState,
-          center: position,
-        },
       })
+    }
+
+    /**
+     * Не будем центрировать карту на мое местоположение,
+     */
+    if (this.props.panToLocation !== undefined) {
+      return
     }
 
     /**
@@ -133,6 +138,7 @@ export default class Map extends Component {
       })
     }
   }
+
 
   /**
    * @description Обработчик ошибки определения текущего местоположения
@@ -161,26 +167,29 @@ export default class Map extends Component {
       return
     }
 
-    MapStore.getItem('map')
-      .then((response) => {
-        this.setState(response)
-      })
-
     if (this.watchLocationID) {
       return
     }
 
-    setTimeout(() => {
-      this.watchLocationID = navigator.geolocation.watchPosition(
-        this.onGeolocationSuccess,
-        this.onGeolocationError,
-        {
-          timeout: GEOLOCATION_WATCH_TIMEOUT,
-          enableHighAccuracy: true,
-          maximumAge: 3000,
-        }
-      )
-    }, 10)
+    if (this.props.panToLocation === undefined) {
+      MapStore.getItem('map')
+        .then((response) => {
+          this.setState(response)
+        })
+    }
+
+    if (this.props.panToLocation !== undefined) {
+      this.doAutoPan = false
+      if (this.isComponentMounted && this.map) {
+        this.setState({
+          mapState: {
+            ...this.state.mapState,
+            center: this.props.panToLocation,
+            zoom: this.props.zoom || MAP_ZOOM_TO_MY_LOCATION,
+          },
+        })
+      }
+    }
   }
 
   /**
@@ -194,14 +203,21 @@ export default class Map extends Component {
 
     const geoObjects = []
 
+    // Creating placemarks
     this.props.points.map((point, idx) => {
       geoObjects.push(this.createPlacemark(point, idx))
       return point
     })
 
-    refClusterer.add(geoObjects)
-    this.map.geoObjects.add(refClusterer)
+    // Adding placemarks on map via clusterer
+    if (!this.props.isOneEvent) {
+      refClusterer.add(geoObjects)
+      this.map.geoObjects.add(refClusterer)
+    } else {
+      this.map.geoObjects.add(geoObjects[0])
+    }
 
+    // Clic handler on btn More on balloon
     const onClickBtnMore = (ev) => {
       if (ev.target
         && this.lastOpenedBalloon
@@ -209,6 +225,7 @@ export default class Map extends Component {
         const btnMore = this.lastOpenedBalloon.querySelector('#mapBtnMore')
         const idx = btnMore.getAttribute('data-point-idx')
         const point = this.props.parent.state.events[idx]
+
         this.props.parent.setState({
           payload: point,
           isModalVisible: true,
@@ -240,6 +257,32 @@ export default class Map extends Component {
 
     this.map.controls.add(btnGoToMyLocation, { float: 'right' })
 
+    // Добавляем кнопку - Вернуться к событию
+    if (this.props.panToLocation !== undefined) {
+      const btnGoToEventLocation = new yMapsApi.control.Button(
+        {
+          data: {
+            content: '<strong>Событие</strong>',
+          },
+          options: {
+            selectOnClick: false,
+          },
+        }
+      )
+
+      btnGoToEventLocation.events.add('click', (e) => {
+        this.map.panTo(this.props.panToLocation, {
+          duration: 1000,
+          flying: true,
+          checkZoomRange: true,
+        }).then(() => {
+          this.map.setZoom(this.props.zoom || MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
+        })
+      })
+
+      this.map.controls.add(btnGoToEventLocation, { float: 'left' })
+    }
+
 
     this.map.events.add('balloonopen', (e) => {
       this.lastOpenedBalloon = document.querySelector('.ymaps-2-1-53-balloon__content')
@@ -257,17 +300,33 @@ export default class Map extends Component {
     this.map.events.add('mousedown', (e) => {
       this.doAutoPan = false
     })
+
+    setTimeout(() => {
+      this.watchLocationID = navigator.geolocation.watchPosition(
+        this.onGeolocationSuccess,
+        this.onGeolocationError,
+        {
+          timeout: GEOLOCATION_WATCH_TIMEOUT,
+          enableHighAccuracy: true,
+          maximumAge: 3000,
+        }
+      )
+    }, 10)
   }
 
   setZoom(newZoom) {
-    this.setState({
-      mapState: {
-        ...this.state.mapState,
-        zoom: newZoom,
-      },
-    })
+    if (this.isComponentMounted) {
+      this.setState({
+        mapState: {
+          ...this.state.mapState,
+          zoom: newZoom,
+        },
+      })
+    }
     this.doAutoPan = false
-    MapStore.setItem('map', this.state)
+    if (this.props.panToLocation === undefined) {
+      MapStore.setItem('map', this.state)
+    }
   }
 
   setCenter(coords) {
@@ -281,6 +340,10 @@ export default class Map extends Component {
   }
 
   getPlaceMarkContent(item, idx) {
+    if (this.props.isOneEvent !== undefined
+      && this.props.isOneEvent === true) {
+      return {}
+    }
     return {
       balloonContentBody: `
         <div>
@@ -293,12 +356,6 @@ export default class Map extends Component {
         </div>`,
       clusterCaption: `Событие ${idx}`,
     }
-  }
-
-  closeEventsModal() {
-    this.setState({
-      isModalVisible: false,
-    })
   }
 
   createPlacemark(pointData, idx) {
@@ -330,7 +387,7 @@ export default class Map extends Component {
             suppressMapOpenBlock: true,
           }}
           width={this.props.width || '100%'}
-          height={'75vh'}
+          height={this.props.height || '100%'}
         >
           <Clusterer
             instanceRef={(ref) => {

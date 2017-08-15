@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 import { Modal } from 'components/modals'
 import { EventsList } from 'components/modals'
 import styled from 'styled-components'
-import Icon from 'material-ui/svg-icons/social/sentiment-neutral'
+import Icon from 'atoms/Icon'
+import CategoryIconsPack from 'atoms/iconsPacks/CategoryIconsPack'
+
 import MDApi from 'utils/MDApi'
 
 const styles = {
@@ -11,14 +13,16 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-  }
+  },
 }
+
+const ICON_COLOR = '#607D8B'
 
 const GridList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: -10px;
+  padding-bottom: 10px;
   overflow-y: auto;
 `
 const GridItem = styled.div`
@@ -28,14 +32,18 @@ const GridItem = styled.div`
   align-items: center;
   height: 110px;
   width: 49%;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `
-const Image = styled.img`
-  display: block;
-  width: 100%;
-  height: 60px;
-  object-fit: cover;
+
+const IconWrap = styled.div`
+  margin-top: 22px;
 `
+
+const CategoryTitle = styled.p`
+  color: rgb(69, 90, 100);
+  font-size: 12pt;
+`
+
 
 export default class Headings extends Component {
   // constructor(props) {
@@ -89,16 +97,22 @@ export default class Headings extends Component {
         <GridList>
           {this.state.headings.map(heading => (
             <GridItem key={heading.id} onClick={() => this.openEventsViewModal(heading.title, heading.id)}>
-              {/*<Image src=""/>*/}
-              <Icon style={{width: 60, height: 60}}/>
-              <p>{heading.title} ({heading.events_count})</p>
+              <IconWrap>
+                <Icon
+                  path={CategoryIconsPack[heading.icon_name]}
+                  size='56px'
+                  viewBox='0 0 512 512'
+                  color={ICON_COLOR}
+                />
+              </IconWrap>
+              <CategoryTitle>{heading.title} ({heading.events_count})</CategoryTitle>
             </GridItem>
           ))}
         </GridList>
         <Modal
           isOpen={this.state.isModalVisible}
           title={this.state.modalTitle}
-          isVisibleTopBar={true}
+          isVisibleTopBar
           content={<EventsList event={this.state} />}
           close={this.closeEventsViewModal}
         />

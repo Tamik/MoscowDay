@@ -5,6 +5,7 @@ import localforage from 'localforage'
 import Paper from 'material-ui/Paper'
 import { Card, CardTitle } from 'material-ui/Card'
 
+import { Modal } from 'components/modals'
 import { ListCard } from 'atoms'
 import { TopBar } from 'molecules'
 
@@ -16,35 +17,16 @@ const PageContent = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-color: #cfd8dc;
 `
 const TopBarWrap = styled.div``
 const ContentWrap = styled.div`
   flex: 1;
   padding: 5px;
 `
-const CardWrap = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-`
-const Title = styled.h2`
-  height: 55px;
-  margin-bottom: 10px;
-  color: #000;
-  font-size: 16px;
-  font-weight: normal;
-  overflow: hidden;
-`
-const Text = styled.p`
-  font-size: 14px;
-  color: #000;
-`
 
 const style = {
   borderRadius: 0,
+  backgroundColor: 'transparent'
 }
 
 export default class Favorites extends Component {
@@ -90,23 +72,22 @@ export default class Favorites extends Component {
         <TopBarWrap>
           <TopBar
             title='Избранные события'
-            isVisible
             showButton={false}
+            isVisible
           />
         </TopBarWrap>
-        <ContentWrap>
-          <Paper style={style} zDepth={0}>
-            {this.state.favorites.length !== 0
-              ? this.state.favorites.map(event => (
-                <ListCard key={event.id} event={event} parent={this} />
-              ))
-              : <Card
-                key='notevents'
-              >
-                <CardTitle title='Пусто!' subtitle='Добавьте что-нибудь в избранное. ;)' />
-              </Card>
-            }
-          </Paper>
+        <ContentWrap style={{backgroundColor: '#e7ebec'}}>
+          {this.state.favorites.length !== 0
+            ? this.state.favorites.map(event => (
+              <Paper style={style} zDepth={0}>
+                <ListCard key={event.id} event={event} />
+              </Paper>
+            ))
+            : <p key='notevents' style={{textAlign: 'center', paddingTop: '20px', color: '#455A64',}}>
+                Вы ещё ничего не добавили<br/> в избранное
+              </p>
+
+          }
         </ContentWrap>
       </PageContent>
     )

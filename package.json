@@ -37,9 +37,7 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-geolocation": {
-                "GEOLOCATION_USAGE_DESCRIPTION": "Разрешить приложению отслеживать ваше местоположение?"
-            }
+            "cordova-plugin-geolocation": {}
         },
         "platforms": [
             "browser",

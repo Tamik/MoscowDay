@@ -8,6 +8,9 @@ import { List, ListItem, Divider } from 'material-ui'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 
+import { Modal } from 'components/modals'
+import EventOnMap from 'atoms/EventOnMap'
+
 import IconCalendar from 'material-ui/svg-icons/action/date-range'
 import IconClock from 'material-ui/svg-icons/device/access-time'
 import IconPlace from 'material-ui/svg-icons/maps/place'
@@ -24,11 +27,24 @@ const styles = {
     fontSize: 14,
   }
 }
+
+//TODO
+// const Button = styled.button`
+//   position: absolute;
+//   bottom: 25%;
+//   right: 30px;
+//   padding: 5px;
+//   background-color: white;
+//   border-radius: 50%;
+//   border: 2px solid #616161;
+// `
+
 export default class EventInfo extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      isModalVisible: false,
       inFavorites: false,
     }
     console.log(props);
@@ -80,13 +96,30 @@ export default class EventInfo extends Component {
     }
   }
 
+  openEventOnMapModal = () => {
+    this.setState({
+      isModalVisible: true,
+    })
+  }
+
+  closeEventOnMapModal = () => {
+    this.setState({
+      isModalVisible: false,
+    })
+  }
+
   render() {
     return (
       <div>
         <Paper zDepth={0}>
           <Card style={{boxShadow: 'none',}} containerStyle={{paddingBottom: 0,}}>
-            <CardMedia style={{height: 256}}>
-               <div style={{backgroundImage:'url(http://io.yamblz.ru/i/events/'+this.props.event.id+'_large.jpg)'}}></div>
+            <CardMedia
+               style={{
+                 height: '35vh',
+                 backgroundSize: 'cover',
+                 backgroundImage: 'url(http://io.yamblz.ru/i/events' + this.props.event.id + '_large.jpg)'
+               }}
+            >
             </CardMedia>
             <CardTitle
               title={this.props.event.title}
@@ -135,13 +168,26 @@ export default class EventInfo extends Component {
             <Divider />
             <ListItem style={styles.item} primaryText={this.props.event.dateFormatted.time} leftIcon={<IconClock />} />
             <Divider />
-            <ListItem style={styles.item} primaryText={this.props.event.location_title} leftIcon={<IconPlace />} />
+            <ListItem
+              style={styles.item}
+              primaryText={this.props.event.location_title}
+              leftIcon={<IconPlace />}
+              onClick={this.openEventOnMapModal}
+            />
             <Divider />
             <ListItem style={styles.item} primaryText="Описание" leftIcon={<IconArrowBot />} />
             <Divider />
             <ListItem style={styles.item} primaryText = {this.props.event.description}/>
           </List>
         </Paper>
+        <Modal
+          isOpen={this.state.isModalVisible}
+          isVisibleTopBar
+          showBackButton
+          title={this.props.event.title}
+          content={<EventOnMap event={this.props.event} />}
+          close={this.closeEventOnMapModal}
+        />
       </div>
     )
   }

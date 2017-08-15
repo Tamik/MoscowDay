@@ -62,8 +62,14 @@ export default class ListCard extends Component {
           containerStyle={{display: 'flex', padding: 0, marginBottom: 5}}
           onTouchTap={() => this.openEventsViewModal()}
         >
-          <CardMedia>
-            <img src='//placehold.it/100x110' width='100' height='110'/>
+          <CardMedia
+            style={{
+              height: '110px',
+              width: '100px',
+              backgroundSize: 'cover',
+              backgroundImage: 'url(http://io.yamblz.ru/i/events' + this.props.event.id + '_small.jpg)'
+            }}
+          >
           </CardMedia>
 
           <CardWrap>

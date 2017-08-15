@@ -81,7 +81,7 @@ export default class Favorites extends Component {
         >
           {this.state.favorites.length !== 0
             ? this.state.favorites.map(event => (
-              <Paper style={style} zDepth={0}>
+              <Paper key={event.id} style={style} zDepth={0}>
                 <ListCard key={event.id} event={event} parent={this} />
               </Paper>
             ))

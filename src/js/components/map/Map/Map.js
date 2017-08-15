@@ -315,12 +315,14 @@ export default class Map extends Component {
   }
 
   setZoom(newZoom) {
-    this.setState({
-      mapState: {
-        ...this.state.mapState,
-        zoom: newZoom,
-      },
-    })
+    if (this.isComponentMounted) {
+      this.setState({
+        mapState: {
+          ...this.state.mapState,
+          zoom: newZoom,
+        },
+      })
+    }
     this.doAutoPan = false
     if (this.props.panToLocation === undefined) {
       MapStore.setItem('map', this.state)

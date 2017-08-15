@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 
 import RaisedButton from 'material-ui/RaisedButton'
 import Popover from 'material-ui/Popover/Popover'
 import { Menu, MenuItem } from 'material-ui/Menu'
 
 import MDApi from 'utils/MDApi'
-
-moment.locale('ru')
 
 export default class DatePicker extends Component {
   constructor(props) {

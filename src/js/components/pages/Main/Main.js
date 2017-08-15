@@ -13,8 +13,8 @@ import { Timeline, Headings, Places } from './Tabs'
 
 const myTheme = {
   tabs: {
-    textColor: '#969696',
-    selectedTextColor: '#607d8b',
+    textColor: '#b7c2cc',
+    selectedTextColor: '#455A64',
   },
 }
 
@@ -40,7 +40,7 @@ const styles = {
     backgroundColor: 'white',
   },
   tab: {
-    fontSize: '18px !important',
+    fontSize: '14px',
   },
 }
 
@@ -85,13 +85,13 @@ export default class Main extends Component {
               className={'eventsTabs'}
               style={styles.tabs}
               inkBarStyle={{
-                backgroundColor: '#607d8b',
+                backgroundColor: '#455A64',
               }}
               tabItemContainerStyle={styles.tabsWrap}
               onChange={this.handleChange}
               value={this.state.slideIndex}
             >
-              <Tab label='Главное' value={0} style={styles.tab} disableTouchRipple />
+              <Tab label='Главное' value={0} style={styles.tab}  disableTouchRipple />
               <Tab label='Рубрики' value={1} style={styles.tab} disableTouchRipple />
               <Tab label='Места' value={2} style={styles.tab} disableTouchRipple />
             </Tabs>

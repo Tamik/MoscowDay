@@ -41,7 +41,7 @@ const IconWrap = styled.div`
 
 const CategoryTitle = styled.p`
   color: rgb(69, 90, 100);
-  font-size: 13pt;
+  font-size: 12pt;
 `
 
 

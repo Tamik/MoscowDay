@@ -10,14 +10,25 @@ import MDApi from 'utils/MDApi'
 
 const PageContent = styled.div`
   display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
   flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-grow: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
 `
 const TopBarWrap = styled.div`
 `
 const MapWrap = styled.div`
-  flex-grow: 1;
   display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  flex-grow: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
 `
 
 export default class Radar extends Component {

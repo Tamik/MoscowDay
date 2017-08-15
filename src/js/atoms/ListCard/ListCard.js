@@ -13,14 +13,23 @@ const FavoritesStore = localforage.createInstance({
 })
 
 const CardWrap = styled.div`
-  flex: 1;
   display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
   flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   justify-content: space-between;
+  -webkit-box-pack: center;
+  -webkit-justify-content: space-between;
+  flex: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
   padding: 10px;
 `
 const Title = styled.h2`
-  height: 55px;
+  height: 56px;
   margin-bottom: 10px;
   color: #000;
   font-size: 16px;
@@ -69,11 +78,15 @@ export default class ListCard extends Component {
     return (
       <div>
         <Card
+
           containerStyle={{
-            display: 'flex',
+            'display': 'flex',
+            'display': '-webkit-box',
+            'display': '-webkit-flex',
             padding: 0,
             marginBottom: 5,
           }}
+
           onTouchTap={() => this.openEventsViewModal()}
         >
           <CardMedia

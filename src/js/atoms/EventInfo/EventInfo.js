@@ -47,7 +47,6 @@ export default class EventInfo extends Component {
       isModalVisible: false,
       inFavorites: false,
     }
-    console.log(props);
   }
 
   componentDidMount() {
@@ -112,14 +111,17 @@ export default class EventInfo extends Component {
     return (
       <div>
         <Paper zDepth={0}>
+
           <Card
             style={{
               boxShadow: 'none',
+              webkitBoxShadow: 'none',
             }}
             containerStyle={{
               paddingBottom: 0,
             }}
           >
+
             <CardMedia
               style={{
                 height: '35vh',

@@ -10,9 +10,14 @@ import MDApi from 'utils/MDApi'
 
 const styles = {
   root: {
-    display: 'flex',
+    'display': 'flex',
+    'display': 'webkit-box',
+    'display': '-webkit-flex',
     flexWrap: 'wrap',
+    '-webkit-flex-wrap': 'wrap',
     justifyContent: 'space-around',
+    '-webkit-box-pack': 'space-around',
+    '-webkit-justify-content': 'center',
   },
 }
 

@@ -91,7 +91,7 @@ export default class EventsList extends Component {
           <ListCard key={item.id} event={item}/>
         ))}
         {this.state.endOfEvents ? ''
-          : <FlatButton label='Показать еще' onTouchTap={() => this.showMoreEvents()} />
+          : <FlatButton label='Показать еще' onClick={() => this.showMoreEvents()} />
         }
       </div>
     )

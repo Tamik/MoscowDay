@@ -11,6 +11,7 @@ import MDApi from 'utils/MDApi'
 export default class EventsList extends Component {
   constructor(props) {
     super(props)
+    const today = new Date()
     this.state = {
       id: props.event.id,
       type: props.event.type,
@@ -19,6 +20,7 @@ export default class EventsList extends Component {
       events: [],
       currentPage: 1,
       endOfEvents: false,
+      selectDate: today.getUTCDate(),
     }
   }
 
@@ -70,6 +72,12 @@ export default class EventsList extends Component {
     }
   }
 
+  filterEvents = (day) => {
+    this.setState({
+      selectDate: day,
+    })
+  }
+
   showMoreEvents = () => {
     this.setState({
       currentPage: ++this.state.currentPage,
@@ -93,10 +101,14 @@ export default class EventsList extends Component {
   render() {
     return (
       <div>
-        <DatePicker id={this.state.id} />
-        {this.state.events.map(item => (
-          <ListCard key={item.id} event={item} />
-        ))}
+        <DatePicker id={this.state.id} currentDate={this.state.selectDate} parent={this} />
+        {this.state.events.map((event) => {
+          if (event.dateFormatted.day === this.state.selectDate) {
+            return (
+              <ListCard key={event.id} event={event} />
+            )
+          }
+        })}
         {this.state.endOfEvents
           ? ''
           : <FlatButton

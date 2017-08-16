@@ -9,7 +9,8 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-import { Timeline, Headings, Places } from './Tabs'
+// import { Timeline, Headings, Places } from './Tabs'
+import { Timeline, Headings } from './Tabs'
 
 const myTheme = {
   tabs: {
@@ -117,12 +118,12 @@ export default class Main extends Component {
                 style={styles.tab}
                 disableTouchRipple
               />
-              <Tab
+              {/* <Tab
                 label='Места'
                 value={2}
                 style={styles.tab}
                 disableTouchRipple
-              />
+              /> */}
             </Tabs>
           </MuiThemeProvider>
           <SwipableViews
@@ -148,9 +149,9 @@ export default class Main extends Component {
             <div style={styles.slide}>
               <Headings />
             </div>
-            <div style={styles.slide}>
+            {/* <div style={styles.slide}>
               <Places />
-            </div>
+            </div> */}
           </SwipableViews>
         </ContentWrap>
       </PageContent>

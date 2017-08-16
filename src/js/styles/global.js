@@ -18,8 +18,23 @@ export const globalStyle = css`
     -webkit-text-size-adjust: none;
     -webkit-user-select: none;
   }
-  
   .eventsTabs > div:nth-child(2){
     margin: auto;
+  }
+  .timelineItem:last-child {
+    border: none;
+  }
+  .timelineLine::before {
+    content: "";
+    display: block;
+    position: relative;
+    left: 3px;
+    top: 7px;
+    width: 1px;
+    height: 63px;
+    background-color: #607D8B;
+  }
+  .timelineItem:last-child .timelineLine::before{
+    display: none;
   }
 `

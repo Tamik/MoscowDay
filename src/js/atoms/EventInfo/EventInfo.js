@@ -11,11 +11,6 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { Modal } from 'components/modals'
 import EventOnMap from 'atoms/EventOnMap'
 
-import IconCalendar from 'material-ui/svg-icons/action/date-range'
-import IconClock from 'material-ui/svg-icons/device/access-time'
-import IconPlace from 'material-ui/svg-icons/maps/place'
-import IconArrowBot from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 

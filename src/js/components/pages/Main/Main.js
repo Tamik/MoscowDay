@@ -13,7 +13,7 @@ import { Timeline, Headings, Places } from './Tabs'
 
 const myTheme = {
   tabs: {
-    textColor: '#b7c2cc',
+    textColor: '#B7C2CC',
     selectedTextColor: '#455A64',
   },
 }
@@ -26,7 +26,6 @@ const styles = {
     fontWeight: 400,
   },
   slide: {
-    padding: 8,
     overflowY: 'scroll',
     WebkitOverflowScroll: 'touch',
   },
@@ -37,7 +36,7 @@ const styles = {
     height: 40,
     width: '80%',
     margin: '0 auto',
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
   },
   tab: {
     fontSize: '14px',
@@ -46,30 +45,16 @@ const styles = {
 
 const PageContent = styled.div`
   display: flex;
-  display: -webkit-box;
-  display: -webkit-flex;
   flex-direction: column;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   flex-grow: 1;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
 `
 
 const TopBarWrap = styled.div``
 
 const ContentWrap = styled.div`
   display: flex;
-  display: -webkit-box;
-  display: -webkit-flex;
   flex-direction: column;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   flex-grow: 1;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
 `
 
 export default class Main extends Component {
@@ -99,7 +84,7 @@ export default class Main extends Component {
               className={'eventsTabs'}
               style={styles.tabs}
               inkBarStyle={{
-                backgroundColor: '#455A64',
+                backgroundColor: '#607D8B',
               }}
               tabItemContainerStyle={styles.tabsWrap}
               onChange={this.handleChange}

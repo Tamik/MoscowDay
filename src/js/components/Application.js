@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import localforage from 'localforage'
 import { HashRouter as Router, Route } from 'react-router-dom'
+import localforage from 'localforage'
 import styled from 'styled-components'
-import { Paper } from 'material-ui'
-import { Main, Favorites, Radar } from './pages'
 
+import Paper from 'material-ui/Paper'
+
+import { Main, Favorites, Radar } from './pages'
 import { NavigationBar } from '../molecules'
 
 const MapStore = localforage.createInstance({
@@ -38,7 +39,6 @@ const ContentWrap = styled.div`
 `
 
 export default class Application extends Component {
-
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {

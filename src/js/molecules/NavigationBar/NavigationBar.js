@@ -12,7 +12,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 const myTheme = {
   bottomNavigation: {
     selectedColor: '#607D8B',
-    unselectedColor: '#b7c2cc',
+    unselectedColor: '#B7C2CC',
     unselectedFontSize: '10pt',
     selectedFontSize: '10pt',
   },

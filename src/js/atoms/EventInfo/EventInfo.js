@@ -11,11 +11,6 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { Modal } from 'components/modals'
 import EventOnMap from 'atoms/EventOnMap'
 
-import IconCalendar from 'material-ui/svg-icons/action/date-range'
-import IconClock from 'material-ui/svg-icons/device/access-time'
-import IconPlace from 'material-ui/svg-icons/maps/place'
-import IconArrowBot from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
@@ -176,31 +171,63 @@ export default class EventInfo extends Component {
             <ListItem
               primaryText={`${this.props.event.dateFormatted.day} ${this.props.event.dateFormatted.month}`}
               style={styles.item}
-              leftIcon={<IconCalendar />}
+              disabled
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.MODULE_EVENTS}
+                  color='#455A64'
+                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  viewBox='0 0 33 32'
+                />
+              }
             />
             <Divider />
             <ListItem
               primaryText={this.props.event.dateFormatted.time}
               style={styles.item}
-              leftIcon={<IconClock />}
+              disabled
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.CLOCK}
+                  color='#455A64'
+                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  viewBox='0 0 610 620'
+                />
+              }
             />
             <Divider />
             <ListItem
               primaryText={this.props.event.location_title}
               style={styles.item}
-              leftIcon={<IconPlace />}
               onClick={this.openEventOnMapModal}
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.MODULE_RADAR}
+                  color='#455A64'
+                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  viewBox='0 0 520 510'
+                />
+              }
             />
             <Divider />
             <ListItem
               primaryText="Описание"
               style={styles.item}
-              leftIcon={<IconArrowBot />}
+              disabled
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.ARROW_DOWN}
+                  color='#455A64'
+                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  viewBox='-8 0 80 60'
+                />
+              }
             />
             <Divider />
             <ListItem
               primaryText={this.props.event.description}
               style={styles.item}
+              disabled
             />
           </List>
         </Paper>

@@ -50,32 +50,35 @@ export default class Radar extends Component {
   componentDidMount() {
     this.isComponentMounted = true
 
-    const date = new Date()
-    const month = '0'.concat(date.getMonth() + 1).slice(-2)
-    const day = '0'.concat(date.getDate()).slice(-2)
+    // @TODO: ПОка что перенесено в map, так как из-за ассинхронности возникают баги
+    // const date = new Date()
+    // const month = '0'.concat(date.getMonth() + 1).slice(-2)
+    // const day = '0'.concat(date.getDate()).slice(-2)
 
-    MDApi.getEvents({
-      items_per_page: 500, // all on today
-      /**
-       * date = today
-       * @todo: Решить проблему с разницей в часовых поясах
-       */
-      date: `${date.getFullYear()}-${month}-${day}`,
-    })
-      .then((response) => {
-        return response.json()
-      })
-      .then((response) => {
-        if (!this.isComponentMounted) {
-          return
-        }
-        this.setState({
-          events: response.data,
-        })
-      }).catch((err) => {
-        // @todo: resolve errors
-        // console.log(err)
-      })
+    // MDApi.getEvents({
+    //   items_per_page: 500, // all on today
+    //   /**
+    //    * date = today
+    //    * @todo: Решить проблему с разницей в часовых поясах
+    //    */
+    //   date: `${date.getFullYear()}-${month}-${day}`,
+    // })
+    //   .then((response) => {
+    //     return response.json()
+    //   })
+    //   .then((response) => {
+    //     if (!this.isComponentMounted) {
+    //       return
+    //     }
+    //     console.log('Radar loaded events: ', response.data)
+
+    //     this.setState({
+    //       events: response.data,
+    //     })
+    //   }).catch((err) => {
+    //     // @todo: resolve errors
+    //     // console.log(err)
+    //   })
   }
 
   componentWillUnmount() {

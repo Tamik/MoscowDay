@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import localforage from 'localforage'
+import styled from 'styled-components'
 import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
+
+import MDApi from 'utils/MDApi'
 
 const MapStore = localforage.createInstance({
   name: 'Map',
@@ -40,6 +43,63 @@ const MYLOCATION_PLACEMARK_OPTIONS = {
   preset: MYLOCATION_STYLE_PRESET,
 }
 
+const YMapsWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+`
+
+const BalloonLayout = styled.div`
+  position: absolute;
+  bottom: 2px;
+  background: #fff;
+  width: 100%;
+`
+const BalloonInner = styled.div`
+  padding: 5px;
+  background: #eff1f2;
+`
+const BalloonTopBar = styled.div`
+`
+const BtnClose = styled.div`
+  color: #607D8B;
+  height: 40px;
+  line-height: 40px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 11pt;
+  border-radius: 2px;
+  background: #fff;
+  border-bottom: 1px solid #CFD8DC;
+  border-right: 1px solid #CFD8DC;
+`
+const BalloonItemsWrap = styled.div`
+  max-height: 55vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+`
+const BalloonEventItem = styled.div`
+  margin-bottom: 5px;
+  border-bottom: 1px solid #CFD8DC;
+  padding: 10px;
+  border-radius: 2px;
+  border-right: 1px solid #CFD8DC;
+  border-bottom: 1px solid #CFD8DC;
+  background: #fff;
+`
+const BalloonEventTitle = styled.div`
+  color: #455A64;
+  font-size: 13pt;
+  font-weight: bold;
+`
+const BalloonEventMeta = styled.div`
+  margin-top: 4px;
+  color: #455A64; 
+`
+
+
 export default class Map extends Component {
   constructor(props) {
     super(props)
@@ -65,6 +125,7 @@ export default class Map extends Component {
         lat: 0,
         lng: 0,
       },
+      balloonItemsPreview: null,
       mapState: {
         center: props.initCenter || [55.751574, 37.573856],
         zoom: props.zoom || INIT_ZOOM,
@@ -76,6 +137,9 @@ export default class Map extends Component {
     this.onMapsApiReady = this.onMapsApiReady.bind(this)
     this.onGeolocationSuccess = this.onGeolocationSuccess.bind(this)
     this.onGeolocationError = this.onGeolocationError.bind(this)
+
+    this.closeBalloon = this.closeBalloon.bind(this)
+    this.openEventModal = this.openEventModal.bind(this)
   }
 
   componentDidMount() {
@@ -86,6 +150,8 @@ export default class Map extends Component {
     this.isComponentMounted = false
     this.stopWatchGeolocation()
     this.watchLocationID = 0
+
+    this.state.balloonItemsPreview = null
 
     if (this.props.panToLocation === undefined) {
       MapStore.setItem('map', this.state)
@@ -201,68 +267,54 @@ export default class Map extends Component {
       return
     }
 
-    const geoObjects = []
 
-    // Creating placemarks
-    this.props.points.map((point, idx) => {
-      geoObjects.push(this.createPlacemark(point, idx))
-      return point
-    })
+    const afterEventsLoaded = () => {
+      const geoObjects = []
 
-    // Adding placemarks on map via clusterer
-    if (!this.props.isOneEvent) {
-      refClusterer.add(geoObjects)
-      this.map.geoObjects.add(refClusterer)
-    } else {
-      this.map.geoObjects.add(geoObjects[0])
-    }
-
-    // Clic handler on btn More on balloon
-    const onClickBtnMore = (ev) => {
-      if (ev.target
-        && this.lastOpenedBalloon
-        && ev.target.getAttribute('id') === 'mapBtnMore') {
-        const btnMore = this.lastOpenedBalloon.querySelector('#mapBtnMore')
-        const idx = btnMore.getAttribute('data-point-idx')
-        const point = this.props.parent.state.events[idx]
-
-        this.props.parent.setState({
-          payload: point,
-          isModalVisible: true,
-          modalTitle: point.title,
-        })
-      }
-    }
-
-    // Добавляем кнопку - Перейти к моему местоположению
-    const btnGoToMyLocation = new yMapsApi.control.Button(
-      {
-        data: {
-          content: '<strong>Где Я?</strong>',
-        },
-        options: {
-          selectOnClick: false,
-        },
-      }
-    )
-
-    btnGoToMyLocation.events.add('click', (e) => {
-      this.map.panTo([this.state.myLocationPoint.lat, this.state.myLocationPoint.lng], {
-        duration: 1000,
-        flying: true,
-      }).then(() => {
-        this.map.setZoom(MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
+      // Creating placemarks
+      this.state.points.map((eventData) => {
+        geoObjects.push(this.createPlacemark(eventData, eventData.id))
+        return eventData
       })
-    })
 
-    this.map.controls.add(btnGoToMyLocation, { float: 'right' })
+      // console.log('added placemark: ', this.state.points)
 
-    // Добавляем кнопку - Вернуться к событию
-    if (this.props.panToLocation !== undefined) {
-      const btnGoToEventLocation = new yMapsApi.control.Button(
+      // refClusterer.options.set('hasBalloon', false)
+
+      refClusterer.events.add('click', (e) => {
+        const items = []
+
+        // One event?
+        if (e.get('target').getGeoObjects === undefined) {
+          const placemark = e.get('target')
+          const eventData = placemark.properties.get('eventData')
+          items.push(eventData)
+        } else {
+          // Clustered events
+          const objects = e.get('target').getGeoObjects()
+          objects.map((item) => {
+            const eventData = item.properties.get('eventData')
+            items.push(eventData)
+          })
+        }
+        if (items.length) {
+          this.openBalloon(items)
+        }
+      })
+
+      // Adding placemarks on map via clusterer
+      if (!this.props.isOneEvent) {
+        refClusterer.add(geoObjects)
+        this.map.geoObjects.add(refClusterer)
+      } else {
+        this.map.geoObjects.add(geoObjects[0])
+      }
+
+      // Добавляем кнопку - Перейти к моему местоположению
+      const btnGoToMyLocation = new yMapsApi.control.Button(
         {
           data: {
-            content: '<strong>Событие</strong>',
+            content: '<strong>Где Я?</strong>',
           },
           options: {
             selectOnClick: false,
@@ -270,48 +322,105 @@ export default class Map extends Component {
         }
       )
 
-      btnGoToEventLocation.events.add('click', (e) => {
-        this.map.panTo(this.props.panToLocation, {
+      btnGoToMyLocation.events.add('click', (e) => {
+        this.map.panTo([this.state.myLocationPoint.lat, this.state.myLocationPoint.lng], {
           duration: 1000,
           flying: true,
-          checkZoomRange: true,
         }).then(() => {
-          this.map.setZoom(this.props.zoom || MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
+          this.map.setZoom(MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
         })
       })
 
-      this.map.controls.add(btnGoToEventLocation, { float: 'left' })
+      this.map.controls.add(btnGoToMyLocation, { float: 'right' })
+
+      // Добавляем кнопку - Вернуться к событию
+      if (this.props.panToLocation !== undefined) {
+        const btnGoToEventLocation = new yMapsApi.control.Button(
+          {
+            data: {
+              content: '<strong>Событие</strong>',
+            },
+            options: {
+              selectOnClick: false,
+            },
+          }
+        )
+
+        btnGoToEventLocation.events.add('click', (e) => {
+          this.map.panTo(this.props.panToLocation, {
+            duration: 1000,
+            flying: true,
+            checkZoomRange: true,
+          }).then(() => {
+            this.map.setZoom(this.props.zoom || MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
+          })
+        })
+
+        this.map.controls.add(btnGoToEventLocation, { float: 'left' })
+      }
+
+      this.map.events.add('multitouchstart', (e) => {
+        this.doAutoPan = false
+        if (this.isBalloonOpened()) {
+          this.closeBalloon()
+        }
+      })
+
+      this.map.events.add('mousedown', (e) => {
+        this.doAutoPan = false
+        if (this.isBalloonOpened()) {
+          this.closeBalloon()
+        }
+      })
+
+      setTimeout(() => {
+        this.watchLocationID = navigator.geolocation.watchPosition(
+          this.onGeolocationSuccess,
+          this.onGeolocationError,
+          {
+            timeout: GEOLOCATION_WATCH_TIMEOUT,
+            enableHighAccuracy: true,
+            maximumAge: 3000,
+          }
+        )
+      }, 10)
     }
 
 
-    this.map.events.add('balloonopen', (e) => {
-      this.lastOpenedBalloon = document.querySelector('.ymaps-2-1-53-balloon__content')
-      this.lastOpenedBalloon.addEventListener('click', onClickBtnMore)
-    })
+    //
+    // @TODO: Refactoring quick govnocode
+    //
+    if (this.props.isOneEvent) {
+      afterEventsLoaded()
+    } else {
+      const date = new Date()
+      const month = '0'.concat(date.getMonth() + 1).slice(-2)
+      const day = '0'.concat(date.getDate()).slice(-2)
 
-    this.map.events.add('balloonclose', (e) => {
-      this.lastOpenedBalloon.removeEventListener('click', onClickBtnMore)
-    })
+      MDApi.getEvents({
+        items_per_page: 500, // all on today
+        /**
+         * date = today
+         * @todo: Решить проблему с разницей в часовых поясах
+         */
+        date: `${date.getFullYear()}-${month}-${day}`,
+      })
+        .then((response) => {
+          return response.json()
+        })
+        .then((response) => {
+          if (!this.isComponentMounted) {
+            return
+          }
+          // console.log('Radar loaded events: ', response.data)
 
-    this.map.events.add('multitouchstart', (e) => {
-      this.doAutoPan = false
-    })
-
-    this.map.events.add('mousedown', (e) => {
-      this.doAutoPan = false
-    })
-
-    setTimeout(() => {
-      this.watchLocationID = navigator.geolocation.watchPosition(
-        this.onGeolocationSuccess,
-        this.onGeolocationError,
-        {
-          timeout: GEOLOCATION_WATCH_TIMEOUT,
-          enableHighAccuracy: true,
-          maximumAge: 3000,
-        }
-      )
-    }, 10)
+          this.state.points = response.data
+          afterEventsLoaded()
+        }).catch((err) => {
+          // @todo: resolve errors
+          // console.log(err)
+        })
+    }
   }
 
   setZoom(newZoom) {
@@ -339,31 +448,15 @@ export default class Map extends Component {
     this.doAutoPan = false
   }
 
-  getPlaceMarkContent(item, idx) {
-    if (this.props.isOneEvent !== undefined
-      && this.props.isOneEvent === true) {
-      return {}
-    }
-    return {
-      balloonContentBody: `
-        <div>
-          <h3 style="color:#455A64">${item.title}</h3>
-          <div style="margin-top:4px">
-            <span style="color:#607D8B">Когда:</span> <strong>${item.dateFormatted.time}, ${item.dateFormatted.day} ${item.dateFormatted.month}</strong><br />
-            <span style="color:#607D8B">Где:</span> ${item.location_title}
-          </div>
-          <div style="margin-top:4px;border:1px solid #90A4AE;height:32px;line-height:32px;text-align:center;color:#455A64;border-radius:3px;" data-point-idx="${idx}" class="btn-more" id="mapBtnMore">Подробнее</div>
-        </div>`,
-      clusterCaption: `Событие ${idx}`,
-    }
-  }
-
-  createPlacemark(pointData, idx) {
+  createPlacemark(eventData, eventId) {
     const placemark = new yMapsApi.Placemark(
-      [pointData.lat, pointData.lng],
-      this.getPlaceMarkContent(pointData, idx),
+      [eventData.lat, eventData.lng],
+      {
+        eventData,
+      }, // for empty balloon
       this.props.placemarkOptions || EVENT_PLACEMARK_OPTIONS,
     )
+
     return placemark
   }
 
@@ -372,46 +465,112 @@ export default class Map extends Component {
       navigator.geolocation.clearWatch(this.watchLocationID)
     }
   }
-  /* height={this.props.height || '100%'} */
+
+  isBalloonOpened() {
+    return this.state.balloonItemsPreview !== null
+  }
+  openBalloon(items) {
+    this.setState({
+      balloonItemsPreview: items,
+    })
+  }
+
+  closeBalloon() {
+    this.setState({
+      balloonItemsPreview: null,
+    })
+  }
+
+  openEventModal(eventId) {
+    const eventData = this.state.points.filter((item) => {
+      return eventId === item.id
+    })
+
+    if (eventData.length) {
+      this.props.parent.setState({
+        payload: eventData[0],
+        isModalVisible: true,
+        modalTitle: eventData[0].title,
+      })
+    }
+    return false
+  }
+
   render() {
     return (
-      <YMaps onApiAvaliable={this.onMapsApiReady}>
-        <YMap
-          state={this.state.mapState}
-          instanceRef={(ref) => {
-            this.onMapInited(ref)
-          }}
-          options={{
-            minZoom: MIN_ZOOM,
-            yandexMapDisablePoiInteractivity: true,
-            suppressMapOpenBlock: true,
-          }}
-          width={this.props.width || '100%'}
-          height={this.props.height || '100%'}
-        >
-          <Clusterer
+      <YMapsWrap className="yandex-maps-wrap">
+        <YMaps onApiAvaliable={this.onMapsApiReady}>
+          <YMap
+            state={this.state.mapState}
             instanceRef={(ref) => {
-              this.oncClustererInited(ref)
+              this.onMapInited(ref)
             }}
             options={{
-              preset: CLUSTER_STYLE_PRESET,
-              groupByCoordinates: false,
-              clusterDisableClickZoom: false,
-              clusterHideIconOnBalloonOpen: false,
-              geoObjectHideIconOnBalloonOpen: false,
+              minZoom: MIN_ZOOM,
+              yandexMapDisablePoiInteractivity: true,
+              suppressMapOpenBlock: true,
             }}
-          />
-          {this.state.myLocationPoint.lat ? (
-            <Placemark
-              key={'mylocation'}
-              geometry={{
-                coordinates: [this.state.myLocationPoint.lat, this.state.myLocationPoint.lng],
+            width={this.props.width || '100%'}
+            height={this.props.height || '100%'}
+          >
+            <Clusterer
+              instanceRef={(ref) => {
+                this.oncClustererInited(ref)
               }}
-              options={MYLOCATION_PLACEMARK_OPTIONS}
+              options={{
+                preset: CLUSTER_STYLE_PRESET,
+                groupByCoordinates: false,
+                hasBalloon: false,
+                clusterDisableClickZoom: false,
+                clusterHideIconOnBalloonOpen: false,
+                geoObjectHideIconOnBalloonOpen: false,
+              }}
             />
-          ) : ''}
-        </YMap>
-      </YMaps>
+            {this.state.myLocationPoint.lat ? (
+              <Placemark
+                key={'mylocation'}
+                geometry={{
+                  coordinates: [this.state.myLocationPoint.lat, this.state.myLocationPoint.lng],
+                }}
+                options={MYLOCATION_PLACEMARK_OPTIONS}
+              />
+            ) : ''}
+          </YMap>
+        </YMaps>
+        <BalloonLayout
+          style={{ display: this.state.balloonItemsPreview ? 'block' : 'none' }}
+        >
+          <BalloonInner>
+            <BalloonTopBar onClick={this.closeBalloon}>
+              <BtnClose>Закрыть</BtnClose>
+            </BalloonTopBar>
+            <BalloonItemsWrap>
+              {this.state.balloonItemsPreview
+                ? this.state.balloonItemsPreview.map((item, idx) => {
+                  return (
+                    <BalloonEventItem
+                      key={item.id}
+                      data-event-id={item.id}
+                      onClick={() => {
+                        this.openEventModal(item.id)
+                      }}
+                    >
+                      <BalloonEventTitle>{item.title}</BalloonEventTitle>
+                      <BalloonEventMeta>
+                        <span>
+                          {item.dateFormatted.time}, {item.dateFormatted.day} {item.dateFormatted.month}
+                        </span><br />
+                        {item.location_title}
+                      </BalloonEventMeta>
+                    </BalloonEventItem>
+                  )
+                })
+                : ''
+              }
+            </BalloonItemsWrap>
+          </BalloonInner>
+        </BalloonLayout>
+      </YMapsWrap>
     )
   }
 }

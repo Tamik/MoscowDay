@@ -15,29 +15,30 @@ import IconCalendar from 'material-ui/svg-icons/action/date-range'
 import IconClock from 'material-ui/svg-icons/device/access-time'
 import IconPlace from 'material-ui/svg-icons/maps/place'
 import IconArrowBot from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-import IconEmptyStar from 'material-ui/svg-icons/toggle/star-border'
-import IconFullStar from 'material-ui/svg-icons/toggle/star'
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+
+import Icon from 'atoms/Icon'
+import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
+
+const myTheme = {
+  floatingActionButton: {
+    //buttonSize: 56,
+    //miniSize: 40,
+    secondaryColor: '#d32f2f',
+  }
+}
 
 const styles = {
   item: {
     fontSize: 14,
   },
 }
-
-//TODO
-// const Button = styled.button`
-//   position: absolute;
-//   bottom: 25%;
-//   right: 30px;
-//   padding: 5px;
-//   background-color: white;
-//   border-radius: 50%;
-//   border: 2px solid #616161;
-// `
 
 export default class EventInfo extends Component {
   constructor(props) {
@@ -115,7 +116,7 @@ export default class EventInfo extends Component {
           <Card
             style={{
               boxShadow: 'none',
-              webkitBoxShadow: 'none',
+              WebkitBoxShadow: 'none',
             }}
             containerStyle={{
               paddingBottom: 0,
@@ -142,27 +143,27 @@ export default class EventInfo extends Component {
                 lineHeight: '1.2em',
               }}
             >
-              <FloatingActionButton
-                onTouchTap={() => this.handleFavorites(this.props.event.id, this.props.event)}
-                backgroundColor='#fff'
-                mini
-                style={{
-                  position: 'absolute',
-                  bottom: -20,
-                  right: 20,
-                  width: 40,
-                  height: 40,
-                  zIndex: 1000,
-                }}
-                iconStyle={{
-                  fill: '#455a64',
-                }}
-              >
-                {this.state.inFavorites
-                  ? <IconFullStar />
-                  : <IconEmptyStar />
-                }
-              </FloatingActionButton>
+              <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
+                <FloatingActionButton
+                  onTouchTap={() => this.handleFavorites(this.props.event.id, this.props.event)}
+                  secondary={this.state.inFavorites}
+                  backgroundColor='#fff'
+                  style={{
+                    position: 'absolute',
+                    bottom: -28,
+                    right: 20,
+                    zIndex: 1000,
+                  }}
+                  iconStyle={{
+                    fill: '#455A64',
+                  }}
+                >
+                  {this.state.inFavorites
+                    ? <Icon path={UiIconsPack.ADD_TO_FAV} size='25px' color='#fff' viewBox='0 0 480 470' />
+                    : <Icon path={UiIconsPack.MODULE_FAVS} size='25px' viewBox='0 0 480 470' />
+                  }
+                </FloatingActionButton>
+              </MuiThemeProvider>
             </CardTitle>
           </Card>
 

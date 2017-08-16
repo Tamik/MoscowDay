@@ -78,11 +78,10 @@ export default class ListCard extends Component {
     return (
       <div>
         <Card
-
           containerStyle={{
-            'display': 'flex',
-            'display': '-webkit-box',
-            'display': '-webkit-flex',
+            display: 'flex',
+            display: '-webkit-box',
+            display: '-webkit-flex',
             padding: 0,
             marginBottom: 5,
           }}

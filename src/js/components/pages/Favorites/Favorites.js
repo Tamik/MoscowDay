@@ -15,7 +15,7 @@ const FavoritesStore = localforage.createInstance({
 const PageContent = styled.div`
   display: flex;
   display: -webkit-box;
-  'display': '-webkit-flex';
+  display: -webkit-flex;
   flex-direction: column;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;

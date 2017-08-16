@@ -131,12 +131,12 @@ export default class Main extends Component {
               display: '-webkit-box',
               display: '-webkit-flex',
               flex: 1,
-              '-webkit-box-flex': 1,
-              '-webkit-flex': 1,
+              WebkitBoxFlex: 1,
+              WebkitFlex: 1,
               flexDirection: 'column',
-              '-webkit-box-orient': 'vertical',
-              '-webkit-box-direction': 'normal',
-              '-webkit-flex-direction': 'column',
+              WebkitBoxOrient: 'vertical',
+              WebkitBoxDirection: 'normal',
+              WebkitFlexDirection: 'column',
             }}
             index={this.state.slideIndex}
             onChangeIndex={this.handleChange}

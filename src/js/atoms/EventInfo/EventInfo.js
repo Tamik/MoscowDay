@@ -176,31 +176,63 @@ export default class EventInfo extends Component {
             <ListItem
               primaryText={`${this.props.event.dateFormatted.day} ${this.props.event.dateFormatted.month}`}
               style={styles.item}
-              leftIcon={<IconCalendar />}
+              disabled
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.MODULE_EVENTS}
+                  color='#455A64'
+                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  viewBox='0 0 33 32'
+                />
+              }
             />
             <Divider />
             <ListItem
               primaryText={this.props.event.dateFormatted.time}
               style={styles.item}
-              leftIcon={<IconClock />}
+              disabled
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.CLOCK}
+                  color='#455A64'
+                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  viewBox='0 0 610 620'
+                />
+              }
             />
             <Divider />
             <ListItem
               primaryText={this.props.event.location_title}
               style={styles.item}
-              leftIcon={<IconPlace />}
               onClick={this.openEventOnMapModal}
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.MODULE_RADAR}
+                  color='#455A64'
+                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  viewBox='0 0 520 510'
+                />
+              }
             />
             <Divider />
             <ListItem
               primaryText="Описание"
               style={styles.item}
-              leftIcon={<IconArrowBot />}
+              disabled
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.ARROW_DOWN}
+                  color='#455A64'
+                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  viewBox='-8 0 80 60'
+                />
+              }
             />
             <Divider />
             <ListItem
               primaryText={this.props.event.description}
               style={styles.item}
+              disabled
             />
           </List>
         </Paper>

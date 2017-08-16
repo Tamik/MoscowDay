@@ -134,6 +134,7 @@ export default class EventInfo extends Component {
               titleStyle={{
                 color: '#fff',
                 fontSize: 16,
+                paddingBottom: '25px',
                 fontWeight: 'bold',
                 lineHeight: '1.2em',
               }}
@@ -154,8 +155,8 @@ export default class EventInfo extends Component {
                   }}
                 >
                   {this.state.inFavorites
-                    ? <Icon path={UiIconsPack.ADD_TO_FAV} size='25px' color='#fff' viewBox='0 0 480 470' />
-                    : <Icon path={UiIconsPack.MODULE_FAVS} size='25px' viewBox='0 0 480 470' />
+                    ? <Icon path={UiIconsPack.ADD_TO_FAV} size='24px' style={{height: 24, margin: '16px',}} color='#fff' viewBox='0 0 500 480' />
+                    : <Icon path={UiIconsPack.MODULE_FAVS} size='24px' style={{height: 24, margin: '16px',}} viewBox='0 0 500 480' />
                   }
                 </FloatingActionButton>
               </MuiThemeProvider>

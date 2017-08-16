@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
+
 import localforage from 'localforage'
 import Paper from 'material-ui/Paper'
 

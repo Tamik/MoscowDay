@@ -112,6 +112,7 @@ export default class EventInfo extends Component {
             style={{
               boxShadow: 'none',
               WebkitBoxShadow: 'none',
+
             }}
             containerStyle={{
               paddingBottom: 0,

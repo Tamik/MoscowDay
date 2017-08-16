@@ -6,6 +6,10 @@ import { EventInfo } from 'atoms'
 import { TopBar } from 'molecules'
 
 
+const onScroll = (e) => {
+  console.log(e)
+}
+
 const Modal = props => {
   return (
     <div>
@@ -16,6 +20,7 @@ const Modal = props => {
         style={{
           overlay: {
             zIndex: 1200,
+            overflowY: 'hidden',
           },
           content: {
             border: 'none',
@@ -25,16 +30,21 @@ const Modal = props => {
             left: 0,
             right: 0,
             bottom: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            flexShrink: 1,
+            overflowY: 'hidden',
           },
         }}
       >
         <TopBar
-          isVisible = {props.isVisibleTopBar}
-          close = {props.close}
-          title = {props.title}
-        />
-
+        isVisible = {props.isVisibleTopBar}
+        close = {props.close}
+        title = {props.title}
+      />
+      <div style={{ overflowY:'auto', flex: 1,}}>
         {props.content}
+      </div>
       </ReactModal>
     </div>
   )

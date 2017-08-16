@@ -10,14 +10,14 @@ import MDApi from 'utils/MDApi'
 
 const styles = {
   root: {
-    'display': 'flex',
-    'display': 'webkit-box',
-    'display': '-webkit-flex',
+    display: 'flex',
+    display: 'webkit-box',
+    display: '-webkit-flex',
     flexWrap: 'wrap',
-    '-webkit-flex-wrap': 'wrap',
+    WebkitFlexWrap: 'wrap',
     justifyContent: 'space-around',
-    '-webkit-box-pack': 'space-around',
-    '-webkit-justify-content': 'center',
+    WebkitBoxPack: 'space-around',
+    WebkitJustifyContent: 'center',
   },
 }
 
@@ -25,20 +25,20 @@ const ICON_COLOR = '#607D8B'
 
 const GridList = styled.div`
   display: flex;
-  'display': 'webkit-box';
-  'display': '-webkit-flex';
+  display: webkit-box;
+  display: -webkit-flex;
   flex-wrap: wrap;
-  '-webkit-flex-wrap': 'wrap';
+  -webkit-flex-wrap: wrap;
   justify-content: space-around;
-  '-webkit-box-pack': 'space-around';
-  '-webkit-justify-content': 'center';
+  -webkit-box-pack: space-around;
+  -webkit-justify-content: center;
   padding-bottom: 10px;
   overflow-y: auto;
 `
 const GridItem = styled.div`
   display: flex;
-  'display': 'webkit-box',
-  'display': '-webkit-flex',
+  display: webkit-box,
+  display: -webkit-flex,
   flex-basis: 150px;
   -webkit-flex-basis: 150px;
   flex-direction: column;

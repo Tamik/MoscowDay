@@ -41,7 +41,7 @@ const styles = {
 const GridList = styled.div`
   display: flex;
   display: -webkit-box;
-  display: -webkit-flex
+  display: -webkit-flex;
   flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   justify-content: space-between;
@@ -60,7 +60,7 @@ const Image = styled.img`
   width: 100%;
   height: 80px;
   margin-bottom: 5px;
-  // object-fit: cover;
+  object-fit: cover;
 `
 
 export default class Places extends Component {

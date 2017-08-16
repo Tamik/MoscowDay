@@ -114,8 +114,7 @@ export default class Radar extends Component {
           />
           <Modal
             isOpen={this.state.isModalVisible}
-            isVisibleTopBar
-            title={this.state.modalTitle}
+            isVisibleTopBar={false}
             content={<EventInfo event={this.state.payload} />}
             close={this.closeEventsModal}
           />

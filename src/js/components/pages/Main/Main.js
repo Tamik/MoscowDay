@@ -28,7 +28,6 @@ const styles = {
   },
   slide: {
     overflowY: 'scroll',
-    WebkitOverflowScroll: 'touch',
   },
   tabs: {
     borderBottom: '1px solid #dbe2e5',
@@ -123,6 +122,9 @@ export default class Main extends Component {
               WebkitBoxOrient: 'vertical',
               WebkitBoxDirection: 'normal',
               WebkitFlexDirection: 'column',
+              WebkitOverflowScrolling: 'touch',
+              overflowScrolling: 'touch',
+              touchAction: 'auto',
             }}
             index={this.state.slideIndex}
             onChangeIndex={this.handleChange}

@@ -23,6 +23,7 @@ export default class EventsList extends Component {
       endOfEvents: false,
       selectDate: today.getUTCDate(),
       loading: true,
+      nextPageLoading: false,
     }
   }
 
@@ -49,6 +50,7 @@ export default class EventsList extends Component {
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
           loading: false,
+          nextPageLoading: false,
         })
       })
         break
@@ -69,6 +71,7 @@ export default class EventsList extends Component {
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
           loading: false,
+          nextPageLoading: false,
         })
       })
         break
@@ -85,6 +88,7 @@ export default class EventsList extends Component {
   showMoreEvents = () => {
     this.setState({
       currentPage: ++this.state.currentPage,
+      nextPageLoading: true,
     })
     this.getEvents()
   }
@@ -125,7 +129,10 @@ export default class EventsList extends Component {
         {this.state.endOfEvents
           ? ''
           : <FlatButton
-            label='Показать еще'
+            label={this.state.nextPageLoading
+              ? 'Загрузка...'
+              : 'Показать еще'
+            }
             style={{
               display: 'block',
               width: '100%',

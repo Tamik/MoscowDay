@@ -391,6 +391,11 @@ export default class Map extends Component {
           }
         )
       }, 10)
+
+
+      this.setState({
+        loading: false,
+      })
     }
 
 

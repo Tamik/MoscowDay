@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import localforage from 'localforage'
 
-import styled from 'styled-components'
 
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
@@ -131,12 +131,13 @@ export default class Timeline extends Component {
               className='timelineItem'
               onClick={() => this.openEventsModal(event.id, event.title, event)}
             >
-
               <Time
                 style={
                   event.is_bold
-                  ? {fontWeight: 'bold',}
-                  : null
+                    ? {
+                      fontWeight: 'bold',
+                    }
+                    : null
                 }
               >
                 {event.dateFormatted.time}
@@ -145,15 +146,19 @@ export default class Timeline extends Component {
                 className='timelineLine'
                 style={
                   event.is_bold
-                    ? {backgroundColor: '#607D8B',}
+                    ? {
+                      backgroundColor: '#607D8B',
+                    }
                     : null
                 }
-              >
-              </Line>
+              />
               <Title
                 style={
                   event.is_bold
-                    ? {fontWeight: 'bold',color: '#263238',}
+                    ? {
+                      fontWeight: 'bold',
+                      color: '#263238',
+                    }
                     : null
                 }
               >{event.title}</Title>
@@ -161,10 +166,10 @@ export default class Timeline extends Component {
           ))}
         </List>
         <Modal
-          isOpen = {this.state.isModalVisible}
+          isOpen={this.state.isModalVisible}
           isVisibleTopBar={false}
-          content = {<EventInfo  event={this.state.payload} />}
-          close = {this.closeEventsModal}
+          content={<EventInfo event={this.state.payload} />}
+          close={this.closeEventsModal}
         />
       </div>
     )

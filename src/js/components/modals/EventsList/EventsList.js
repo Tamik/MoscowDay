@@ -112,7 +112,13 @@ export default class EventsList extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+        }}
+      >
         {this.state.loading
           ? <LinearProgress
             mode='indeterminate'
@@ -123,6 +129,11 @@ export default class EventsList extends Component {
           : ''
         }
         <DatePicker id={this.state.id} currentDate={this.state.selectDate} parent={this} />
+        <div
+          style={{
+            marginTop: 48,
+          }}
+        >
         {this.state.events.map((event) => {
           if (event.dateFormatted.day === this.state.selectDate) {
             return (
@@ -130,6 +141,7 @@ export default class EventsList extends Component {
             )
           }
         })}
+        </div>
         {this.state.endOfEvents
           ? ''
           : <FlatButton

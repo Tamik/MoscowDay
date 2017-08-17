@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import localforage from 'localforage'
 import styled from 'styled-components'
+import localforage from 'localforage'
 import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
+
+import LinearProgress from 'material-ui/LinearProgress'
 
 import MDApi from 'utils/MDApi'
 
@@ -132,6 +134,7 @@ export default class Map extends Component {
         controls: props.controls || CONTROLS,
         minZoom: MIN_ZOOM,
       },
+      loading: true,
     }
 
     this.onMapsApiReady = this.onMapsApiReady.bind(this)
@@ -256,6 +259,10 @@ export default class Map extends Component {
         })
       }
     }
+
+    this.setState({
+      loading: false,
+    })
   }
 
   /**
@@ -499,6 +506,15 @@ export default class Map extends Component {
   render() {
     return (
       <YMapsWrap className="yandex-maps-wrap">
+        {this.state.loading
+          ? <LinearProgress
+            mode='indeterminate'
+            style={{
+              backgroundColor: '#FFFFFF',
+            }}
+          />
+          : ''
+        }
         <YMaps onApiAvaliable={this.onMapsApiReady}>
           <YMap
             state={this.state.mapState}

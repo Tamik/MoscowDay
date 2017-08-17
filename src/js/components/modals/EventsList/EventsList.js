@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import FlatButton from 'material-ui/FlatButton'
+import LinearProgress from 'material-ui/LinearProgress'
 
 import { ListCard } from 'atoms'
 import { DatePicker } from 'molecules'
@@ -23,6 +24,8 @@ export default class EventsList extends Component {
       selectDate: today.getUTCDate(),
       selectMonth: today.getMonth() + 1,
       selectYear: today.getFullYear(),
+      loading: true,
+      nextPageLoading: false,
     }
   }
 
@@ -49,6 +52,8 @@ export default class EventsList extends Component {
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
+          loading: false,
+          nextPageLoading: false,
         })
       })
         break
@@ -69,6 +74,8 @@ export default class EventsList extends Component {
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
+          loading: false,
+          nextPageLoading: false,
         })
       })
         break
@@ -85,6 +92,7 @@ export default class EventsList extends Component {
   showMoreEvents = () => {
     this.setState({
       currentPage: ++this.state.currentPage,
+      nextPageLoading: true,
     })
     this.getEvents()
   }
@@ -105,6 +113,15 @@ export default class EventsList extends Component {
   render() {
     return (
       <div>
+        {this.state.loading
+          ? <LinearProgress
+            mode='indeterminate'
+            style={{
+              backgroundColor: '#FFFFFF',
+            }}
+          />
+          : ''
+        }
         <DatePicker id={this.state.id} currentDate={this.state.selectDate} parent={this} />
         {this.state.events.map((event) => {
           if (event.dateFormatted.day === this.state.selectDate) {
@@ -116,7 +133,10 @@ export default class EventsList extends Component {
         {this.state.endOfEvents
           ? ''
           : <FlatButton
-            label='Показать еще'
+            label={this.state.nextPageLoading
+              ? 'Загрузка...'
+              : 'Показать еще'
+            }
             style={{
               display: 'block',
               width: '100%',

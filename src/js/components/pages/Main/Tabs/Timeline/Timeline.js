@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import localforage from 'localforage'
 
-import styled from 'styled-components'
+import LinearProgress from 'material-ui/LinearProgress'
 
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
@@ -45,6 +46,7 @@ export default class Timeline extends Component {
     events: [],
     payload: {},
     inFavorites: false,
+    loading: true,
   }
 
   componentDidMount() {
@@ -62,6 +64,7 @@ export default class Timeline extends Component {
       .then((response) => {
         this.setState({
           events: response.data,
+          loading: false,
         })
       })
   }
@@ -83,20 +86,6 @@ export default class Timeline extends Component {
     })
   }
 
-  addToFavorites = (id, value) => {
-    FavoritesStore.setItem(id, value)
-    this.setState({
-      inFavorites: true,
-    })
-  }
-
-  removeFromFavorites = (id) => {
-    FavoritesStore.removeItem(id)
-    this.setState({
-      inFavorites: false,
-    })
-  }
-
   inFavorites = (id) => {
     FavoritesStore.getItem(id)
       .then((response) => {
@@ -112,18 +101,18 @@ export default class Timeline extends Component {
       })
   }
 
-  handleFavorites(id, value) {
-    if (this.state.inFavorites) {
-      this.removeFromFavorites(id)
-    }
-    else {
-      this.addToFavorites(id, value)
-    }
-  }
-
   render() {
     return (
       <div>
+        {this.state.loading
+          ? <LinearProgress
+            mode='indeterminate'
+            style={{
+              backgroundColor: '#FFFFFF',
+            }}
+          />
+          : ''
+        }
         <List>
           {this.state.events.map(event => (
             <ListItem
@@ -131,12 +120,13 @@ export default class Timeline extends Component {
               className='timelineItem'
               onClick={() => this.openEventsModal(event.id, event.title, event)}
             >
-
               <Time
                 style={
                   event.is_bold
-                  ? {fontWeight: 'bold',}
-                  : null
+                    ? {
+                      fontWeight: 'bold',
+                    }
+                    : null
                 }
               >
                 {event.dateFormatted.time}
@@ -145,15 +135,19 @@ export default class Timeline extends Component {
                 className='timelineLine'
                 style={
                   event.is_bold
-                    ? {backgroundColor: '#607D8B',}
+                    ? {
+                      backgroundColor: '#607D8B',
+                    }
                     : null
                 }
-              >
-              </Line>
+              />
               <Title
                 style={
                   event.is_bold
-                    ? {fontWeight: 'bold',color: '#263238',}
+                    ? {
+                      fontWeight: 'bold',
+                      color: '#263238',
+                    }
                     : null
                 }
               >{event.title}</Title>
@@ -161,10 +155,10 @@ export default class Timeline extends Component {
           ))}
         </List>
         <Modal
-          isOpen = {this.state.isModalVisible}
+          isOpen={this.state.isModalVisible}
           isVisibleTopBar={false}
-          content = {<EventInfo  event={this.state.payload} />}
-          close = {this.closeEventsModal}
+          content={<EventInfo event={this.state.payload} />}
+          close={this.closeEventsModal}
         />
       </div>
     )

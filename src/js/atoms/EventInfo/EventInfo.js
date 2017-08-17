@@ -23,10 +23,10 @@ const FavoritesStore = localforage.createInstance({
 
 const myTheme = {
   floatingActionButton: {
-    //buttonSize: 56,
-    //miniSize: 40,
+    // buttonSize: 56,
+    // miniSize: 40,
     secondaryColor: '#d32f2f',
-  }
+  },
 }
 
 const styles = {
@@ -107,7 +107,6 @@ export default class EventInfo extends Component {
     return (
       <div>
         <Paper zDepth={0}>
-
           <Card
             style={{
               boxShadow: 'none',
@@ -118,7 +117,6 @@ export default class EventInfo extends Component {
               paddingBottom: 0,
             }}
           >
-
             <CardMedia
               style={{
                 height: '35vh',
@@ -156,14 +154,30 @@ export default class EventInfo extends Component {
                   }}
                 >
                   {this.state.inFavorites
-                    ? <Icon path={UiIconsPack.ADD_TO_FAV} size='24px' style={{height: 24, margin: '16px',}} color='#fff' viewBox='0 0 500 480' />
-                    : <Icon path={UiIconsPack.MODULE_FAVS} size='24px' style={{height: 24, margin: '16px',}} viewBox='0 0 500 480' />
+                    ? <Icon
+                      path={UiIconsPack.ADD_TO_FAV}
+                      size='24px'
+                      style={{
+                        height: 24,
+                        margin: '16px',
+                      }}
+                      color='#fff'
+                      viewBox='0 0 500 480'
+                    />
+                    : <Icon
+                      path={UiIconsPack.MODULE_FAVS}
+                      size='24px'
+                      style={{
+                        height: 24,
+                        margin: '16px',
+                      }}
+                      viewBox='0 0 500 480'
+                    />
                   }
                 </FloatingActionButton>
               </MuiThemeProvider>
             </CardTitle>
           </Card>
-
           <List
             style={{
               paddingTop: 0,
@@ -178,7 +192,12 @@ export default class EventInfo extends Component {
                 <Icon
                   path={UiIconsPack.MODULE_EVENTS}
                   color='#455A64'
-                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  style={{
+                    left: 8,
+                    width: 18,
+                    height: 18,
+                    margin: 15,
+                  }}
                   viewBox='0 0 33 32'
                 />
               }
@@ -192,7 +211,12 @@ export default class EventInfo extends Component {
                 <Icon
                   path={UiIconsPack.CLOCK}
                   color='#455A64'
-                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  style={{
+                    left: 8,
+                    width: 18,
+                    height: 18,
+                    margin: 15,
+                  }}
                   viewBox='0 0 610 620'
                 />
               }
@@ -206,7 +230,12 @@ export default class EventInfo extends Component {
                 <Icon
                   path={UiIconsPack.MODULE_RADAR}
                   color='#455A64'
-                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  style={{
+                    left: 8,
+                    width: 18,
+                    height: 18,
+                    margin: 15,
+                  }}
                   viewBox='0 0 520 510'
                 />
               }
@@ -220,7 +249,12 @@ export default class EventInfo extends Component {
                 <Icon
                   path={UiIconsPack.ARROW_DOWN}
                   color='#455A64'
-                  style={{'width': 18, 'height': 18, 'margin': 15, 'left': 8}}
+                  style={{
+                    left: 8,
+                    width: 18,
+                    height: 18,
+                    margin: 15,
+                  }}
                   viewBox='-8 0 80 60'
                 />
               }

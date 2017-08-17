@@ -83,20 +83,6 @@ export default class Timeline extends Component {
     })
   }
 
-  addToFavorites = (id, value) => {
-    FavoritesStore.setItem(id, value)
-    this.setState({
-      inFavorites: true,
-    })
-  }
-
-  removeFromFavorites = (id) => {
-    FavoritesStore.removeItem(id)
-    this.setState({
-      inFavorites: false,
-    })
-  }
-
   inFavorites = (id) => {
     FavoritesStore.getItem(id)
       .then((response) => {
@@ -110,15 +96,6 @@ export default class Timeline extends Component {
           inFavorites: false,
         })
       })
-  }
-
-  handleFavorites(id, value) {
-    if (this.state.inFavorites) {
-      this.removeFromFavorites(id)
-    }
-    else {
-      this.addToFavorites(id, value)
-    }
   }
 
   render() {

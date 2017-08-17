@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import localforage from 'localforage'
 
+import LinearProgress from 'material-ui/LinearProgress'
 
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
@@ -45,6 +46,7 @@ export default class Timeline extends Component {
     events: [],
     payload: {},
     inFavorites: false,
+    loading: true,
   }
 
   componentDidMount() {
@@ -62,6 +64,7 @@ export default class Timeline extends Component {
       .then((response) => {
         this.setState({
           events: response.data,
+          loading: false,
         })
       })
   }
@@ -101,6 +104,15 @@ export default class Timeline extends Component {
   render() {
     return (
       <div>
+        {this.state.loading
+          ? <LinearProgress
+            mode='indeterminate'
+            style={{
+              backgroundColor: '#FFFFFF',
+            }}
+          />
+          : ''
+        }
         <List>
           {this.state.events.map(event => (
             <ListItem

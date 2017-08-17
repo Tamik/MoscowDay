@@ -34,6 +34,7 @@ export default class EventsList extends Component {
     switch (this.state.type) {
       case 'place': MDApi.getEvents({
         place: this.state.id,
+        date: `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDate}`,
         page: this.state.currentPage,
       }).then((response) => {
         return response.json()
@@ -53,6 +54,7 @@ export default class EventsList extends Component {
         break
       case 'headings': MDApi.getEvents({
         category: this.state.id,
+        date: `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDate}`,
         page: this.state.currentPage,
       }).then((response) => {
         return response.json()

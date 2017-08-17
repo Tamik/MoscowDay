@@ -21,6 +21,8 @@ export default class EventsList extends Component {
       currentPage: 1,
       endOfEvents: false,
       selectDate: today.getUTCDate(),
+      selectMonth: today.getMonth() + 1,
+      selectYear: today.getFullYear(),
     }
   }
 

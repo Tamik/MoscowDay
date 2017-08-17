@@ -10,14 +10,11 @@ import MDApi from 'utils/MDApi'
 
 const styles = {
   root: {
-    display: 'flex',
-    display: 'webkit-box',
-    display: '-webkit-flex',
-    flexWrap: 'wrap',
     WebkitFlexWrap: 'wrap',
-    justifyContent: 'space-around',
+    flexWrap: 'wrap',
     WebkitBoxPack: 'space-around',
     WebkitJustifyContent: 'center',
+    justifyContent: 'space-around',
   },
 }
 
@@ -25,32 +22,17 @@ const ICON_COLOR = '#607D8B'
 
 const GridList = styled.div`
   display: flex;
-  display: webkit-box;
-  display: -webkit-flex;
   flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
   justify-content: space-around;
-  -webkit-box-pack: space-around;
-  -webkit-justify-content: center;
   padding-bottom: 10px;
   overflow-y: auto;
 `
 const GridItem = styled.div`
   display: flex;
-  display: webkit-box,
-  display: -webkit-flex,
   flex-basis: 150px;
-  -webkit-flex-basis: 150px;
   flex-direction: column;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   justify-content: space-between;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
   align-items: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
   height: 110px;
   width: 49%;
   margin-bottom: 15px;
@@ -114,7 +96,7 @@ export default class Headings extends Component {
 
   render() {
     return (
-      <div style={styles.root}>
+      <div style={styles.root} className={'swipable-view'}>
         <GridList>
           {this.state.headings.map(heading => (
             <GridItem key={heading.id} onClick={() => this.openEventsViewModal(heading.title, heading.id)}>

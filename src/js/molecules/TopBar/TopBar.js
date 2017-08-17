@@ -9,12 +9,12 @@ import NavigationBack from 'material-ui/svg-icons/navigation/arrow-back'
 const TopBar = (props) => {
   const style = !props.isVisible ? {
     block: {
+      position: 'fixed',
       background: '-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.4)), to(transparent))',
       background: '-webkit-linear-gradient(top, rgba(0, 0, 0, 0.4), transparent)',
       background: '-o-linear-gradient(top, rgba(0, 0, 0, 0.4), transparent)',
       background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent)',
       paddingTop: '20px',
-      position: 'fixed',
       paddingRight: 24,
     },
     btn: 'white',
@@ -44,7 +44,10 @@ const TopBar = (props) => {
       showMenuIconButton={props.showButton}
       iconElementLeft={
         <IconButton>
-          <NavigationBack onClick={props.close} color={style.btn} />
+          <NavigationBack
+            disableTouchRipple
+            onClick={props.close} color={style.btn}
+          />
         </IconButton>
       }
       iconElementRight={props.iconElementRight}

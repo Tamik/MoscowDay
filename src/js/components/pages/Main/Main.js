@@ -14,6 +14,7 @@ import { Timeline, Headings } from './Tabs'
 
 const myTheme = {
   tabs: {
+    position: 'relative',
     textColor: '#B7C2CC',
     selectedTextColor: '#455A64',
   },
@@ -27,16 +28,20 @@ const styles = {
     fontWeight: 400,
   },
   slide: {
-    overflowY: 'scroll',
+    display: 'flex',
+    flexDirection: 'column',
+    overflowY: 'auto',
   },
   tabs: {
+    position: 'relative',
+    zIndex: 300,
     borderBottom: '1px solid #dbe2e5',
   },
   tabsWrap: {
     height: 40,
     width: '80%',
     margin: '0 auto',
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
   },
   tab: {
     fontSize: '14px',
@@ -70,7 +75,7 @@ export default class Main extends Component {
 
   render() {
     return (
-      <PageContent>
+      <PageContent className='THREE' style={{overflowY: 'hidden',}}>
         <TopBarWrap>
           <TopBar
             title='События'
@@ -78,10 +83,10 @@ export default class Main extends Component {
             isVisible
           />
         </TopBarWrap>
-        <ContentWrap>
+        <ContentWrap className='FOUR' style={{overflowY: 'hidden',}}>
           <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
             <Tabs
-              className={'eventsTabs'}
+              className='eventsTabs'
               style={styles.tabs}
               inkBarStyle={{
                 backgroundColor: '#607D8B',
@@ -111,29 +116,30 @@ export default class Main extends Component {
             </Tabs>
           </MuiThemeProvider>
           <SwipableViews
+            className={'swipable-view'}
             style={{
-              display: 'flex',
-              display: '-webkit-box',
-              display: '-webkit-flex',
-              flex: 1,
-              WebkitBoxFlex: 1,
-              WebkitFlex: 1,
-              flexDirection: 'column',
               WebkitBoxOrient: 'vertical',
               WebkitBoxDirection: 'normal',
               WebkitFlexDirection: 'column',
+              WebkitBoxFlex: 1,
+              WebkitFlex: 1,
+              flex: 1,
+              flexDirection: 'column',
               WebkitOverflowScrolling: 'touch',
               overflowScrolling: 'touch',
               touchAction: 'auto',
+            }}
+            containerStyle={{
+              minHeight: '100%',
             }}
             index={this.state.slideIndex}
             onChangeIndex={this.handleChange}
             disabled
           >
-            <div style={styles.slide}>
+            <div style={styles.slide} className='slide-timeline'>
               <Timeline />
             </div>
-            <div style={styles.slide}>
+            <div style={styles.slide} className='slide-headings'>
               <Headings />
             </div>
             {/* <div style={styles.slide}>

@@ -117,6 +117,7 @@ export default class EventsList extends Component {
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
+          padding: '0 5px',
         }}
       >
         {this.state.loading

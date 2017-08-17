@@ -62,11 +62,11 @@ export default class DatePicker extends Component {
 
         }}
       >
-        {this.state.dates.map(event => (
+        {this.state.dates.map(dt => (
           <MenuItem
-            key={event.id}
-            value={event.dateFormatted.day}
-            primaryText={this.formatDate(event.dateFormatted)}
+            key={dt.dt}
+            value={dt.dateFormatted.day}
+            primaryText={this.formatDate(dt.dateFormatted)}
           />
         ))}
       </DropDownMenu>

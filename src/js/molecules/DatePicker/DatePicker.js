@@ -54,7 +54,12 @@ export default class DatePicker extends Component {
         value={this.state.selectedValue}
         onChange={this.handleChange}
         style={{
-          display: 'block',
+          position: 'fixed',
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          backgroundColor: '#fff',
+
         }}
       >
         {this.state.dates.map(event => (

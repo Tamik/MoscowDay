@@ -14,6 +14,7 @@ import { Timeline, Headings } from './Tabs'
 
 const myTheme = {
   tabs: {
+    position: 'relative',
     textColor: '#B7C2CC',
     selectedTextColor: '#455A64',
   },
@@ -27,16 +28,20 @@ const styles = {
     fontWeight: 400,
   },
   slide: {
-    overflowY: 'scroll',
+    display: 'flex',
+    flexDirection: 'column',
+    overflowY: 'auto',
   },
   tabs: {
+    position: 'relative',
+    zIndex: 300,
     borderBottom: '1px solid #dbe2e5',
   },
   tabsWrap: {
     height: 40,
     width: '80%',
     margin: '0 auto',
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
   },
   tab: {
     fontSize: '14px',
@@ -81,7 +86,7 @@ export default class Main extends Component {
         <ContentWrap className='FOUR' style={{overflowY: 'hidden',}}>
           <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
             <Tabs
-              className={'eventsTabs'}
+              className='eventsTabs'
               style={styles.tabs}
               inkBarStyle={{
                 backgroundColor: '#607D8B',
@@ -124,14 +129,17 @@ export default class Main extends Component {
               overflowScrolling: 'touch',
               touchAction: 'auto',
             }}
+            containerStyle={{
+              minHeight: '100%',
+            }}
             index={this.state.slideIndex}
             onChangeIndex={this.handleChange}
             disabled
           >
-            <div style={styles.slide}>
+            <div style={styles.slide} className='slide-timeline'>
               <Timeline />
             </div>
-            <div style={styles.slide}>
+            <div style={styles.slide} className='slide-headings'>
               <Headings />
             </div>
             {/* <div style={styles.slide}>

@@ -70,7 +70,7 @@ export default class Main extends Component {
 
   render() {
     return (
-      <PageContent>
+      <PageContent className='THREE' style={{overflowY: 'hidden',}}>
         <TopBarWrap>
           <TopBar
             title='События'
@@ -78,7 +78,7 @@ export default class Main extends Component {
             isVisible
           />
         </TopBarWrap>
-        <ContentWrap>
+        <ContentWrap className='FOUR' style={{overflowY: 'hidden',}}>
           <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
             <Tabs
               className={'eventsTabs'}
@@ -111,17 +111,15 @@ export default class Main extends Component {
             </Tabs>
           </MuiThemeProvider>
           <SwipableViews
+            className={'swipable-view'}
             style={{
-              display: 'flex',
-              display: '-webkit-box',
-              display: '-webkit-flex',
-              flex: 1,
-              WebkitBoxFlex: 1,
-              WebkitFlex: 1,
-              flexDirection: 'column',
               WebkitBoxOrient: 'vertical',
               WebkitBoxDirection: 'normal',
               WebkitFlexDirection: 'column',
+              WebkitBoxFlex: 1,
+              WebkitFlex: 1,
+              flex: 1,
+              flexDirection: 'column',
               WebkitOverflowScrolling: 'touch',
               overflowScrolling: 'touch',
               touchAction: 'auto',

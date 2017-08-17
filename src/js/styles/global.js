@@ -37,4 +37,9 @@ export const globalStyle = css`
   .timelineItem:last-child .timelineLine::before{
     display: none;
   }
+  .swipable-view{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+  }
 `

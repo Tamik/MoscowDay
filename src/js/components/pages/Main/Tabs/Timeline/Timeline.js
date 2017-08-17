@@ -25,9 +25,12 @@ const ListItem = styled.li`
   border-bottom: 1px solid rgba(207, 216, 220, 0.35);
 `
 const Title = styled.p`
+  display: block;
+  height: 100%;
   font-size: 12pt;
   line-height: 1.05em;
   font-weight: normal;
+  overflow-y: hidden;
 `
 const Time = styled.p`
   color: #455A64;

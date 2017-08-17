@@ -42,7 +42,7 @@ const Modal = props => {
         close = {props.close}
         title = {props.title}
       />
-      <div style={{ overflowY:'auto', flex: 1,}}>
+      <div style={{ overflowY:'auto', flex: 1}} className='modal-content-wrap'>
         {props.content}
       </div>
       </ReactModal>

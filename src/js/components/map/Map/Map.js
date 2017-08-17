@@ -510,7 +510,7 @@ export default class Map extends Component {
 
   render() {
     return (
-      <YMapsWrap className="yandex-maps-wrap">
+      <YMapsWrap className="maps-wrap">
         {this.state.loading
           ? <LinearProgress
             mode='indeterminate'

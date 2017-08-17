@@ -44,7 +44,7 @@ const TopBar = (props) => {
       showMenuIconButton={props.showButton}
       iconElementLeft={
         <IconButton>
-          <NavigationBack onTouchTap={props.close} color={style.btn} />
+          <NavigationBack onClick={props.close} color={style.btn} />
         </IconButton>
       }
       iconElementRight={props.iconElementRight}

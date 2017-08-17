@@ -42,4 +42,29 @@ export const globalStyle = css`
     display: -webkit-flex;
     display: flex;
   }
+
+  .modal-content-wrap{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+  }
+
+  .maps-wrap{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+  .maps-wrap > div{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+  .maps-wrap > div > ymaps {
+    flex-grow: 1;
+    height: auto !important;
+  }
 `

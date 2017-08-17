@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import FlatButton from 'material-ui/FlatButton'
+import LinearProgress from 'material-ui/LinearProgress'
 
 import { ListCard } from 'atoms'
 import { DatePicker } from 'molecules'
@@ -21,6 +22,7 @@ export default class EventsList extends Component {
       currentPage: 1,
       endOfEvents: false,
       selectDate: today.getUTCDate(),
+      loading: true,
     }
   }
 
@@ -46,6 +48,7 @@ export default class EventsList extends Component {
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
+          loading: false,
         })
       })
         break
@@ -65,6 +68,7 @@ export default class EventsList extends Component {
         this.setState({
           events: this.state.events.concat(response.data),
           endOfEvents: isEnd,
+          loading: false,
         })
       })
         break
@@ -101,6 +105,15 @@ export default class EventsList extends Component {
   render() {
     return (
       <div>
+        {this.state.loading
+          ? <LinearProgress
+            mode='indeterminate'
+            style={{
+              backgroundColor: '#FFFFFF',
+            }}
+          />
+          : ''
+        }
         <DatePicker id={this.state.id} currentDate={this.state.selectDate} parent={this} />
         {this.state.events.map((event) => {
           if (event.dateFormatted.day === this.state.selectDate) {

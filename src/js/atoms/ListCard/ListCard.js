@@ -86,7 +86,7 @@ export default class ListCard extends Component {
             marginBottom: 5,
           }}
 
-          onTouchTap={() => this.openEventsViewModal()}
+          onClick={() => this.openEventsViewModal()}
         >
           <CardMedia
             style={{

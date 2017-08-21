@@ -405,17 +405,11 @@ export default class Map extends Component {
     if (this.props.isOneEvent) {
       afterEventsLoaded()
     } else {
-      const date = new Date()
-      const month = '0'.concat(date.getMonth() + 1).slice(-2)
-      const day = '0'.concat(date.getDate()).slice(-2)
+      const today = MDApi.getTodayMSK()
 
       MDApi.getEvents({
         items_per_page: 500, // all on today
-        /**
-         * date = today
-         * @todo: Решить проблему с разницей в часовых поясах
-         */
-        date: `${date.getFullYear()}-${month}-${day}`,
+        date: `${today.year}-${today.month}-${today.date}`,
       })
         .then((response) => {
           return response.json()

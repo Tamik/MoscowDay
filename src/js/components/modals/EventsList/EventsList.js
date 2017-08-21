@@ -12,7 +12,7 @@ import MDApi from 'utils/MDApi'
 export default class EventsList extends Component {
   constructor(props) {
     super(props)
-    const today = new Date()
+    const today = MDApi.getTodayMSK()
     this.state = {
       id: props.event.id,
       type: props.event.type,
@@ -21,9 +21,9 @@ export default class EventsList extends Component {
       events: [],
       currentPage: 1,
       endOfEvents: false,
-      selectDate: today.getUTCDate(),
-      selectMonth: today.getMonth() + 1,
-      selectYear: today.getFullYear(),
+      selectDate: today.date,
+      selectMonth: today.month,
+      selectYear: today.year,
       loading: true,
       nextPageLoading: false,
     }
@@ -33,12 +33,16 @@ export default class EventsList extends Component {
     this.getEvents()
   }
 
-  getEvents = () => {
+  getEvents = (_params) => {
+
+    const params = _params || {}
+    const dt = params.date || `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDate}`
+
     switch (this.state.type) {
       case 'place': MDApi.getEvents({
         place: this.state.id,
-        date: `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDate}`,
-        page: this.state.currentPage,
+        date: dt,
+        page: params.page ? params.page : this.state.currentPage,
       }).then((response) => {
         return response.json()
       }).then((response) => {
@@ -49,35 +53,46 @@ export default class EventsList extends Component {
         else {
           isEnd = false
         }
+
+        const newEvents = params.mode === 'append'
+          ? this.state.events.concat(response.data)
+          : response.data
+
         this.setState({
-          events: this.state.events.concat(response.data),
+          events: newEvents,
           endOfEvents: isEnd,
           loading: false,
           nextPageLoading: false,
         })
       })
         break
-      case 'headings': MDApi.getEvents({
-        category: this.state.id,
-        date: `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDate}`,
-        page: this.state.currentPage,
-      }).then((response) => {
-        return response.json()
-      }).then((response) => {
-        let isEnd
-        if (response.data.length === 0) {
-          isEnd = true
-        }
-        else {
-          isEnd = false
-        }
-        this.setState({
-          events: this.state.events.concat(response.data),
-          endOfEvents: isEnd,
-          loading: false,
-          nextPageLoading: false,
+      case 'headings':
+        MDApi.getEvents({
+          category: this.state.id,
+          date: dt,
+          page: params.page ? params.page : this.state.currentPage,
+        }).then((response) => {
+          return response.json()
+        }).then((response) => {
+          let isEnd
+          if (response.data.length < 10) {
+            isEnd = true
+          }
+          else {
+            isEnd = false
+          }
+
+          const newEvents = params.mode === 'append'
+            ? this.state.events.concat(response.data)
+            : response.data
+
+          this.setState({
+            events: newEvents,
+            endOfEvents: isEnd,
+            loading: false,
+            nextPageLoading: false,
+          })
         })
-      })
         break
       default: break
     }
@@ -86,6 +101,11 @@ export default class EventsList extends Component {
   filterEvents = (day) => {
     this.setState({
       selectDate: day,
+      currentPage: 1,
+    })
+    this.getEvents({
+      page: 1,
+      date: `${this.state.selectYear}-${this.state.selectMonth}-${day}`,
     })
   }
 
@@ -94,7 +114,7 @@ export default class EventsList extends Component {
       currentPage: ++this.state.currentPage,
       nextPageLoading: true,
     })
-    this.getEvents()
+    this.getEvents({ mode: 'append' })
   }
 
   openEventViewModal = (payload) => {
@@ -135,13 +155,16 @@ export default class EventsList extends Component {
             marginTop: 48,
           }}
         >
-        {this.state.events.map((event) => {
-          if (event.dateFormatted.day === this.state.selectDate) {
+          {this.state.events.map((event) => {
+            {/* if (event.dateFormatted.day === this.state.selectDate) {
+              return (
+                <ListCard key={event.id} event={event} />
+              )
+            } */}
             return (
               <ListCard key={event.id} event={event} />
             )
-          }
-        })}
+          })}
         </div>
         {this.state.endOfEvents
           ? ''
@@ -151,7 +174,7 @@ export default class EventsList extends Component {
               : 'Показать еще'
             }
             style={{
-              display: 'block',
+              display: this.state.events.length < 9 ? 'none' : 'block',
               width: '100%',
               margin: '8px auto',
             }}

@@ -13,6 +13,8 @@ export default class DatePicker extends Component {
       dates: [],
       selectedValue: props.currentDate,
     }
+
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
@@ -21,20 +23,22 @@ export default class DatePicker extends Component {
         return response.json()
       })
       .then((response) => {
-        const today = new Date()
+        const today = MDApi.getTodayMSK()
         this.setState({
           dates: response.data,
-          selectedValue: today.getUTCDate(),
+          selectedValue: parseInt(today.date, 10),
         })
       })
   }
 
   formatDate = (date) => {
-    const today = new Date()
-    if (date.day === today.getUTCDate()) {
+    const today = MDApi.getTodayMSK()
+    const todayDateInt = parseInt(today.date, 10)
+
+    if (date.day === todayDateInt) {
       return 'Сегодня'
     }
-    else if (date.day > today.getUTCDate() && date.day - today.getUTCDate() === 1) {
+    else if (date.day > todayDateInt && date.day - todayDateInt === 1) {
       return 'Завтра'
     }
     return `${date.day} ${date.month}`
@@ -59,7 +63,6 @@ export default class DatePicker extends Component {
           right: 0,
           zIndex: 1000,
           backgroundColor: '#fff',
-
         }}
       >
         {this.state.dates.map(dt => (

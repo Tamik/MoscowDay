@@ -1,5 +1,6 @@
 import React from 'react'
 import 'whatwg-fetch'
+import moment from 'moment'
 
 const MD_API_HOST = process.env.API_HOST
 
@@ -111,6 +112,19 @@ const getPlaces = () => {
   return fetch(url)
 }
 
+const getTodayMSK = () => {
+  const date = moment(new Date()).zone('+03:00').format('YYYY-MM-DD')
+  const dateComponent = date.split('-')
+  return {
+    year: dateComponent[0],
+    month: dateComponent[1],
+    date: dateComponent[2],
+    yearInt: parseInt(dateComponent[0], 10),
+    monthInt: parseInt(dateComponent[1], 10),
+    dateInt: parseInt(dateComponent[2], 10),
+  }
+}
+
 /**
  * @example Get categories (with count of events in each of them)
  * const APIresponse = MDApi.getCategories().then(response => {
@@ -118,22 +132,22 @@ const getPlaces = () => {
  * })
  * .then(response => console.log(response));
  */
- 
- /** 
-  * @example Get main events
-  * const APIresponse = MDApi.getEvents({ is_main:1 }).then(response => {
-  *   return response.json()
-  * })
-  * .then(response => console.log(response));
-  */
 
-  /**
-   * @example Get events by category
-   * const APIresponse = MDApi.getEvents({ category:1 }).then(response => {
-   *  return response.json()
-   * })
-   * .then(response => console.log(response));
-   */
+/** 
+ * @example Get main events
+ * const APIresponse = MDApi.getEvents({ is_main:1 }).then(response => {
+ *   return response.json()
+ * })
+ * .then(response => console.log(response));
+ */
+
+/**
+ * @example Get events by category
+ * const APIresponse = MDApi.getEvents({ category:1 }).then(response => {
+ *  return response.json()
+ * })
+ * .then(response => console.log(response));
+ */
 
 const MDApi = {
   /**
@@ -183,6 +197,8 @@ const MDApi = {
    * @returns {Promise}
    */
   getPlaces,
+
+  getTodayMSK,
 }
 
 export default MDApi

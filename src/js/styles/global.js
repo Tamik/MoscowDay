@@ -53,18 +53,33 @@ export const globalStyle = css`
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
     flex-grow: 1;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
     flex-direction: column;
   }
   .maps-wrap > div{
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
     flex-grow: 1;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
     flex-direction: column;
   }
   .maps-wrap > div > ymaps {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
     flex-grow: 1;
-    height: auto !important;
+    height: 100% !important;
+  }
+  .maps-wrap > div > ymaps > ymaps {
+    height: 100% !important;  
   }
 `

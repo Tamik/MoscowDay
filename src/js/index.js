@@ -74,7 +74,7 @@ function SendCoordsMetrica(coords) {
 function onDeviceReady() {
   const config = {
     AppMetrica: {
-      apiKey: process.env.API_KEY,
+      apiKey: process.env.APM_KEY,
       trackLocationEnabled: true,
       handleFirstActivationAsUpdateEnabled: true,
       sessionTimeout: 15,

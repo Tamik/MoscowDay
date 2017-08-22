@@ -113,9 +113,10 @@ const getPlaces = () => {
 }
 
 const getTodayMSK = () => {
-  const date = moment(new Date()).zone('+03:00').format('YYYY-MM-DD')
+  const date = moment(new Date()).utcOffset('+03:00').format('YYYY-MM-DD')
   const dateComponent = date.split('-')
   return {
+    full: date,
     year: dateComponent[0],
     month: dateComponent[1],
     date: dateComponent[2],

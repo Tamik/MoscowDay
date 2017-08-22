@@ -45,7 +45,6 @@ const TopBar = (props) => {
       iconElementLeft={
         <IconButton>
           <NavigationBack
-            disableTouchRipple
             onClick={props.close} color={style.btn}
           />
         </IconButton>

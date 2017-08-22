@@ -39,7 +39,7 @@
         "plugins": {
             "cordova-plugin-whitelist": {},
             "cordova-plugin-geolocation": {
-                "GEOLOCATION_USAGE_DESCRIPTION": " "
+                "GEOLOCATION_USAGE_DESCRIPTION": "Приложение запрашивает доступ к вашей геолокации, чтобы показывать, что проходит рядом"
             },
             "yandex-appmetrica-plugin-cordova": {}
         },

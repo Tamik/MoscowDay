@@ -36,7 +36,7 @@
     <engine name="browser" spec="^4.1.0" />
     <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3">
-        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Приложение запрашивает доступ к вашей геолокации, чтобы показывать, что проходит рядом" />
     </plugin>
     <plugin name="cordova-plugin-whitelist" spec="^1.3.2" />
     <plugin name="yandex-appmetrica-plugin-cordova" spec="git+https://github.com/Tamik/metrica-plugin-cordova.git" />

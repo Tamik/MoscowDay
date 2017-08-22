@@ -23,6 +23,7 @@ const PageContent = styled.div`
   flex-grow: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
+  overflow-y: hidden; 
 `
 const TopBarWrap = styled.div``
 const ContentWrap = styled.div`
@@ -30,6 +31,7 @@ const ContentWrap = styled.div`
   -webkit-flex: 1;
   -webkit-box-flex: 1;
   padding: 5px;
+  overflow-y: auto;
 `
 
 const style = {

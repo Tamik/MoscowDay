@@ -21,10 +21,13 @@ export const globalStyle = css`
   .eventsTabs > div:nth-child(2){
     margin: auto;
   }
-  .timelineItem:last-child {
+  .eventsTabs > div:nth-child(2) > div{
+    bottom: -1px !important;
+  }
+  .timelineItem:last-child{
     border: none;
   }
-  .timelineLine::before {
+  .timelineLine::before{
     content: "";
     display: block;
     position: relative;
@@ -42,13 +45,11 @@ export const globalStyle = css`
     display: -webkit-flex;
     display: flex;
   }
-
   .modal-content-wrap{
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
   }
-
   .maps-wrap{
     display: -webkit-box;
     display: -webkit-flex;
@@ -73,13 +74,13 @@ export const globalStyle = css`
     -webkit-flex-direction: column;
     flex-direction: column;
   }
-  .maps-wrap > div > ymaps {
+  .maps-wrap > div > ymaps{
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     flex-grow: 1;
     height: 100% !important;
   }
-  .maps-wrap > div > ymaps > ymaps {
+  .maps-wrap > div > ymaps > ymaps{
     height: 100% !important;  
   }
 `

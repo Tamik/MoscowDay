@@ -22,6 +22,17 @@ function renderApp(Component) {
 }
 
 function onDeviceReady() {
+  const config = {
+    AppMetrica: {
+      apiKey: process.env.API_KEY,
+      trackLocationEnabled: true,
+      handleFirstActivationAsUpdateEnabled: true,
+      sessionTimeout: 15,
+      appVersion: '0.1.1',
+    },
+  }
+
+  window.appMetrica.activate(config.AppMetrica)
   injectGlobal`${globalStyle}`
   renderApp()
 

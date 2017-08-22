@@ -1,11 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ru.yamblz.moscowday" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>MoscowDay</name>
+<widget id="ru.blat.moscowday" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Москва 870</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Приложение ко Дню города Москвы
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="hello@Tamik.ru" href="http://tamik.ru">
+        Tamik Lokyaev
+    </author>
+    <author>
+        Baltabek Bekenov
+    </author>
+    <author>
+        Lina Belokuraya
+    </author>
+    <author>
+        Artyom Zhuravlev
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -40,8 +49,9 @@
     <engine name="browser" spec="^4.1.0" />
     <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3">
-        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="undefined" />
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Приложение запрашивает доступ к вашей геолокации, чтобы показывать, что проходит рядом" />
     </plugin>
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.2" />
+    <plugin name="yandex-appmetrica-plugin-cordova" spec="git+https://github.com/Tamik/metrica-plugin-cordova.git" />
 </widget>

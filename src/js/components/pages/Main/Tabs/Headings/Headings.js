@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
+import localforage from 'localforage'
 
-import { Modal } from 'components/modals'
-import { EventsList } from 'components/modals'
+import { Modal, EventsList } from 'components/modals'
 import styled from 'styled-components'
 import Icon from 'atoms/Icon'
 import CategoryIconsPack from 'atoms/iconsPacks/CategoryIconsPack'
 
 import MDApi from 'utils/MDApi'
+
+const AppStore = localforage.createInstance({
+  name: 'App',
+})
 
 const styles = {
   root: {
@@ -86,6 +90,14 @@ export default class Headings extends Component {
       isModalVisible: true,
       modalTitle: title,
     })
+    AppStore.getItem('client_id')
+      .then((clientId) => {
+        const object = {}
+        object[`${title} (id: ${catId})`] = {
+          client_id: clientId,
+        }
+        window.appMetrica.reportEvent('Просмотр категории', object)
+      })
   }
 
   closeEventsViewModal = () => {
@@ -99,7 +111,10 @@ export default class Headings extends Component {
       <div style={styles.root} className={'swipable-view'}>
         <GridList>
           {this.state.headings.map(heading => (
-            <GridItem key={heading.id} onClick={() => this.openEventsViewModal(heading.title, heading.id)}>
+            <GridItem
+              key={heading.id}
+              onClick={() => this.openEventsViewModal(heading.title, heading.id)}
+            >
               <IconWrap>
                 <Icon
                   path={CategoryIconsPack[heading.icon_name]}

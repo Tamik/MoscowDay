@@ -1,8 +1,8 @@
 {
-    "name": "ru.yamblz.moscowday",
+    "name": "ru.blat.moscowday",
     "displayName": "MoscowDay",
     "version": "0.1.0",
-    "description": "This is description of application.",
+    "description": "Приложение ко дню города Москвы",
     "main": "index.js",
     "scripts": {
         "clear": "rm -Rf ./www/assets",
@@ -12,7 +12,7 @@
         "patch": "cd platforms/ios/cordova/node_modules/ && npm i ios-sim@latest",
         "lintfix": "eslint --fix"
     },
-    "author": "...",
+    "author": "Tamik Lokyaev <hello@Tamik.ru>, Baltabek Bekenov, Lina Belokuraya, Artyom Zhuravlev",
     "license": "Apache-2.0",
     "dependencies": {
         "cordova-browser": "^4.1.0",
@@ -33,14 +33,16 @@
         "react-tap-event-plugin": "^2.0.1",
         "react-yandex-maps": "^2.0.0",
         "styled-components": "^2.1.1",
-        "whatwg-fetch": "^2.0.3"
+        "whatwg-fetch": "^2.0.3",
+        "yandex-appmetrica-plugin-cordova": "git+https://github.com/Tamik/metrica-plugin-cordova.git"
     },
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
             "cordova-plugin-geolocation": {
-                "GEOLOCATION_USAGE_DESCRIPTION": "undefined"
+                "GEOLOCATION_USAGE_DESCRIPTION": "Приложение запрашивает доступ к вашей геолокации, чтобы показывать, что проходит рядом"
             },
+            "yandex-appmetrica-plugin-cordova": {},
             "cordova-plugin-splashscreen": {}
         },
         "platforms": [

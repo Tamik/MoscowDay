@@ -21,6 +21,10 @@ const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
 
+const AppStore = localforage.createInstance({
+  name: 'App',
+})
+
 const myTheme = {
   floatingActionButton: {
     // buttonSize: 56,
@@ -52,6 +56,21 @@ export default class EventInfo extends Component {
   addToFavorites = (id, value) => {
     FavoritesStore.setItem(id, value)
       .then(() => {
+        AppStore.getItem('client_id')
+          .then((clientId) => {
+            const object = {}
+            object[id] = {
+              client_id: clientId,
+            }
+            window.appMetrica.reportEvent('Добавлено в избранное', object)
+            const objectByPeople = {}
+            objectByPeople[clientId] = {
+              event_id: id,
+            }
+            window.appMetrica.reportEvent('Добавлено в избранное (по людям)', objectByPeople)
+          })
+      })
+      .then(() => {
         this.setState({
           inFavorites: true,
         })
@@ -60,6 +79,21 @@ export default class EventInfo extends Component {
 
   removeFromFavorites = (id) => {
     FavoritesStore.removeItem(id)
+      .then(() => {
+        AppStore.getItem('client_id')
+          .then((clientId) => {
+            const object = {}
+            object[id] = {
+              client_id: clientId,
+            }
+            window.appMetrica.reportEvent('Удалено из избранного', object)
+            const objectByPeople = {}
+            objectByPeople[clientId] = {
+              event_id: id,
+            }
+            window.appMetrica.reportEvent('Удалено из избранного (по людям)', objectByPeople)
+          })
+      })
       .then(() => {
         this.setState({
           inFavorites: false,
@@ -121,7 +155,7 @@ export default class EventInfo extends Component {
               style={{
                 height: '35vh',
                 backgroundSize: 'cover',
-                backgroundImage: `url(http://io.yamblz.ru/i/events/${this.props.event.id}_large.jpg)`,
+                backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_large.jpg)`,
               }}
             />
             <CardTitle

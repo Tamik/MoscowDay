@@ -7,6 +7,10 @@ import LinearProgress from 'material-ui/LinearProgress'
 
 import MDApi from 'utils/MDApi'
 
+const AppStore = localforage.createInstance({
+  name: 'App',
+})
+
 const MapStore = localforage.createInstance({
   name: 'Map',
 })
@@ -259,6 +263,13 @@ export default class Map extends Component {
         })
       }
     }
+
+    AppStore.getItem('client_id')
+      .then((clientId) => {
+        window.appMetrica.reportEvent('Просмотр карты', {
+          client_id: clientId,
+        })
+      })
 
     this.setState({
       loading: false,

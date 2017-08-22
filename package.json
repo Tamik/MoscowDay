@@ -32,12 +32,16 @@
         "react-tap-event-plugin": "^2.0.1",
         "react-yandex-maps": "^2.0.0",
         "styled-components": "^2.1.1",
-        "whatwg-fetch": "^2.0.3"
+        "whatwg-fetch": "^2.0.3",
+        "yandex-appmetrica-plugin-cordova": "git+https://github.com/Tamik/metrica-plugin-cordova.git"
     },
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-geolocation": {}
+            "cordova-plugin-geolocation": {
+                "GEOLOCATION_USAGE_DESCRIPTION": " "
+            },
+            "yandex-appmetrica-plugin-cordova": {}
         },
         "platforms": [
             "browser",

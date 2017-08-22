@@ -2,7 +2,7 @@
     "name": "ru.blat.moscowday",
     "displayName": "MoscowDay",
     "version": "0.1.0",
-    "description": "This is description of application.",
+    "description": "Приложение ко дню города Москвы",
     "main": "index.js",
     "scripts": {
         "clear": "rm -Rf ./www/assets",

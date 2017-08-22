@@ -155,7 +155,7 @@ export default class EventInfo extends Component {
               style={{
                 height: '35vh',
                 backgroundSize: 'cover',
-                backgroundImage: `url(http://io.yamblz.ru/i/events/${this.props.event.id}_large.jpg)`,
+                backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_large.jpg)`,
               }}
             />
             <CardTitle

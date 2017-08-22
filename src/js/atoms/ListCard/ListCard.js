@@ -93,7 +93,7 @@ export default class ListCard extends Component {
               height: 110,
               width: 100,
               backgroundSize: 'cover',
-              backgroundImage: `url(http://io.yamblz.ru/i/events/${this.props.event.id}_small.jpg)`,
+              backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_small.jpg)`,
             }}
           />
           <CardWrap>

@@ -8,7 +8,6 @@ const EventOnMap = (props) => {
       panToMyLocation={false}
       panToLocation={[props.event.lat, props.event.lng]}
       isOneEvent
-      height={'90.1vh'}
       sharedState={props.event}
       parent={{
         state: {

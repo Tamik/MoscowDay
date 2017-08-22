@@ -15,27 +15,13 @@ const MapStore = localforage.createInstance({
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  display: -webkit-box;
-  display: -webkit-flex;
-  flex-direction: column;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   height: 100vh;
   font-family: "Arial", sans-serif;
 `
 const ContentWrap = styled.div`
   display: flex;
   flex-direction: column;
-  display: -webkit-box;
-  display: -webkit-flex;
-  flex-direction: column;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   flex: 1;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
 `
 
 export default class Application extends Component {
@@ -73,8 +59,8 @@ export default class Application extends Component {
   render() {
     return (
       <Router>
-        <Layout>
-          <ContentWrap>
+        <Layout className='ONE'>
+          <ContentWrap className='TWO'>
             <Route exact path='/' component={Main} />
             <Route path='/favorites' component={Favorites} />
             <Route path='/radar' component={Radar} />

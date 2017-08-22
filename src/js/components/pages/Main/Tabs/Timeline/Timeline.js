@@ -53,13 +53,11 @@ export default class Timeline extends Component {
   }
 
   componentDidMount() {
-    const date = new Date()
-    const month = '0'.concat(date.getMonth() + 1).slice(-2)
-    const day = '0'.concat(date.getDate()).slice(-2)
+    const today = MDApi.getTodayMSK()
 
     MDApi.getEvents({
       is_main: 1,
-      date: `${date.getFullYear()}-${month}-${day}`,
+      date: `${today.year}-${today.month}-${today.date}`,
     })
       .then((response) => {
         return response.json()

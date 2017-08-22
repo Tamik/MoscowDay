@@ -28,16 +28,30 @@
     <preference name="Orientation" value="portrait" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <preference name="android-minSdkVersion" value="19" />
+        <preference name="ShowSplashScreenSpinner" value="false" />
+        <preference name="SplashShowOnlyFirstTime" value="false" />
+        <splash density="port-hdpi" src="res/screen/android/screen-hdpi-portrait.png" />
+        <splash density="port-ldpi" src="res/screen/android/screen-ldpi-portrait.png" />
+        <splash density="port-mdpi" src="res/screen/android/screen-mdpi-portrait.png" />
+        <splash density="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.png" />
+        <splash density="port-xxhdpi" src="res/screen/android/screen-xhdpi-portrait.png" />
+        <splash density="port-xxxhdpi" src="res/screen/android/screen-xhdpi-portrait.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <preference name="ShowSplashScreenSpinner" value="false" />
+        <splash height="480" src="res/screen/ios/screen-iphone-portrait.png" width="320" />
+        <splash height="960" src="res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
+        <splash height="1136" src="res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />
     </platform>
     <engine name="browser" spec="^4.1.0" />
     <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Приложение запрашивает доступ к вашей геолокации, чтобы показывать, что проходит рядом" />
     </plugin>
+    <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.2" />
     <plugin name="yandex-appmetrica-plugin-cordova" spec="git+https://github.com/Tamik/metrica-plugin-cordova.git" />
 </widget>

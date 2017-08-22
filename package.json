@@ -12,7 +12,7 @@
         "patch": "cd platforms/ios/cordova/node_modules/ && npm i ios-sim@latest",
         "lintfix": "eslint --fix"
     },
-    "author": "...",
+    "author": "Tamik Lokyaev <hello@Tamik.ru>, Baltabek Bekenov, Lina Belokuraya, Artyom Zhuravlev",
     "license": "Apache-2.0",
     "dependencies": {
         "cordova-browser": "^4.1.0",

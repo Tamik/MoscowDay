@@ -258,6 +258,7 @@ export default class EventInfo extends Component {
             <Divider />
             <ListItem
               primaryText={this.props.event.location_title}
+              secondaryText={this.props.event.address}
               style={styles.item}
               onClick={this.openEventOnMapModal}
               leftIcon={
@@ -296,7 +297,8 @@ export default class EventInfo extends Component {
             <Divider />
             <div
               style={{ padding: '8px 10px', fontSize: '14px', overflow: 'hidden', userSelect: 'text' }}
-              dangerouslySetInnerHTML={{ __html: this.props.event.description }} />
+              dangerouslySetInnerHTML={{ __html: this.props.event.description }}
+            />
           </List>
         </Paper>
         <Modal

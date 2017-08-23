@@ -532,12 +532,13 @@ export default class Map extends Component {
     return (
       <YMapsWrap className="maps-wrap">
         {this.state.loading
-          ? <LinearProgress
+          ? <div style={{ height: '6px', position: 'relative', zIndex: 1000 }}><LinearProgress
             mode='indeterminate'
             style={{
               backgroundColor: '#FFFFFF',
             }}
           />
+          </div>
           : ''
         }
         <YMaps onApiAvaliable={this.onMapsApiReady}>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 
 import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
@@ -11,7 +12,7 @@ export default class DatePicker extends Component {
     this.state = {
       datesId: props.id,
       dates: [],
-      selectedValue: props.currentDate,
+      selectedDate: props.currentDate,
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -23,39 +24,45 @@ export default class DatePicker extends Component {
         return response.json()
       })
       .then((response) => {
-        const today = MDApi.getTodayMSK()
-        this.setState({
-          dates: response.data,
-          selectedValue: parseInt(today.date, 10),
-        })
+        // Покажем события на первый из будущих дней 
+        // (в которых есть запланированные события)
+        if (response.data.length) {
+          this.setState({
+            dates: response.data,
+            selectedDate: response.data[0].dt,
+          })
+          this.props.parent.filterEvents(response.data[0].dt)
+        }
       })
   }
 
   formatDate = (date) => {
     const today = MDApi.getTodayMSK()
-    const todayDateInt = parseInt(today.date, 10)
+    const tomorrow = moment(today.full).add(1, 'days').format('YYYY-MM-DD')
 
-    if (date.day === todayDateInt) {
-      return 'Сегодня'
+    if (date.dt === today.full) {
+      return `Сегодня (${date.count})`
     }
-    else if (date.day > todayDateInt && date.day - todayDateInt === 1) {
-      return 'Завтра'
+
+    if (date.dt === tomorrow) {
+      return `Завтра (${date.count})`
     }
-    return `${date.day} ${date.month}`
+
+    return `${date.dateFormatted.day} ${date.dateFormatted.month} (${date.count})`
   }
 
-  handleChange = (event, index, value) => {
+  handleChange = (event, index, _selectedDate) => {
     this.setState({
-      selectedValue: value,
+      selectedDate: _selectedDate,
     })
-    this.props.parent.filterEvents(value)
+    this.props.parent.filterEvents(_selectedDate)
   }
 
   render() {
     return (
       <DropDownMenu
         key={'ref'}
-        value={this.state.selectedValue}
+        value={this.state.selectedDate}
         onChange={this.handleChange}
         style={{
           position: 'fixed',
@@ -65,11 +72,11 @@ export default class DatePicker extends Component {
           backgroundColor: '#fff',
         }}
       >
-        {this.state.dates.map(dt => (
+        {this.state.dates.map(item => (
           <MenuItem
-            key={dt.dt}
-            value={dt.dateFormatted.day}
-            primaryText={this.formatDate(dt.dateFormatted)}
+            key={item.dt}
+            value={item.dt}
+            primaryText={this.formatDate(item)}
           />
         ))}
       </DropDownMenu>

@@ -19,21 +19,26 @@ const List = styled.ul`
 const ListItem = styled.li`
   display: flex;
   align-items: center;
-  height: 70px;
   padding: 10px;
-  color: #607D8B;
   border-bottom: 1px solid rgba(207, 216, 220, 0.35);
+  overflow: hidden;
 `
 const Title = styled.p`
   display: block;
   height: 100%;
-  font-size: 12pt;
-  line-height: 1.05em;
+  line-height: 1.2em;
   font-weight: normal;
   overflow-y: hidden;
 `
+const TitleText = styled.p`
+  font-size: 16px;
+  color: rgb(38, 50, 56);
+`
 const Time = styled.p`
-  color: #455A64;
+  margin-top: 6px;
+  color: #607D8B;
+  font-size: 90%;
+  font-weight: normal;
 `
 const Line = styled.div`
   flex: 0 0 9px;
@@ -57,6 +62,7 @@ export default class Timeline extends Component {
 
     MDApi.getEvents({
       is_main: 1,
+      items_per_page: 50,
       date: `${today.year}-${today.month}-${today.date}`,
     })
       .then((response) => {
@@ -115,49 +121,44 @@ export default class Timeline extends Component {
           : ''
         }
         <List>
-          {this.state.events.map(event => (
-            <ListItem
-              key={event.id}
-              className='timelineItem'
-              onClick={() => this.openEventsModal(event.id, event.title, event)}
-            >
-              <Time
-                style={
-                  event.is_bold
-                    ? {
-                      fontWeight: 'bold',
-                    }
-                    : null
-                }
+          {this.state.events.map((event) => {
+            const beautyDatesRange = MDApi.beautifyEventDatesRange(
+              event.dateFormatted,
+              event.dateEndFormatted
+            )
+            return (
+              <ListItem
+                key={event.id}
+                className='timelineItem'
+                onClick={() => this.openEventsModal(event.id, event.title, event)}
               >
-                {event.dateFormatted.time}
-              </Time>
-              <Line
-                className='timelineLine'
-                style={
-                  event.is_bold
-                    ? {
-                      backgroundColor: '#607D8B',
-                    }
-                    : null
-                }
-              />
-              <Title
-                style={
-                  event.is_bold
-                    ? {
-                      fontWeight: 'bold',
-                      color: '#263238',
-                    }
-                    : null
-                }
-              >{
-                (event.title.length > 60)
-                ? event.title.substr(0, 60) + '&hellip;'
-                : event.title
-              }</Title>
-            </ListItem>
-          ))}
+                <Line
+                  className='timelineLine'
+                  style={
+                    event.is_bold
+                      ? {
+                        backgroundColor: '#607D8B',
+                      }
+                      : null
+                  }
+                />
+                <Title
+                  style={
+                    event.is_bold
+                      ? {
+                        fontWeight: 'bold',
+                        color: '#263238',
+                      }
+                      : null
+                  }
+                >
+                  <TitleText>{event.title}</TitleText>
+                  <Time>{beautyDatesRange.dates} ({beautyDatesRange.time})</Time>
+                </Title>
+              </ListItem>
+            )
+          }
+          )}
         </List>
         <Modal
           isOpen={this.state.isModalVisible}

@@ -8,6 +8,8 @@ import { Card, CardMedia } from 'material-ui/Card'
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
 
+import MDApi from 'utils/MDApi'
+
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
@@ -31,14 +33,18 @@ const CardWrap = styled.div`
 const Title = styled.h2`
   height: 56px;
   margin-bottom: 10px;
-  color: #000;
+  color: rgb(38, 50, 56);
   font-size: 16px;
   font-weight: normal;
   overflow: hidden;
 `
-const Text = styled.p`
+const DatesLabel = styled.p`
   font-size: 14px;
-  color: #000;
+  color: rgb(69, 90, 100);
+`
+const TimeLabel = styled.p`
+  font-size: 13px;
+  color: #888;
 `
 
 export default class ListCard extends Component {
@@ -75,6 +81,10 @@ export default class ListCard extends Component {
   }
 
   render() {
+    const beautyDatesRange = MDApi.beautifyEventDatesRange(
+      this.props.event.dateFormatted,
+      this.props.event.dateEndFormatted
+    )
     return (
       <div>
         <Card
@@ -98,7 +108,8 @@ export default class ListCard extends Component {
           />
           <CardWrap>
             <Title>{this.props.event.title}</Title>
-            <Text>{this.props.event.dateFormatted.time}, {this.props.event.dateFormatted.day} {this.props.event.dateFormatted.month}</Text>
+            <DatesLabel>{beautyDatesRange.dates}</DatesLabel>
+            <TimeLabel>{beautyDatesRange.time}</TimeLabel>
           </CardWrap>
         </Card>
         <Modal

@@ -41,8 +41,12 @@ class NavigationBarContainer extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
-        <BottomNavigation selectedIndex={this.state.selectedIndex}>
+        <BottomNavigation
+          selectedIndex={this.state.selectedIndex}
+          className='bottom-navigation'
+        >
           <BottomNavigationItem
+
             label='События'
             icon={<Icon path={UiIconsPack.MODULE_EVENTS} size='25px' color='' viewBox='0 0 37 35' />}
             onTouchTap={this.changeRoute(0, '/')}

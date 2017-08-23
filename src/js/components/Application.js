@@ -65,7 +65,7 @@ export default class Application extends Component {
             <Route path='/favorites' component={Favorites} />
             <Route path='/radar' component={Radar} />
           </ContentWrap>
-          <Paper zDepth={1}>
+          <Paper zDepth={1} style={{ position: 'relative' }}>
             <NavigationBar />
           </Paper>
         </Layout>

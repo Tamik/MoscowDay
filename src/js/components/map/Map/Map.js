@@ -21,6 +21,14 @@ const MapStore = localforage.createInstance({
  * Coords in yandex placemarks: [lat, lng]
  * Cluster docs: https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/ClusterPlacemark.xml
  * Icons styles: https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/option.presetStorage-docpage
+ * 
+ * @TODO: 
+ * - Разбить на модули
+ * - Красиво убрать из компонента подгрузку событий, и что-то решить с ассинхронностью
+ * - Вынести разметку и стили кастомных баллунов
+ * - Вынести константы
+ * - PropTypes
+ * - 
  */
 let yMapsApi = null
 
@@ -96,12 +104,13 @@ const BalloonEventItem = styled.div`
   background: #fff;
 `
 const BalloonEventTitle = styled.div`
-  color: #455A64;
-  font-size: 13pt;
+  color: rgb(38, 50, 56);
+  font-size: 16px;
   font-weight: bold;
 `
 const BalloonEventMeta = styled.div`
   margin-top: 4px;
+  font-size: 14px;
   color: #455A64; 
 `
 
@@ -552,6 +561,7 @@ export default class Map extends Component {
                 geoObjectHideIconOnBalloonOpen: false,
               }}
             />
+            {/* My Location Placemark */}
             {this.state.myLocationPoint.lat ? (
               <Placemark
                 key={'mylocation'}
@@ -573,6 +583,10 @@ export default class Map extends Component {
             <BalloonItemsWrap>
               {this.state.balloonItemsPreview
                 ? this.state.balloonItemsPreview.map((item, idx) => {
+                  const beautyDatesRange = MDApi.beautifyEventDatesRange(
+                    item.dateFormatted,
+                    item.dateEndFormatted
+                  )
                   return (
                     <BalloonEventItem
                       key={item.id}
@@ -583,10 +597,11 @@ export default class Map extends Component {
                     >
                       <BalloonEventTitle>{item.title}</BalloonEventTitle>
                       <BalloonEventMeta>
-                        <span>
-                          {item.dateFormatted.time}, {item.dateFormatted.day} {item.dateFormatted.month}
-                        </span><br />
-                        {item.location_title}
+                        <p>{beautyDatesRange.dates} ({beautyDatesRange.time})</p>
+                        <p style={{ marginTop: '6px' }}>{item.location_title}</p>
+                        {item.location_title !== item.address
+                          ? <p style={{ color: '#888' }}>{item.address}</p>
+                          : ''}
                       </BalloonEventMeta>
                     </BalloonEventItem>
                   )

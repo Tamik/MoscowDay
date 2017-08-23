@@ -24,6 +24,11 @@ export const globalStyle = css`
   .eventsTabs > div:nth-child(2) > div{
     bottom: -1px !important;
   }
+
+  .bottom-navigation {
+    position: relative;
+  }
+
   .timelineItem:last-child{
     border: none;
   }
@@ -34,12 +39,29 @@ export const globalStyle = css`
     left: 3px;
     top: 7px;
     width: 1px;
-    height: 63px;
+    height: 100px;
     background-color: #607D8B;
+  }
+  .timelineLine::after{
+    content: "";
+    display: block;
+    position: relative;
+    left: 3px;
+    top: -200px;
+    width: 1px;
+    height: 100px;
+    background-color: #607D8B;
+  }
+  .timelineItem:first-child .timelineLine::after{
+    display: none;
   }
   .timelineItem:last-child .timelineLine::before{
     display: none;
   }
+  .timelineItem:last-child .timelineLine::after{
+    top: -100px;
+  }
+
   .swipable-view{
     display: -webkit-box;
     display: -webkit-flex;

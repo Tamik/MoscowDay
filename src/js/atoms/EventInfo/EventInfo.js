@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import styled from 'styled-components'
 import localforage from 'localforage'
 
 import Paper from 'material-ui/Paper'
@@ -16,6 +17,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import Icon from 'atoms/Icon'
 import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
+
+import MDApi from 'utils/MDApi'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
@@ -33,11 +36,34 @@ const myTheme = {
   },
 }
 
+
 const styles = {
   item: {
     fontSize: 14,
   },
 }
+
+const BtnShowOnMap = styled.div`
+  background: #fff;
+  border: 1px solid rgb(219, 226, 229);
+  margin: 8px;
+  padding-bottom: 0;
+  font-size: 14px;
+`
+const BtnShowOnMapContentWrap = styled.div`
+  padding: 16px;
+  padding-right: 40px;
+  position: relative;
+`
+const BtnShowOnMapTitle = styled.div`
+  height: 36px;
+  line-height: 36px;
+  font-size: 0.8em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #455A64;
+  border-top: 1px solid rgb(219, 226, 229); 
+`
 
 export default class EventInfo extends Component {
   constructor(props) {
@@ -138,6 +164,12 @@ export default class EventInfo extends Component {
   }
 
   render() {
+
+    const beautyDatesRange = MDApi.beautifyEventDatesRange(
+      this.props.event.dateFormatted,
+      this.props.event.dateEndFormatted
+    )
+
     return (
       <div>
         <Paper zDepth={0}>
@@ -219,7 +251,7 @@ export default class EventInfo extends Component {
           >
             <Divider />
             <ListItem
-              primaryText={`${this.props.event.dateFormatted.day} ${this.props.event.dateFormatted.month}`}
+              primaryText={beautyDatesRange.dates}
               style={styles.item}
               disabled
               leftIcon={
@@ -238,7 +270,7 @@ export default class EventInfo extends Component {
             />
             <Divider />
             <ListItem
-              primaryText={this.props.event.dateFormatted.time}
+              primaryText={beautyDatesRange.time}
               style={styles.item}
               disabled
               leftIcon={
@@ -256,24 +288,35 @@ export default class EventInfo extends Component {
               }
             />
             <Divider />
-            <ListItem
-              primaryText={this.props.event.location_title}
-              style={styles.item}
+            <BtnShowOnMap
               onClick={this.openEventOnMapModal}
-              leftIcon={
+            >
+              <BtnShowOnMapContentWrap>
                 <Icon
                   path={UiIconsPack.MODULE_RADAR}
                   color='#455A64'
                   style={{
-                    left: 8,
                     width: 18,
                     height: 18,
-                    margin: 15,
+                    position: 'absolute',
+                    right: 16,
+                    top: 16,
                   }}
                   viewBox='0 0 520 510'
                 />
-              }
-            />
+                <p>{this.props.event.location_title}</p>
+                <p
+                  style={{
+                    display: this.props.event.address !== this.props.event.location_title ? 'block' : 'none',
+                    marginTop: '6px',
+                    color: '#888',
+                  }}
+                >
+                  {this.props.event.address}
+                </p>
+              </BtnShowOnMapContentWrap>
+              <BtnShowOnMapTitle>Показать на карте</BtnShowOnMapTitle>
+            </BtnShowOnMap>
             <Divider />
             <ListItem
               primaryText="Описание"
@@ -296,7 +339,8 @@ export default class EventInfo extends Component {
             <Divider />
             <div
               style={{ padding: '8px 10px', fontSize: '14px', overflow: 'hidden', userSelect: 'text' }}
-              dangerouslySetInnerHTML={{ __html: this.props.event.description }} />
+              dangerouslySetInnerHTML={{ __html: this.props.event.description }}
+            />
           </List>
         </Paper>
         <Modal

@@ -18,6 +18,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import Icon from 'atoms/Icon'
 import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
 
+import MDApi from 'utils/MDApi'
+
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',
 })
@@ -162,35 +164,11 @@ export default class EventInfo extends Component {
   }
 
   render() {
-    const startTime = this.props.event.dateFormatted.time
-    const endTime = this.props.event.dateEndFormatted.time
 
-    const startDay = this.props.event.dateFormatted.day
-    const startMonth = this.props.event.dateFormatted.month
-    const startMonthNum = this.props.event.dateFormatted.monthInt
-
-    const endDay = this.props.event.dateEndFormatted.day
-    const endMonth = this.props.event.dateEndFormatted.month
-    const endMonthNum = this.props.event.dateEndFormatted.monthInt
-
-    let formattedDatesRange = ''
-
-    // Месяц начала и конца события одинаковые?
-    if (startMonthNum === endMonthNum) {
-      if (startDay === endDay) {
-        // 1 сентября
-        formattedDatesRange = `${startDay} ${startMonth}`
-      }
-      else {
-        // 1 - 2 сентября
-        formattedDatesRange = `${startDay} — ${endDay} ${startMonth}`
-      }
-    }
-    else {
-      formattedDatesRange = `${startDay} ${startMonth} — ${endDay} ${endMonth}`
-    }
-
-    const formattedTime = `${startTime} — ${endTime}`
+    const beautyDatesRange = MDApi.beautifyEventDatesRange(
+      this.props.event.dateFormatted,
+      this.props.event.dateEndFormatted
+    )
 
     return (
       <div>
@@ -273,7 +251,7 @@ export default class EventInfo extends Component {
           >
             <Divider />
             <ListItem
-              primaryText={formattedDatesRange}
+              primaryText={beautyDatesRange.dates}
               style={styles.item}
               disabled
               leftIcon={
@@ -292,7 +270,7 @@ export default class EventInfo extends Component {
             />
             <Divider />
             <ListItem
-              primaryText={formattedTime}
+              primaryText={beautyDatesRange.time}
               style={styles.item}
               disabled
               leftIcon={
@@ -327,7 +305,15 @@ export default class EventInfo extends Component {
                   viewBox='0 0 520 510'
                 />
                 <p>{this.props.event.location_title}</p>
-                <p style={{ marginTop: '6px', color: '#888' }}>{this.props.event.address}</p>
+                <p
+                  style={{
+                    display: this.props.event.address !== this.props.event.location_title ? 'block' : 'none',
+                    marginTop: '6px',
+                    color: '#888',
+                  }}
+                >
+                  {this.props.event.address}
+                </p>
               </BtnShowOnMapContentWrap>
               <BtnShowOnMapTitle>Показать на карте</BtnShowOnMapTitle>
             </BtnShowOnMap>

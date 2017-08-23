@@ -65,7 +65,7 @@ const getEvents = (params) => {
  */
 const getDatesInCategory = (categoryId) => {
   /** 
-   * Example: /dayevents?place=${categoryId}
+   * Method: /dayevents?place=${categoryId}
    */
   const url = [
     methodUrl(MD_API_METHODS.GET_DATES_IN),
@@ -80,7 +80,7 @@ const getDatesInCategory = (categoryId) => {
  */
 const getDatesInPlace = (placeId) => {
   /** 
-   * Example: /dayevents?place=${placeId}
+   * Method: /dayevents?place=${placeId}
    */
   const url = [
     methodUrl(MD_API_METHODS.GET_DATES_IN),
@@ -92,7 +92,7 @@ const getDatesInPlace = (placeId) => {
 
 const getCategories = () => {
   /** 
-   * Example: /countevents?type=bycategories
+   * Method: /countevents?type=bycategories
    */
   const url = [
     methodUrl(MD_API_METHODS.GET_CATEGORIES_LIST),
@@ -103,7 +103,7 @@ const getCategories = () => {
 
 const getPlaces = () => {
   /** 
-   * Example: /countevents?type=byplaces
+   * Method: /countevents?type=byplaces
    */
   const url = [
     methodUrl(MD_API_METHODS.GET_PLACES_LIST),
@@ -112,6 +112,9 @@ const getPlaces = () => {
   return fetch(url)
 }
 
+/**
+ * Получить сегоднянюю дату в часовом поясе +03:00 (МСК) 
+ */
 const getTodayMSK = () => {
   const date = moment(new Date()).utcOffset('+03:00').format('YYYY-MM-DD')
   const dateComponent = date.split('-')
@@ -123,6 +126,40 @@ const getTodayMSK = () => {
     yearInt: parseInt(dateComponent[0], 10),
     monthInt: parseInt(dateComponent[1], 10),
     dateInt: parseInt(dateComponent[2], 10),
+  }
+}
+
+/**
+ * Отформатировать дату начала и дату завершения события
+ * dateStart/dateEnd = {
+ *  day: 1..31,
+ *  month: 'января',
+ *  monthInt: 1..12,
+ *  time: '05:05',
+ * }
+ */
+const beautifyEventDatesRange = (dateStart, dateEnd) => {
+
+  let datesRange = ''
+
+  // Месяц начала и конца события одинаковые?
+  if (dateStart.monthInt === dateEnd.monthInt) {
+    if (dateStart.day === dateEnd.day) {
+      // 1 сентября
+      datesRange = `${dateStart.day} ${dateStart.month}`
+    }
+    else {
+      // 1 - 2 сентября
+      datesRange = `${dateStart.day} — ${dateEnd.day} ${dateStart.month}`
+    }
+  }
+  else {
+    datesRange = `${dateStart.day} ${dateStart.month} — ${dateEnd.day} ${dateEnd.month}`
+  }
+
+  return {
+    dates: datesRange,
+    time: `${dateStart.time} — ${dateEnd.time}`,
   }
 }
 
@@ -199,7 +236,19 @@ const MDApi = {
    */
   getPlaces,
 
+  /**
+   * @returns {Object}
+   */
   getTodayMSK,
+
+  /**
+   * @returns {Object}
+   * {
+   *  dates: '1 - 2 сентября',
+   *  time: '15:00 — 19:00',
+   * }
+   */
+  beautifyEventDatesRange,
 }
 
 export default MDApi

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import styled from 'styled-components'
 import localforage from 'localforage'
 
 import Paper from 'material-ui/Paper'
@@ -33,11 +34,34 @@ const myTheme = {
   },
 }
 
+
 const styles = {
   item: {
     fontSize: 14,
   },
 }
+
+const BtnShowOnMap = styled.div`
+  background: #fff;
+  border: 1px solid rgb(219, 226, 229);
+  margin: 8px;
+  padding-bottom: 0;
+  font-size: 14px;
+`
+const BtnShowOnMapContentWrap = styled.div`
+  padding: 16px;
+  padding-right: 40px;
+  position: relative;
+`
+const BtnShowOnMapTitle = styled.div`
+  height: 36px;
+  line-height: 36px;
+  font-size: 0.8em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #455A64;
+  border-top: 1px solid rgb(219, 226, 229); 
+`
 
 export default class EventInfo extends Component {
   constructor(props) {
@@ -138,6 +162,36 @@ export default class EventInfo extends Component {
   }
 
   render() {
+    const startTime = this.props.event.dateFormatted.time
+    const endTime = this.props.event.dateEndFormatted.time
+
+    const startDay = this.props.event.dateFormatted.day
+    const startMonth = this.props.event.dateFormatted.month
+    const startMonthNum = this.props.event.dateFormatted.monthInt
+
+    const endDay = this.props.event.dateEndFormatted.day
+    const endMonth = this.props.event.dateEndFormatted.month
+    const endMonthNum = this.props.event.dateEndFormatted.monthInt
+
+    let formattedDatesRange = ''
+
+    // Месяц начала и конца события одинаковые?
+    if (startMonthNum === endMonthNum) {
+      if (startDay === endDay) {
+        // 1 сентября
+        formattedDatesRange = `${startDay} ${startMonth}`
+      }
+      else {
+        // 1 - 2 сентября
+        formattedDatesRange = `${startDay} — ${endDay} ${startMonth}`
+      }
+    }
+    else {
+      formattedDatesRange = `${startDay} ${startMonth} — ${endDay} ${endMonth}`
+    }
+
+    const formattedTime = `${startTime} — ${endTime}`
+
     return (
       <div>
         <Paper zDepth={0}>
@@ -219,7 +273,7 @@ export default class EventInfo extends Component {
           >
             <Divider />
             <ListItem
-              primaryText={`${this.props.event.dateFormatted.day} ${this.props.event.dateFormatted.month}`}
+              primaryText={formattedDatesRange}
               style={styles.item}
               disabled
               leftIcon={
@@ -238,7 +292,7 @@ export default class EventInfo extends Component {
             />
             <Divider />
             <ListItem
-              primaryText={this.props.event.dateFormatted.time}
+              primaryText={formattedTime}
               style={styles.item}
               disabled
               leftIcon={
@@ -256,25 +310,27 @@ export default class EventInfo extends Component {
               }
             />
             <Divider />
-            <ListItem
-              primaryText={this.props.event.location_title}
-              secondaryText={this.props.event.address}
-              style={styles.item}
+            <BtnShowOnMap
               onClick={this.openEventOnMapModal}
-              leftIcon={
+            >
+              <BtnShowOnMapContentWrap>
                 <Icon
                   path={UiIconsPack.MODULE_RADAR}
                   color='#455A64'
                   style={{
-                    left: 8,
                     width: 18,
                     height: 18,
-                    margin: 15,
+                    position: 'absolute',
+                    right: 16,
+                    top: 16,
                   }}
                   viewBox='0 0 520 510'
                 />
-              }
-            />
+                <p>{this.props.event.location_title}</p>
+                <p style={{ marginTop: '6px', color: '#888' }}>{this.props.event.address}</p>
+              </BtnShowOnMapContentWrap>
+              <BtnShowOnMapTitle>Показать на карте</BtnShowOnMapTitle>
+            </BtnShowOnMap>
             <Divider />
             <ListItem
               primaryText="Описание"

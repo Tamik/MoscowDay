@@ -23,7 +23,7 @@ const ListItem = styled.li`
   border-bottom: 1px solid rgba(207, 216, 220, 0.35);
   overflow: hidden;
 `
-const Title = styled.p`
+const Title = styled.div`
   display: block;
   height: 100%;
   line-height: 1.2em;

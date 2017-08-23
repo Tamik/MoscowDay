@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import FlatButton from 'material-ui/FlatButton'
+import styled from 'styled-components'
 import LinearProgress from 'material-ui/LinearProgress'
 
 import { ListCard } from 'atoms'
@@ -9,10 +9,26 @@ import { DatePicker } from 'molecules'
 
 import MDApi from 'utils/MDApi'
 
+const BtnMore = styled.div`
+  background: #fff;
+  border: 1px solid #f2f2f2;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgb(38, 50, 56);
+  font-size: 14px;
+  font-family: -apple-system, "San Francisco", "Helvetica Neue", Helvetica, “Lucida Grande”, Roboto, “Segoe UI”, Arial, Ubuntu, sans-serif;
+  width: 100%;
+  margin: 0 0 8px 0;
+`
+
 export default class EventsList extends Component {
   constructor(props) {
     super(props)
+
     const today = MDApi.getTodayMSK()
+
     this.state = {
       id: props.event.id,
       type: props.event.type,
@@ -21,50 +37,49 @@ export default class EventsList extends Component {
       events: [],
       currentPage: 1,
       endOfEvents: false,
-      selectDate: today.date,
-      selectMonth: today.month,
-      selectYear: today.year,
+
+      selectedDate: today.full,
+
       loading: true,
       nextPageLoading: false,
     }
   }
 
-  componentDidMount() {
-    this.getEvents()
-  }
+  componentDidMount() {}
 
   getEvents = (_params) => {
 
     const params = _params || {}
-    const dt = params.date || `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDate}`
+    const dt = params.date || `${this.state.selectedDate}`
 
     switch (this.state.type) {
-      case 'place': MDApi.getEvents({
-        place: this.state.id,
-        date: dt,
-        page: params.page ? params.page : this.state.currentPage,
-      }).then((response) => {
-        return response.json()
-      }).then((response) => {
-        let isEnd
-        if (response.data.length === 0) {
-          isEnd = true
-        }
-        else {
-          isEnd = false
-        }
+      case 'place':
+        MDApi.getEvents({
+          place: this.props.id,
+          date: dt,
+          page: params.page ? params.page : this.state.currentPage,
+        }).then((response) => {
+          return response.json()
+        }).then((response) => {
+          let isEnd
+          if (response.data.length === 0) {
+            isEnd = true
+          }
+          else {
+            isEnd = false
+          }
 
-        const newEvents = params.mode === 'append'
-          ? this.state.events.concat(response.data)
-          : response.data
+          const newEvents = params.mode === 'append'
+            ? this.state.events.concat(response.data)
+            : response.data
 
-        this.setState({
-          events: newEvents,
-          endOfEvents: isEnd,
-          loading: false,
-          nextPageLoading: false,
+          this.setState({
+            events: newEvents,
+            endOfEvents: isEnd,
+            loading: false,
+            nextPageLoading: false,
+          })
         })
-      })
         break
       case 'headings':
         MDApi.getEvents({
@@ -75,6 +90,7 @@ export default class EventsList extends Component {
           return response.json()
         }).then((response) => {
           let isEnd
+
           if (response.data.length < 10) {
             isEnd = true
           }
@@ -98,14 +114,15 @@ export default class EventsList extends Component {
     }
   }
 
-  filterEvents = (day) => {
+  filterEvents = (_selectedDate) => {
     this.setState({
-      selectDate: day,
+      selectedDate: _selectedDate,
       currentPage: 1,
     })
+
     this.getEvents({
       page: 1,
-      date: `${this.state.selectYear}-${this.state.selectMonth}-${day}`,
+      date: _selectedDate,
     })
   }
 
@@ -149,37 +166,21 @@ export default class EventsList extends Component {
           />
           : ''
         }
-        <DatePicker id={this.state.id} currentDate={this.state.selectDate} parent={this} />
+        <DatePicker id={this.state.id} currentDate={this.state.selectedDate} parent={this} />
         <div
           style={{
-            marginTop: 48,
+            marginTop: 56,
           }}
         >
           {this.state.events.map((event) => {
-            {/* if (event.dateFormatted.day === this.state.selectDate) {
-              return (
-                <ListCard key={event.id} event={event} />
-              )
-            } */}
-            return (
-              <ListCard key={event.id} event={event} />
-            )
+            return (<ListCard key={event.id} event={event} />)
           })}
         </div>
-        {this.state.endOfEvents
-          ? ''
-          : <FlatButton
-            label={this.state.nextPageLoading
-              ? 'Загрузка...'
-              : 'Показать еще'
-            }
-            style={{
-              display: this.state.events.length < 9 ? 'none' : 'block',
-              width: '100%',
-              margin: '8px auto',
-            }}
-            onTouchTap={() => this.showMoreEvents()}
-          />}
+        {!this.state.endOfEvents
+          ? <BtnMore onClick={() => this.showMoreEvents()}>
+            {this.state.nextPageLoading ? 'Загрузка...' : 'Показать еще'}
+          </BtnMore>
+          : ''}
       </div>
     )
   }

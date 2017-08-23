@@ -95,14 +95,6 @@ export const globalStyle = css`
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
     flex-direction: column;
-  }
-  .maps-wrap > div > ymaps{
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
-    height: 100% !important;
-  }
-  .maps-wrap > div > ymaps > ymaps{
-    height: 100% !important;  
+    height: 100% !important
   }
 `

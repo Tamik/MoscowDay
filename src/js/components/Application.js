@@ -53,7 +53,7 @@ export default class Application extends Component {
             zoom: 15,
           },
         })
-      })
+      }, { enableHighAccuracy: false })
   }
 
   render() {

@@ -294,11 +294,9 @@ export default class EventInfo extends Component {
               }
             />
             <Divider />
-            <ListItem
-              primaryText={this.props.event.description}
-              style={styles.item}
-              disabled
-            />
+            <div
+              style={{ padding: '8px 10px', fontSize: '14px', overflow: 'hidden', userSelect: 'text' }}
+              dangerouslySetInnerHTML={{ __html: this.props.event.description }} />
           </List>
         </Paper>
         <Modal
@@ -309,7 +307,7 @@ export default class EventInfo extends Component {
           content={<EventOnMap event={this.props.event} />}
           close={this.closeEventOnMapModal}
         />
-      </div>
+      </div >
     )
   }
 }

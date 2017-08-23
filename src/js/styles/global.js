@@ -84,7 +84,7 @@ export const globalStyle = css`
     -webkit-flex-direction: column;
     flex-direction: column;
   }
-  .maps-wrap > div{
+  .maps-wrap > div:first-child{
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;

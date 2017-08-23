@@ -36,19 +36,29 @@ export default class DatePicker extends Component {
       })
   }
 
+  declOfNum = (number, titles) => {
+    const cases = [2, 0, 1, 1, 1, 2]
+    return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
+  }
+
   formatDate = (date) => {
     const today = MDApi.getTodayMSK()
     const tomorrow = moment(today.full).add(1, 'days').format('YYYY-MM-DD')
 
+    const postfix = this.declOfNum(date.count, ['событие', 'события', 'событий'])
+
     if (date.dt === today.full) {
-      return `Сегодня (${date.count})`
+      return `Сегодня (${date.count} ${postfix})`
     }
 
     if (date.dt === tomorrow) {
-      return `Завтра (${date.count})`
+      return `Завтра (${date.count} ${postfix})`
     }
 
-    return `${date.dateFormatted.day} ${date.dateFormatted.month} (${date.count})`
+    return {
+      date: `${date.dateFormatted.day} ${date.dateFormatted.month}`,
+      count: `${date.count} ${postfix}`,
+    }
   }
 
   handleChange = (event, index, _selectedDate) => {
@@ -72,13 +82,16 @@ export default class DatePicker extends Component {
           backgroundColor: '#fff',
         }}
       >
-        {this.state.dates.map(item => (
-          <MenuItem
-            key={item.dt}
-            value={item.dt}
-            primaryText={this.formatDate(item)}
-          />
-        ))}
+        {this.state.dates.map((item) => {
+          const formattedDate = this.formatDate(item)
+          return (
+            <MenuItem
+              key={item.dt}
+              value={item.dt}
+              primaryText={<span><strong>{formattedDate.date}</strong> <span style={{ color: '#888' }}>({formattedDate.count})</span></span>}
+            />
+          )
+        })}
       </DropDownMenu>
     )
   }

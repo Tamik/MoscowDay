@@ -151,7 +151,11 @@ export default class Timeline extends Component {
                     }
                     : null
                 }
-              >{event.title}</Title>
+              >{
+                (event.title.length > 60)
+                ? event.title.substr(0, 60) + '&hellip;'
+                : event.title
+              }</Title>
             </ListItem>
           ))}
         </List>

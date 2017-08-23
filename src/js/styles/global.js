@@ -24,6 +24,11 @@ export const globalStyle = css`
   .eventsTabs > div:nth-child(2) > div{
     bottom: -1px !important;
   }
+
+  .bottom-navigation {
+    position: relative;
+  }
+
   .timelineItem:last-child{
     border: none;
   }

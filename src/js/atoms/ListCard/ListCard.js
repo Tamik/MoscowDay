@@ -33,7 +33,7 @@ const CardWrap = styled.div`
 const Title = styled.h2`
   height: 56px;
   margin-bottom: 10px;
-  color: #000;
+  color: rgb(38, 50, 56);
   font-size: 16px;
   font-weight: normal;
   overflow: hidden;

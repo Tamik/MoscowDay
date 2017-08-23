@@ -236,6 +236,10 @@ export default class Map extends Component {
    */
   onMapsApiReady(api) {
     yMapsApi = api // Не вносим в контекст компонента, т.к api - это статичный объект
+
+    const topBarHeight = document.querySelector('.topbar').getBoundingClientRect().height
+    const screenHeight = window.innerHeight
+    this.mapHeight = topBarHeight - screenHeight
   }
 
   /**
@@ -253,12 +257,14 @@ export default class Map extends Component {
       return
     }
 
-    if (this.props.panToLocation === undefined) {
-      MapStore.getItem('map')
-        .then((response) => {
-          this.setState(response)
+    //if (this.props.panToLocation === undefined) {
+    MapStore.getItem('map')
+      .then((response) => {
+        this.setState({
+          myLocationPoint: response.myLocationPoint,
         })
-    }
+      })
+    //}
 
     if (this.props.panToLocation !== undefined) {
       this.doAutoPan = false
@@ -406,7 +412,7 @@ export default class Map extends Component {
           this.onGeolocationError,
           {
             timeout: GEOLOCATION_WATCH_TIMEOUT,
-            enableHighAccuracy: true,
+            // enableHighAccuracy: ,
             maximumAge: 3000,
           }
         )
@@ -546,7 +552,7 @@ export default class Map extends Component {
               suppressMapOpenBlock: true,
             }}
             width={this.props.width || '100%'}
-            height={this.props.height || '100%'}
+            height={this.mapHeight}
           >
             <Clusterer
               instanceRef={(ref) => {

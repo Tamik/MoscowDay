@@ -37,6 +37,7 @@ const TopBar = (props) => {
 
   return (
     <AppBar
+      className='topbar'
       title={props.title}
       titleStyle={style.title}
       style={style.block}

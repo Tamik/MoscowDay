@@ -38,7 +38,7 @@ const CLUSTER_STYLE_PRESET = 'islands#invertedDarkBlueClusterIcons'
 const EVENT_STYLE_PRESET = 'islands#redDotIcon'
 const MYLOCATION_STYLE_PRESET = 'islands#geolocationIcon'
 
-const INIT_ZOOM = 13 // zoom: 1..23
+const INIT_ZOOM = 14 // zoom: 1..23
 const MIN_ZOOM = 10
 const CONTROLS = ['zoomControl']
 
@@ -63,12 +63,25 @@ const YMapsWrap = styled.div`
   flex-grow: 1;
   position: relative;
 `
-
-const BalloonLayout = styled.div`
+const Pain = styled.div`
   position: absolute;
-  bottom: 2px;
+  bottom: 0;
   background: #fff;
   width: 100%;
+`
+const PainInner = styled.div`
+  padding: 16px 5px;
+  background: #fff;
+  text-align: center;
+  color: rgb(38, 50, 56);
+
+`
+const BalloonLayout = styled.div`
+  position: absolute;
+  bottom: 0;
+  background: #fff;
+  width: 100%;
+  z-index: 100;
 `
 const BalloonInner = styled.div`
   padding: 5px;
@@ -528,7 +541,13 @@ export default class Map extends Component {
     return false
   }
 
+  declOfNum = (number, titles) => {
+    const cases = [2, 0, 1, 1, 1, 2]
+    return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
+  }
+
   render() {
+    const postfix = this.declOfNum(this.state.points.length, ['событие', 'события', 'событий'])
     return (
       <YMapsWrap className="maps-wrap">
         {this.state.loading
@@ -580,6 +599,13 @@ export default class Map extends Component {
             ) : ''}
           </YMap>
         </YMaps>
+        <Pain
+          style={{ display: this.props.isOneEvent ? 'none' : 'block' }}
+        >
+          <PainInner>
+            { 'Сегодня '.concat(this.state.points.length).concat(' ').concat(postfix)}
+          </PainInner>
+        </Pain>
         <BalloonLayout
           style={{ display: this.state.balloonItemsPreview ? 'block' : 'none' }}
         >

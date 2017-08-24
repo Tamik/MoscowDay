@@ -134,13 +134,6 @@ export default class Timeline extends Component {
               >
                 <Line
                   className='timelineLine'
-                  style={
-                    event.is_bold
-                      ? {
-                        backgroundColor: '#607D8B',
-                      }
-                      : null
-                  }
                 />
                 <Title
                   style={

@@ -32,9 +32,9 @@ const ContentWrap = styled.div`
   -webkit-box-flex: 1;
   padding: 5px;
   overflow-y: auto;
-  -webkit-overflow-scrolling: 'touch';
-  overflow-scrolling: 'touch';
-  touch-action: 'auto';
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  touch-action: auto;
 `
 
 const style = {

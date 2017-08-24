@@ -38,8 +38,8 @@ const CLUSTER_STYLE_PRESET = 'islands#invertedDarkBlueClusterIcons'
 const EVENT_STYLE_PRESET = 'islands#redDotIcon'
 const MYLOCATION_STYLE_PRESET = 'islands#geolocationIcon'
 
-const INIT_ZOOM = 14 // zoom: 1..23
-const MIN_ZOOM = 10
+const INIT_ZOOM = 13 // zoom: 1..23
+const MIN_ZOOM = 9
 const CONTROLS = ['zoomControl']
 
 const MAP_ZOOM_TO_MY_LOCATION = 15

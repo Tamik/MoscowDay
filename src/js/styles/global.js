@@ -28,7 +28,16 @@ export const globalStyle = css`
   .bottom-navigation {
     position: relative;
   }
-
+  .timelineItem::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background-color: rgba(207, 216, 220, 0.35);
+    z-index: 1;
+  }
   .timelineItem:last-child{
     border: none;
   }

@@ -17,10 +17,10 @@ const List = styled.ul`
   
 `
 const ListItem = styled.li`
+  position: relative;
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid rgba(207, 216, 220, 0.35);
   overflow: hidden;
 `
 const Title = styled.div`

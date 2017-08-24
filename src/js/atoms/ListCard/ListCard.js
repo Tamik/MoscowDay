@@ -31,12 +31,10 @@ const CardWrap = styled.div`
   padding: 10px;
 `
 const Title = styled.h2`
-  height: 56px;
   margin-bottom: 10px;
   color: rgb(38, 50, 56);
   font-size: 16px;
   font-weight: normal;
-  overflow: hidden;
 `
 const DatesLabel = styled.p`
   font-size: 14px;

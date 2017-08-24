@@ -31,12 +31,10 @@ const CardWrap = styled.div`
   padding: 10px;
 `
 const Title = styled.h2`
-  height: 56px;
   margin-bottom: 10px;
   color: rgb(38, 50, 56);
   font-size: 16px;
   font-weight: normal;
-  overflow: hidden;
 `
 const DatesLabel = styled.p`
   font-size: 14px;
@@ -103,6 +101,7 @@ export default class ListCard extends Component {
               // height: 110,
               width: 100,
               backgroundSize: 'cover',
+              backgroundPosition: 'center',
               backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_small.jpg)`,
             }}
           />

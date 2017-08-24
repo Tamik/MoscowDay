@@ -187,6 +187,7 @@ export default class EventInfo extends Component {
               style={{
                 height: '35vh',
                 backgroundSize: 'cover',
+                backgroundPosition: 'center',
                 backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_large.jpg)`,
               }}
             />

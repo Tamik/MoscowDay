@@ -101,6 +101,7 @@ export default class ListCard extends Component {
               // height: 110,
               width: 100,
               backgroundSize: 'cover',
+              backgroundPosition: 'center',
               backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_small.jpg)`,
             }}
           />

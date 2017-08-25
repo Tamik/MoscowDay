@@ -151,6 +151,8 @@ export default class Map extends Component {
 
     this.lastOpenedBalloon = null
 
+    this.cachedMyLocation = null
+
     /**
      * @description Устанавливаем тип 'event' меткам, если тип не установлен
      */
@@ -528,6 +530,14 @@ export default class Map extends Component {
 
   showMyPosition() {
 
+    if (!this.map) {
+      return
+    }
+
+    if (this.map.panTo === undefined) {
+      return
+    }
+
     if (this.state.isMyLocationLoading) {
       return
     }
@@ -537,6 +547,26 @@ export default class Map extends Component {
     })
 
     this.stopWatchingMyLocation()
+
+
+    if (this.cachedMyLocation) {
+      if ((new Date()).getSeconds() - this.cachedMyLocation.time > 30) {
+
+        console.log((new Date()).getSeconds() - this.cachedMyLocation.time)
+
+        this.setState({
+          isMyLocationLoading: false,
+        })
+
+        this.map.panTo([this.state.myLocationPoint.lat, this.state.myLocationPoint.lng], {
+          duration: 1000,
+          flying: true,
+        }).then(() => {
+          this.map.setZoom(MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
+        })
+        return
+      }
+    }
 
     // @TODO: Caching my last position on 15-20 seconds
     navigator.geolocation.getCurrentPosition(
@@ -555,10 +585,29 @@ export default class Map extends Component {
           this.map.setZoom(MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
         })
 
+        this.cachedMyLocation = {
+          time: (new Date()).getSeconds(),
+          pos: position,
+        }
+
         this.startWatchingMyLocation()
       },
       (err) => {
-        // handle error
+        // @TODO: PositionError.POSITION_UNAVAILABLE
+        window.plugins.toast.showWithOptions({
+          message: 'Упс, включите GPS или Интернет!',
+          duration: 'short',
+          position: 'bottom',
+          styling: {
+            opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+            backgroundColor: 'rgb(96, 125, 139)', // make sure you use #RRGGBB. Default #333333
+            textColor: '#ffffff', // Ditto. Default #FFFFFF
+            textSize: 20.5, // Default is approx. 13.
+            cornerRadius: 16, // minimum is 0 (square). iOS default 20, Android default 100
+            horizontalPadding: 20, // iOS default 16, Android default 50
+            verticalPadding: 16, // iOS default 12, Android default 30
+          },
+        })
       }, { enableHighAccuracy: false })
   }
 

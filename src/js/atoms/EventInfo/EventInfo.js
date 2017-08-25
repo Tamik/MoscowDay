@@ -323,19 +323,6 @@ export default class EventInfo extends Component {
               primaryText="Описание"
               style={styles.item}
               disabled
-              leftIcon={
-                <Icon
-                  path={UiIconsPack.ARROW_DOWN}
-                  color='#455A64'
-                  style={{
-                    left: 8,
-                    width: 18,
-                    height: 18,
-                    margin: 15,
-                  }}
-                  viewBox='-8 0 80 60'
-                />
-              }
             />
             <Divider />
             <div

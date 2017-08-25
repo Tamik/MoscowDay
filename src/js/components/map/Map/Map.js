@@ -7,6 +7,9 @@ import LinearProgress from 'material-ui/LinearProgress'
 
 import MDApi from 'utils/MDApi'
 
+import Icon from 'atoms/Icon'
+import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
+
 const AppStore = localforage.createInstance({
   name: 'App',
 })
@@ -32,7 +35,7 @@ const MapStore = localforage.createInstance({
  */
 let yMapsApi = null
 
-const GEOLOCATION_WATCH_TIMEOUT = 5000
+const GEOLOCATION_WATCH_TIMEOUT = 15000
 
 const CLUSTER_STYLE_PRESET = 'islands#invertedDarkBlueClusterIcons'
 const EVENT_STYLE_PRESET = 'islands#redDotIcon'
@@ -127,6 +130,19 @@ const BalloonEventMeta = styled.div`
   color: #455A64; 
 `
 
+const BtnGoToMyLocation = styled.div`
+  position: absolute;
+  right: 16px;
+  bottom: 24px;
+  z-index: 100;
+  width: 56px;
+  height: 56px;
+  text-align: center;
+  line-height: 56px;
+  background: rgb(96, 125, 139);
+  box-shadow: 0 2px 6px -0.6px rgba(0,0,0,0.3);
+  border-radius: 100%;
+`
 
 export default class Map extends Component {
   constructor(props) {
@@ -136,8 +152,6 @@ export default class Map extends Component {
     this.doAutoPan = true
 
     this.lastOpenedBalloon = null
-
-    this.isMyLocationGotByYandex = false
 
     /**
      * @description Устанавливаем тип 'event' меткам, если тип не установлен
@@ -155,6 +169,7 @@ export default class Map extends Component {
         lat: 0,
         lng: 0,
       },
+      isMyLocationLoading: false,
       balloonItemsPreview: null,
       mapState: {
         center: props.initCenter || [55.751574, 37.573856],
@@ -172,6 +187,8 @@ export default class Map extends Component {
     this.closeBalloon = this.closeBalloon.bind(this)
     this.openEventModal = this.openEventModal.bind(this)
     this.changeZoomToCity = this.changeZoomToCity.bind(this)
+
+    this.showMyPosition = this.showMyPosition.bind(this)
   }
 
   componentDidMount() {
@@ -199,7 +216,7 @@ export default class Map extends Component {
 
   /**
    * @description Обработчик выполнится после успешно определенного текущего местоположения
-   * @param {Object} position 
+   * @param {Object} pos 
    * @see https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/
    */
   onGeolocationSuccess(pos) {
@@ -305,7 +322,6 @@ export default class Map extends Component {
         .then((response) => {
           this.setState(this.state)
         })
-      //this.map.setCenter([this.state.myLocationPoint[0], this.state.myLocationPoint[1]])
     }
 
     AppStore.getItem('client_id')
@@ -397,12 +413,9 @@ export default class Map extends Component {
     this.addPlacemarks()
     this.bindEventsOnClusterer()
 
-    // Кнопка Перейти к моему местоположению
-    this.map.controls.add(this.makeBtnGotoMyLocation(), { float: 'right' })
-
     // Кнопка Вернуться к событию
     if (this.props.panToLocation !== undefined) {
-      this.map.controls.add(this.makeBtnGotoEventLocation(), { float: 'left' })
+      this.map.controls.add(this.makeBtnGotoEventLocation(), { float: 'right' })
     }
 
     this.bindMapEvents()
@@ -455,30 +468,6 @@ export default class Map extends Component {
         this.closeBalloon()
       }
     })
-  }
-
-  makeBtnGotoMyLocation() {
-    const btnGoToMyLocation = new yMapsApi.control.Button(
-      {
-        data: {
-          content: '<strong>Где Я?</strong>',
-        },
-        options: {
-          selectOnClick: false,
-        },
-      }
-    )
-
-    btnGoToMyLocation.events.add('click', (e) => {
-      this.map.panTo([this.state.myLocationPoint.lat, this.state.myLocationPoint.lng], {
-        duration: 1000,
-        flying: true,
-      }).then(() => {
-        this.map.setZoom(MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
-      })
-    })
-
-    return btnGoToMyLocation
   }
 
   makeBtnGotoEventLocation() {
@@ -539,6 +528,42 @@ export default class Map extends Component {
     return placemark
   }
 
+  showMyPosition() {
+
+    if (this.state.isMyLocationLoading) {
+      return
+    }
+
+    this.setState({
+      isMyLocationLoading: true,
+    })
+
+    this.stopWatchingMyLocation()
+
+    // @TODO: Caching my last position on 15-20 seconds
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+
+        this.setState({
+          isMyLocationLoading: false,
+        })
+
+        const position = [pos.coords.latitude, pos.coords.longitude]
+
+        this.map.panTo([this.state.myLocationPoint.lat, this.state.myLocationPoint.lng], {
+          duration: 1000,
+          flying: true,
+        }).then(() => {
+          this.map.setZoom(MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
+        })
+
+        this.startWatchingMyLocation()
+      },
+      (err) => {
+        // handle error
+      }, { enableHighAccuracy: false })
+  }
+
   startWatchingMyLocation() {
     setTimeout(() => {
       this.watchLocationID = navigator.geolocation.watchPosition(
@@ -578,6 +603,7 @@ export default class Map extends Component {
   }
 
   openEventModal(eventId) {
+    // @todo: исключить линейный поиск, заменить на hash map
     const eventData = this.state.points.filter((item) => {
       return eventId === item.id
     })
@@ -596,16 +622,6 @@ export default class Map extends Component {
     const postfix = MDApi.getDeclineOfNumber(this.state.points.length, ['событие', 'события', 'событий'])
     return (
       <YMapsWrap className="maps-wrap">
-        {this.state.loading
-          ? <div style={{ height: '6px', position: 'relative', zIndex: 1000 }}><LinearProgress
-            mode='indeterminate'
-            style={{
-              backgroundColor: '#FFFFFF',
-            }}
-          />
-          </div>
-          : ''
-        }
         <YMaps onApiAvaliable={this.onMapsApiReady}>
           <YMap
             state={this.state.mapState}
@@ -628,7 +644,7 @@ export default class Map extends Component {
                 preset: CLUSTER_STYLE_PRESET,
                 groupByCoordinates: false,
                 hasBalloon: false,
-                clusterDisableClickZoom: false,
+                clusterDisableClickZoom: true,
                 clusterHideIconOnBalloonOpen: false,
                 geoObjectHideIconOnBalloonOpen: false,
               }}
@@ -654,6 +670,15 @@ export default class Map extends Component {
             </PainInner>
             : ''}
         </Pain>
+        <BtnGoToMyLocation
+          className={this.state.isMyLocationLoading ? 'btn-goto-mylocation btn-goto-mylocation__loading' : 'btn-goto-mylocation'}
+          onClick={this.showMyPosition}
+        >
+          {this.state.isMyLocationLoading
+            ? <div className='radar-spinner' />
+            : ''}
+          <Icon path={UiIconsPack.NAVIARROW} size='25px' color='#ffffff' viewBox='0 0 54 50' />
+        </BtnGoToMyLocation>
         <BalloonLayout
           style={{ display: this.state.balloonItemsPreview ? 'block' : 'none' }}
         >
@@ -692,6 +717,13 @@ export default class Map extends Component {
             </BalloonItemsWrap>
           </BalloonInner>
         </BalloonLayout>
+        {this.state.loading
+          ? <div className='simple-spinner'>
+            <div className='simple-spinner__bounce1' />
+            <div className='simple-spinner__bounce2' />
+          </div>
+          : ''
+        }
       </YMapsWrap>
     )
   }

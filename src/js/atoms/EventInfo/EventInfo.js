@@ -40,8 +40,18 @@ const myTheme = {
 const styles = {
   item: {
     fontSize: 14,
+    userSelect: 'text',
   },
 }
+
+const BtnShare = styled.div`
+  background: #fff8ef;
+  border: 1px solid #f7e2c3;
+  margin: 8px;
+  padding: 16px 0;
+  text-align: center;
+  font-size: 14px;
+`
 
 const BtnShowOnMap = styled.div`
   background: #fff;
@@ -60,6 +70,7 @@ const BtnShowOnMapTitle = styled.div`
   line-height: 36px;
   font-size: 0.8em;
   text-align: center;
+  font-weight: bold;
   text-transform: uppercase;
   color: #455A64;
   border-top: 1px solid rgb(219, 226, 229); 
@@ -68,6 +79,11 @@ const BtnShowOnMapTitle = styled.div`
 export default class EventInfo extends Component {
   constructor(props) {
     super(props)
+
+    this.beautyDatesRange = MDApi.beautifyEventDatesRange(
+      this.props.event.dateFormatted,
+      this.props.event.dateEndFormatted
+    )
 
     this.state = {
       isModalVisible: false,
@@ -163,13 +179,25 @@ export default class EventInfo extends Component {
     })
   }
 
+  share = () => {
+    const event = this.props.event
+    const messageText = `${event.title}, ${this.beautyDatesRange.dates} ${this.beautyDatesRange.time}, ${event.location_title}`
+
+    const options = {
+      message: messageText,
+      subject: this.props.event.title,
+      files: [`http://185.125.219.104:5000/i/events/${event.id}_large.jpg`],
+      url: 'https://www.website.com/foo/#bar?a=b',
+      chooserTitle: 'Поделиться событием',
+    }
+
+    const onSuccess = (result) => { }
+    const onError = (msg) => { }
+
+    window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError)
+  }
+
   render() {
-
-    const beautyDatesRange = MDApi.beautifyEventDatesRange(
-      this.props.event.dateFormatted,
-      this.props.event.dateEndFormatted
-    )
-
     return (
       <div>
         <Paper zDepth={0}>
@@ -252,7 +280,7 @@ export default class EventInfo extends Component {
           >
             <Divider />
             <ListItem
-              primaryText={beautyDatesRange.dates}
+              primaryText={this.beautyDatesRange.dates}
               style={styles.item}
               disabled
               leftIcon={
@@ -271,7 +299,7 @@ export default class EventInfo extends Component {
             />
             <Divider />
             <ListItem
-              primaryText={beautyDatesRange.time}
+              primaryText={this.beautyDatesRange.time}
               style={styles.item}
               disabled
               leftIcon={
@@ -288,6 +316,8 @@ export default class EventInfo extends Component {
                 />
               }
             />
+            <Divider />
+            <BtnShare onClick={this.share}>Поделиться</BtnShare>
             <Divider />
             <BtnShowOnMap
               onClick={this.openEventOnMapModal}

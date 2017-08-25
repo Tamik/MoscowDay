@@ -181,7 +181,7 @@ export default class EventInfo extends Component {
 
   share = () => {
     const event = this.props.event
-    const messageText = `${event.title}, ${this.beautyDatesRange.dates} ${this.beautyDatesRange.time}, ${event.location_title}`
+    const messageText = `${event.title}, ${this.beautyDatesRange.dates} ${this.beautyDatesRange.time}, ${event.location_title} (${event.address})`
 
     const options = {
       message: messageText,

@@ -36,16 +36,12 @@ export default class DatePicker extends Component {
       })
   }
 
-  declOfNum = (number, titles) => {
-    const cases = [2, 0, 1, 1, 1, 2]
-    return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
-  }
 
   formatDate = (date) => {
     const today = MDApi.getTodayMSK()
     const tomorrow = moment(today.full).add(1, 'days').format('YYYY-MM-DD')
 
-    const postfix = this.declOfNum(date.count, ['событие', 'события', 'событий'])
+    const postfix = MDApi.getDeclineOfNumber(date.count, ['событие', 'события', 'событий'])
 
     if (date.dt === today.full) {
       return `Сегодня (${date.count} ${postfix})`

@@ -163,6 +163,11 @@ const beautifyEventDatesRange = (dateStart, dateEnd) => {
   }
 }
 
+const getDeclineOfNumber = (number, titlesArray) => {
+  const cases = [2, 0, 1, 1, 1, 2]
+  return titlesArray[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
+}
+
 /**
  * @example Get categories (with count of events in each of them)
  * const APIresponse = MDApi.getCategories().then(response => {
@@ -249,6 +254,17 @@ const MDApi = {
    * }
    */
   beautifyEventDatesRange,
+
+  /**
+   * @param {Integer} number - число, к которому нужно подобрать слово в правильном склонении 
+   * @param {Array} titlesArray - слова в нужном склонении
+   * @returns {String} - слово в нужном склонении
+   * 
+   * @example:
+   * MDApi.getDeclineOfNumber(eventsCount, ['событие', 'события', 'событий'])
+   * 
+   */
+  getDeclineOfNumber,
 }
 
 export default MDApi

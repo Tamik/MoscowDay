@@ -592,13 +592,8 @@ export default class Map extends Component {
     return false
   }
 
-  declOfNum = (number, titles) => {
-    const cases = [2, 0, 1, 1, 1, 2]
-    return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
-  }
-
   render() {
-    const postfix = this.declOfNum(this.state.points.length, ['событие', 'события', 'событий'])
+    const postfix = MDApi.getDeclineOfNumber(this.state.points.length, ['событие', 'события', 'событий'])
     return (
       <YMapsWrap className="maps-wrap">
         {this.state.loading

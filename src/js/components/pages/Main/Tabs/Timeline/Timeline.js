@@ -112,12 +112,10 @@ export default class Timeline extends Component {
     return (
       <div>
         {this.state.loading
-          ? <LinearProgress
-            mode='indeterminate'
-            style={{
-              backgroundColor: '#FFFFFF',
-            }}
-          />
+          ? <div className='simple-spinner'>
+            <div className='simple-spinner__bounce1' />
+            <div className='simple-spinner__bounce2' />
+          </div>
           : ''
         }
         <List>

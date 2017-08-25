@@ -118,6 +118,7 @@ export default class EventsList extends Component {
     this.setState({
       selectedDate: _selectedDate,
       currentPage: 1,
+      loading: true,
     })
 
     this.getEvents({
@@ -158,12 +159,10 @@ export default class EventsList extends Component {
         }}
       >
         {this.state.loading
-          ? <LinearProgress
-            mode='indeterminate'
-            style={{
-              backgroundColor: '#FFFFFF',
-            }}
-          />
+          ? <div className='simple-spinner'>
+            <div className='simple-spinner__bounce1' />
+            <div className='simple-spinner__bounce2' />
+          </div>
           : ''
         }
         <DatePicker id={this.state.id} currentDate={this.state.selectedDate} parent={this} />

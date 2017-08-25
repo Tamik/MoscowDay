@@ -106,4 +106,92 @@ export const globalStyle = css`
     flex-direction: column;
     height: 100% !important
   }
+
+  .btn-goto-mylocation{
+    touch-action: none;
+  }
+  .btn-goto-mylocation:active{
+    background: #33586b;
+  }
+  .btn-goto-mylocation__loading{
+    background: #909ea5;
+    transition: background-color 0.5s;
+  }
+  .btn-goto-mylocation__loading > svg{
+    opacity: 0.8;
+    transition: background-color 0.3s;
+  }
+
+
+  .simple-spinner{
+    position: absolute;
+    z-index: 2000;
+    top: 35vh;
+    left: 50vw;
+    margin-left:-20px;
+    width: 40px;
+    height: 40px;
+  }
+  .simple-spinner__bounce1, .simple-spinner__bounce2{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgb(96, 125, 139);
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+  }
+  .simple-spinner__bounce2{
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+  }
+
+  @-webkit-keyframes sk-bounce {
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+  }
+
+  @keyframes sk-bounce {
+    0%, 100% { 
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    } 50% { 
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
+  }
+
+
+  .radar-spinner{
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background-color: #fff;
+    border-radius: 100%;  
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
+  }
+
+  @-webkit-keyframes sk-scaleout {
+    0% { -webkit-transform: scale(0) }
+    100% {
+      -webkit-transform: scale(1.0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes sk-scaleout {
+    0% { 
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    } 100% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+      opacity: 0;
+    }
+  }
 `

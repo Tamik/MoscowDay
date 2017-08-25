@@ -34,6 +34,10 @@ export default class Application extends Component {
             lat: position[0],
             lng: position[1],
           },
+          mapState: {
+            center: position,
+            zoom: 11,
+          },
         })
       },
       (err) => {

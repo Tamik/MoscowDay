@@ -171,10 +171,18 @@ export default class Map extends Component {
 
     this.closeBalloon = this.closeBalloon.bind(this)
     this.openEventModal = this.openEventModal.bind(this)
+    this.changeZoomToCity = this.changeZoomToCity.bind(this)
   }
 
   componentDidMount() {
     this.isComponentMounted = true
+
+    if (this.props.panToLocation === undefined) {
+      MapStore.getItem('map')
+        .then((response) => {
+          this.setState(response)
+        })
+    }
   }
 
   componentWillUnmount() {
@@ -209,6 +217,13 @@ export default class Map extends Component {
       })
     }
 
+    MapStore.setItem('map', {
+      myLocationPoint: {
+        lat: position[0],
+        lng: position[1],
+      },
+    })
+
     /**
      * Не будем центрировать карту на мое местоположение,
      */
@@ -226,7 +241,7 @@ export default class Map extends Component {
       && this.isComponentMounted) {
       this.map.panTo(position, {
         duration: 1000,
-        flying: true,
+        flying: false,
       }).then(() => {
         // Если не задан zoom, то ставим зум сами
         if (!this.props.zoom) {
@@ -256,20 +271,21 @@ export default class Map extends Component {
     const screenHeight = window.innerHeight
     this.mapHeight = topBarHeight - screenHeight
 
-    yMapsApi.geolocation.get({
-      provider: 'yandex',
-      mapStateAutoApply: false,
-    }).then((result) => {
-      if (result.geoObjects && result.geoObjects.position) {
-        this.isMyLocationGotByYandex = true
-        this.setState({
-          myLocationPoint: {
-            lat: result.geoObjects.position[0],
-            lng: result.geoObjects.position[1],
-          },
-        })
-      }
-    })
+    //  @TODO: refactor - get location by ip
+    // yMapsApi.geolocation.get({
+    //   provider: 'yandex',
+    //   mapStateAutoApply: false,
+    // }).then((result) => {
+    //   if (result.geoObjects && result.geoObjects.position) {
+    //     this.isMyLocationGotByYandex = true
+    //     this.setState({
+    //       myLocationPoint: {
+    //         lat: result.geoObjects.position[0],
+    //         lng: result.geoObjects.position[1],
+    //       },
+    //     })
+    //   }
+    // })
   }
 
   /**
@@ -287,15 +303,6 @@ export default class Map extends Component {
       return
     }
 
-    if (this.props.panToLocation === undefined && !this.isMyLocationGotByYandex) {
-      MapStore.getItem('map')
-        .then((response) => {
-          this.setState({
-            myLocationPoint: response.myLocationPoint,
-          })
-        })
-    }
-
     if (this.props.panToLocation !== undefined) {
       this.doAutoPan = false
       if (this.isComponentMounted && this.map) {
@@ -307,6 +314,14 @@ export default class Map extends Component {
           },
         })
       }
+    }
+
+    if (this.doAutoPan) {
+      MapStore.getItem('map')
+        .then((response) => {
+          this.setState(this.state)
+        })
+      //this.map.setCenter([this.state.myLocationPoint[0], this.state.myLocationPoint[1]])
     }
 
     AppStore.getItem('client_id')
@@ -356,7 +371,8 @@ export default class Map extends Component {
           const placemark = e.get('target')
           const eventData = placemark.properties.get('eventData')
           items.push(eventData)
-        } else {
+        }
+        else {
           // Clustered events
           const objects = e.get('target').getGeoObjects()
           objects.map((item) => {
@@ -450,14 +466,13 @@ export default class Map extends Component {
             maximumAge: 3000,
           }
         )
-      }, 100)
+      }, 10)
 
 
       this.setState({
         loading: false,
       })
     }
-
 
     //
     // @TODO: Refactoring required: improve async code
@@ -530,6 +545,10 @@ export default class Map extends Component {
     if (this.watchLocationID) {
       navigator.geolocation.clearWatch(this.watchLocationID)
     }
+  }
+
+  changeZoomToCity() {
+    this.map.setZoom(10)
   }
 
   isBalloonOpened() {
@@ -623,9 +642,11 @@ export default class Map extends Component {
         <Pain
           style={{ display: this.props.isOneEvent ? 'none' : 'block' }}
         >
-          <PainInner>
-            {'Сегодня '.concat(this.state.points.length).concat(' ').concat(postfix)}
-          </PainInner>
+          {this.state.points.length
+            ? <PainInner onClick={this.changeZoomToCity}>
+              {'Сегодня '.concat(this.state.points.length).concat(' ').concat(postfix)}
+            </PainInner>
+            : ''}
         </Pain>
         <BalloonLayout
           style={{ display: this.state.balloonItemsPreview ? 'block' : 'none' }}

@@ -36,13 +36,13 @@ export default class Application extends Component {
           },
           mapState: {
             center: position,
-            zoom: 15,
+            zoom: 11,
           },
         })
       },
       (err) => {
         // resolve error
-        const position = [55.751244, 37.618423]
+        const position = [55.753559, 37.609218]
         MapStore.setItem('map', {
           myLocationPoint: {
             lat: position[0],
@@ -50,7 +50,7 @@ export default class Application extends Component {
           },
           mapState: {
             center: position,
-            zoom: 15,
+            zoom: 11,
           },
         })
       }, { enableHighAccuracy: false })

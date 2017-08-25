@@ -32,7 +32,7 @@ const MapStore = localforage.createInstance({
  */
 let yMapsApi = null
 
-const GEOLOCATION_WATCH_TIMEOUT = 15000
+const GEOLOCATION_WATCH_TIMEOUT = 5000
 
 const CLUSTER_STYLE_PRESET = 'islands#invertedDarkBlueClusterIcons'
 const EVENT_STYLE_PRESET = 'islands#redDotIcon'
@@ -137,6 +137,8 @@ export default class Map extends Component {
 
     this.lastOpenedBalloon = null
 
+    this.isMyLocationGotByYandex = false
+
     /**
      * @description Устанавливаем тип 'event' меткам, если тип не установлен
      */
@@ -169,10 +171,18 @@ export default class Map extends Component {
 
     this.closeBalloon = this.closeBalloon.bind(this)
     this.openEventModal = this.openEventModal.bind(this)
+    this.changeZoomToCity = this.changeZoomToCity.bind(this)
   }
 
   componentDidMount() {
     this.isComponentMounted = true
+
+    if (this.props.panToLocation === undefined) {
+      MapStore.getItem('map')
+        .then((response) => {
+          this.setState(response)
+        })
+    }
   }
 
   componentWillUnmount() {
@@ -207,6 +217,13 @@ export default class Map extends Component {
       })
     }
 
+    MapStore.setItem('map', {
+      myLocationPoint: {
+        lat: position[0],
+        lng: position[1],
+      },
+    })
+
     /**
      * Не будем центрировать карту на мое местоположение,
      */
@@ -224,7 +241,7 @@ export default class Map extends Component {
       && this.isComponentMounted) {
       this.map.panTo(position, {
         duration: 1000,
-        flying: true,
+        flying: false,
       }).then(() => {
         // Если не задан zoom, то ставим зум сами
         if (!this.props.zoom) {
@@ -253,6 +270,26 @@ export default class Map extends Component {
     const topBarHeight = document.querySelector('.topbar').getBoundingClientRect().height
     const screenHeight = window.innerHeight
     this.mapHeight = topBarHeight - screenHeight
+
+    // @TODO: refactor - get location by ip
+    // yMapsApi.geolocation.get({
+    //   provider: 'yandex',
+    //   mapStateAutoApply: false,
+    // }).then((result) => {
+    //   if (result.geoObjects && result.geoObjects.position) {
+    //     if (!this.isComponentMounted) {
+    //       return
+    //     }
+    //     console.log('yandex loc');
+    //     this.isMyLocationGotByYandex = true
+    //     this.setState({
+    //       myLocationPoint: {
+    //         lat: result.geoObjects.position[0],
+    //         lng: result.geoObjects.position[1],
+    //       },
+    //     })
+    //   }
+    // })
   }
 
   /**
@@ -270,15 +307,6 @@ export default class Map extends Component {
       return
     }
 
-    //if (this.props.panToLocation === undefined) {
-    MapStore.getItem('map')
-      .then((response) => {
-        this.setState({
-          myLocationPoint: response.myLocationPoint,
-        })
-      })
-    //}
-
     if (this.props.panToLocation !== undefined) {
       this.doAutoPan = false
       if (this.isComponentMounted && this.map) {
@@ -292,11 +320,24 @@ export default class Map extends Component {
       }
     }
 
+    if (this.doAutoPan) {
+      MapStore.getItem('map')
+        .then((response) => {
+          this.setState(this.state)
+        })
+      //this.map.setCenter([this.state.myLocationPoint[0], this.state.myLocationPoint[1]])
+    }
+
     AppStore.getItem('client_id')
       .then((clientId) => {
-        window.appMetrica.reportEvent('Просмотр карты', {
-          client_id: clientId,
-        })
+        try {
+          window.appMetrica.reportEvent('Просмотр карты', {
+            client_id: clientId,
+          })
+        }
+        catch (error) {
+          //
+        }
       })
 
     this.setState({
@@ -312,7 +353,6 @@ export default class Map extends Component {
     if (!this.isComponentMounted) {
       return
     }
-
 
     const afterEventsLoaded = () => {
       const geoObjects = []
@@ -335,7 +375,8 @@ export default class Map extends Component {
           const placemark = e.get('target')
           const eventData = placemark.properties.get('eventData')
           items.push(eventData)
-        } else {
+        }
+        else {
           // Clustered events
           const objects = e.get('target').getGeoObjects()
           objects.map((item) => {
@@ -437,13 +478,13 @@ export default class Map extends Component {
       })
     }
 
-
     //
-    // @TODO: Refactoring quick govnocode
+    // @TODO: Refactoring required: improve async code
     //
     if (this.props.isOneEvent) {
       afterEventsLoaded()
-    } else {
+    }
+    else {
       const today = MDApi.getTodayMSK()
 
       MDApi.getEvents({
@@ -457,7 +498,6 @@ export default class Map extends Component {
           if (!this.isComponentMounted) {
             return
           }
-          // console.log('Radar loaded events: ', response.data)
 
           this.state.points = response.data
           afterEventsLoaded()
@@ -509,6 +549,10 @@ export default class Map extends Component {
     if (this.watchLocationID) {
       navigator.geolocation.clearWatch(this.watchLocationID)
     }
+  }
+
+  changeZoomToCity() {
+    this.map.setZoom(10)
   }
 
   isBalloonOpened() {
@@ -602,9 +646,11 @@ export default class Map extends Component {
         <Pain
           style={{ display: this.props.isOneEvent ? 'none' : 'block' }}
         >
-          <PainInner>
-            { 'Сегодня '.concat(this.state.points.length).concat(' ').concat(postfix)}
-          </PainInner>
+          {this.state.points.length
+            ? <PainInner onClick={this.changeZoomToCity}>
+              {'Сегодня '.concat(this.state.points.length).concat(' ').concat(postfix)}
+            </PainInner>
+            : ''}
         </Pain>
         <BalloonLayout
           style={{ display: this.state.balloonItemsPreview ? 'block' : 'none' }}

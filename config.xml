@@ -37,6 +37,12 @@
         <splash density="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.png" />
         <splash density="port-xxhdpi" src="res/screen/android/screen-xhdpi-portrait.png" />
         <splash density="port-xxxhdpi" src="res/screen/android/screen-xhdpi-portrait.png" />
+        <icon density="ldpi" src="res/icon/android/icon-36-ldpi.png" />
+        <icon density="mdpi" src="res/icon/android/icon-48-mdpi.png" />
+        <icon density="hdpi" src="res/icon/android/icon-72-hdpi.png" />
+        <icon density="xhdpi" src="res/icon/android/icon-96-xhdpi.png" />
+        <icon density="xxhdpi" src="res/icon/android/icon-96-xhdpi.png" />
+        <icon density="xxxhdpi" src="res/icon/android/icon-96-xhdpi.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
@@ -46,6 +52,7 @@
         <splash height="960" src="res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
         <splash height="1136" src="res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />
     </platform>
+    <engine name="android" spec="^6.2.3" />
     <engine name="browser" spec="^4.1.0" />
     <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3">

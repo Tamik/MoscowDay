@@ -187,7 +187,7 @@ export default class EventInfo extends Component {
       message: messageText,
       subject: this.props.event.title,
       files: [`http://185.125.219.104:5000/i/events/${event.id}_large.jpg`],
-      url: '',
+      url: `http://185.125.219.104:5000/event/${event.id}`,
       chooserTitle: 'Поделиться событием',
     }
 

@@ -552,7 +552,7 @@ export default class Map extends Component {
 
 
     if (this.cachedMyLocation) {
-      if ((new Date()).getSeconds() - this.cachedMyLocation.time > 30) {
+      if ((new Date()).getSeconds() - this.cachedMyLocation.time <= 30) {
 
         this.setState({
           isMyLocationLoading: false,

@@ -72,6 +72,22 @@ export default class Timeline extends Component {
           loading: false,
         })
       })
+      .catch(() => {
+        window.plugins.toast.showWithOptions({
+          message: 'Упс, подключитесь к Интернету',
+          duration: 'short',
+          position: 'bottom',
+          styling: {
+            opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+            backgroundColor: 'rgb(96, 125, 139)', // make sure you use #RRGGBB. Default #333333
+            textColor: '#ffffff', // Ditto. Default #FFFFFF
+            textSize: 20.5, // Default is approx. 13.
+            cornerRadius: 16, // minimum is 0 (square). iOS default 20, Android default 100
+            horizontalPadding: 20, // iOS default 16, Android default 50
+            verticalPadding: 16, // iOS default 12, Android default 30
+          },
+        })
+      })
   }
 
   openEventsModal = (id, title, payload) => {

@@ -271,12 +271,16 @@ export default class Map extends Component {
     const screenHeight = window.innerHeight
     this.mapHeight = topBarHeight - screenHeight
 
-    //  @TODO: refactor - get location by ip
+    // @TODO: refactor - get location by ip
     // yMapsApi.geolocation.get({
     //   provider: 'yandex',
     //   mapStateAutoApply: false,
     // }).then((result) => {
     //   if (result.geoObjects && result.geoObjects.position) {
+    //     if (!this.isComponentMounted) {
+    //       return
+    //     }
+    //     console.log('yandex loc');
     //     this.isMyLocationGotByYandex = true
     //     this.setState({
     //       myLocationPoint: {

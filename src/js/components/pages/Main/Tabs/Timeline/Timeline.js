@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import localforage from 'localforage'
 
-import LinearProgress from 'material-ui/LinearProgress'
-
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
 

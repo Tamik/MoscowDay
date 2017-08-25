@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import localforage from 'localforage'
 import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
 
-import LinearProgress from 'material-ui/LinearProgress'
-
 import MDApi from 'utils/MDApi'
 
 import Icon from 'atoms/Icon'

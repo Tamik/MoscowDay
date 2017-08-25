@@ -197,6 +197,7 @@ export default class Map extends Component {
     if (this.props.panToLocation === undefined) {
       MapStore.getItem('map')
         .then((response) => {
+          response.isMyLocationLoading = false
           this.setState(response)
         })
     }
@@ -259,6 +260,7 @@ export default class Map extends Component {
       this.map.panTo(position, {
         duration: 1000,
         flying: false,
+        safe: true,
       }).then(() => {
         // Если не задан zoom, то ставим зум сами
         if (!this.props.zoom) {
@@ -486,7 +488,7 @@ export default class Map extends Component {
       this.map.panTo(this.props.panToLocation, {
         duration: 1000,
         flying: true,
-        checkZoomRange: true,
+        safe: true,
       }).then(() => {
         this.map.setZoom(this.props.zoom || MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
       })
@@ -552,8 +554,6 @@ export default class Map extends Component {
     if (this.cachedMyLocation) {
       if ((new Date()).getSeconds() - this.cachedMyLocation.time > 30) {
 
-        console.log((new Date()).getSeconds() - this.cachedMyLocation.time)
-
         this.setState({
           isMyLocationLoading: false,
         })
@@ -561,6 +561,7 @@ export default class Map extends Component {
         this.map.panTo([this.state.myLocationPoint.lat, this.state.myLocationPoint.lng], {
           duration: 1000,
           flying: true,
+          safe: true,
         }).then(() => {
           this.map.setZoom(MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
         })
@@ -581,6 +582,7 @@ export default class Map extends Component {
         this.map.panTo([this.state.myLocationPoint.lat, this.state.myLocationPoint.lng], {
           duration: 1000,
           flying: true,
+          safe: true,
         }).then(() => {
           this.map.setZoom(MAP_ZOOM_TO_MY_LOCATION, { duration: 800 })
         })

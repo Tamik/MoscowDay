@@ -49,6 +49,7 @@ const AgeLabel = styled.div`
   z-index: 1101;
   right: 16px;
   top: 40px;
+  white-space: nowrap;
   font-size: 14px;
   font-weight: bold;
   width: 32px;
@@ -68,11 +69,12 @@ const BtnShare = styled.div`
   text-align: center;
   font-size: 14px;
 `
-
+const BtnShowOnMapWrap = styled.div`
+  padding: 16px;
+  background: rgb(231, 235, 236);
+`
 const BtnShowOnMap = styled.div`
   background: #fff;
-  border: 1px solid rgb(219, 226, 229);
-  margin: 8px;
   padding-bottom: 0;
   font-size: 14px;
 `
@@ -82,14 +84,14 @@ const BtnShowOnMapContentWrap = styled.div`
   position: relative;
 `
 const BtnShowOnMapTitle = styled.div`
-  height: 36px;
-  line-height: 36px;
+  height: 46px;
+  line-height: 46px;
   font-size: 0.8em;
   text-align: center;
   font-weight: bold;
   text-transform: uppercase;
-  color: #455A64;
-  border-top: 1px solid rgb(219, 226, 229); 
+  color: #fff;
+  background: rgb(69,90,100);
 `
 
 export default class EventInfo extends Component {
@@ -364,39 +366,41 @@ export default class EventInfo extends Component {
             <Divider />
             <BtnShare onClick={this.share}>Поделиться</BtnShare>
             <Divider />
-            <BtnShowOnMap
-              onClick={this.openEventOnMapModal}
-            >
-              <BtnShowOnMapContentWrap>
-                <Icon
-                  path={UiIconsPack.MODULE_RADAR}
-                  color='#455A64'
-                  style={{
-                    width: 18,
-                    height: 18,
-                    position: 'absolute',
-                    right: 16,
-                    top: 16,
-                  }}
-                  viewBox='0 0 520 510'
-                />
-                <p>{this.props.event.location_title}</p>
-                <p
-                  style={{
-                    display: this.props.event.address !== this.props.event.location_title ? 'block' : 'none',
-                    marginTop: '6px',
-                    color: '#888',
-                  }}
-                >
-                  {this.props.event.address}
-                </p>
-              </BtnShowOnMapContentWrap>
-              <BtnShowOnMapTitle>Показать на карте</BtnShowOnMapTitle>
-            </BtnShowOnMap>
+            <BtnShowOnMapWrap>
+              <BtnShowOnMap
+                onClick={this.openEventOnMapModal}
+              >
+                <BtnShowOnMapContentWrap>
+                  <Icon
+                    path={UiIconsPack.MODULE_RADAR}
+                    color='#455A64'
+                    style={{
+                      width: 18,
+                      height: 18,
+                      position: 'absolute',
+                      right: 16,
+                      top: 16,
+                    }}
+                    viewBox='0 0 520 510'
+                  />
+                  <p>{this.props.event.location_title}</p>
+                  <p
+                    style={{
+                      display: this.props.event.address !== this.props.event.location_title ? 'block' : 'none',
+                      marginTop: '6px',
+                      color: '#888',
+                    }}
+                  >
+                    {this.props.event.address}
+                  </p>
+                </BtnShowOnMapContentWrap>
+                <BtnShowOnMapTitle>Показать на карте</BtnShowOnMapTitle>
+              </BtnShowOnMap>
+            </BtnShowOnMapWrap>
             <Divider />
             <ListItem
               primaryText="Описание"
-              style={styles.item}
+              style={{ ...styles.item, textAlign: 'center', fontWeight: 'bold' }}
               disabled
             />
             <Divider />

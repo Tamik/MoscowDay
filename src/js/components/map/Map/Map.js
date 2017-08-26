@@ -186,7 +186,7 @@ export default class Map extends Component {
       mapState: {
         center: props.initCenter || [55.751574, 37.573856],
         zoom: props.zoom || INIT_ZOOM,
-        controls: props.controls || CONTROLS,
+        controls: CONTROLS,
         minZoom: MIN_ZOOM,
       },
       loading: true,
@@ -609,8 +609,6 @@ export default class Map extends Component {
     })
 
     this.stopWatchingMyLocation()
-
-
 
     if (this.cachedMyLocation) {
       // Throttling computation of my location 

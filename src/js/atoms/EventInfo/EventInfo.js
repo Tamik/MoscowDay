@@ -202,9 +202,7 @@ export default class EventInfo extends Component {
     const enter = this.props.event.is_free ? 'Свободный вход' : 'Вход платный'
 
     const messageText = `${event.title}, 
-    ${this.beautyDatesRange.dates} ${this.beautyDatesRange.time}, 
-    ${enter},
-    ${event.location_title} (${event.address})`
+    ${this.beautyDatesRange.dates} ${this.beautyDatesRange.time}, ${enter}, ${event.location_title} (${event.address})`
 
     const options = {
       message: messageText,

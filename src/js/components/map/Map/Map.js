@@ -22,6 +22,7 @@ const MapStore = localforage.createInstance({
  * Coords in yandex placemarks: [lat, lng]
  * Cluster docs: https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/ClusterPlacemark.xml
  * Icons styles: https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/option.presetStorage-docpage
+ * React module: https://github.com/gribnoysup/react-yandex-maps/blob/master/src/Map.js
  * 
  * @TODO: 
  * - Разбить на модули
@@ -29,11 +30,10 @@ const MapStore = localforage.createInstance({
  * - Вынести разметку и стили кастомных баллунов
  * - Вынести константы
  * - PropTypes
- * - 
  */
 let yMapsApi = null
 
-const GEOLOCATION_WATCH_TIMEOUT = 15000
+const GEOLOCATION_WATCH_TIMEOUT = 60000 // seconds
 
 const CLUSTER_STYLE_PRESET = 'islands#invertedDarkBlueClusterIcons'
 const EVENT_STYLE_PRESET = 'islands#redDotIcon'
@@ -67,15 +67,13 @@ const YMapsWrap = styled.div`
 const Pain = styled.div`
   position: absolute;
   bottom: 0;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
   width: 100%;
 `
 const PainInner = styled.div`
   padding: 16px 5px;
-  background: #fff;
   text-align: center;
   color: rgb(38, 50, 56);
-
 `
 const BalloonLayout = styled.div`
   position: absolute;
@@ -91,7 +89,7 @@ const BalloonInner = styled.div`
 const BalloonTopBar = styled.div`
 `
 const BtnClose = styled.div`
-  color: #607D8B;
+  color: rgb(38,50,56);
   height: 40px;
   line-height: 40px;
   text-transform: uppercase;
@@ -109,6 +107,7 @@ const BalloonItemsWrap = styled.div`
   overflow-y: auto;
 `
 const BalloonEventItem = styled.div`
+  position: relative;
   margin-bottom: 5px;
   border-bottom: 1px solid #CFD8DC;
   padding: 10px;
@@ -127,6 +126,14 @@ const BalloonEventMeta = styled.div`
   font-size: 14px;
   color: #455A64; 
 `
+const DistanceLabel = styled.span`
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: inline-block;
+  color: rgb(38, 50, 56);
+  margin-right: 6px;
+`
 
 const BtnGoToMyLocation = styled.div`
   position: absolute;
@@ -142,6 +149,18 @@ const BtnGoToMyLocation = styled.div`
   border-radius: 100%;
 `
 
+const formatDistance = (metters) => {
+  if (metters < 1000) {
+    return `${metters} м`
+  }
+  const km = (metters / 1000).toFixed(1)
+  return `${km} км`
+}
+
+const getTimeEpoch = () => {
+  return (new Date()).getTime() / 1000
+}
+
 export default class Map extends Component {
   constructor(props) {
     super(props)
@@ -149,23 +168,16 @@ export default class Map extends Component {
     this.watchLocationID = null
     this.doAutoPan = true
 
+    this.eventsToPointsMap = {}
+
     this.lastOpenedBalloon = null
 
     this.cachedMyLocation = null
 
-    /**
-     * @description Устанавливаем тип 'event' меткам, если тип не установлен
-     */
-    props.points.forEach((item, i) => {
-      if (props.points[i].type === undefined) {
-        props.points[i].type = POINT_TYPES.EVENT
-      }
-    })
+    this.points = props.points || []
 
     this.state = {
-      points: props.points || [],
       myLocationPoint: {
-        type: POINT_TYPES.MY_LOCATION,
         lat: 0,
         lng: 0,
       },
@@ -268,6 +280,19 @@ export default class Map extends Component {
         }
       })
     }
+
+    this.cachedMyLocation = {
+      time: getTimeEpoch(),
+      pos: position,
+    }
+
+    this.setState({
+      isMyLocationLoading: false,
+    })
+
+    if (!this.isOneEvent) {
+      this.sortEventsByDistance()
+    }
   }
 
 
@@ -354,10 +379,16 @@ export default class Map extends Component {
 
     this.clusterer = refClusterer
 
+    this.eventsToPointsMap = {}
+
     //
     // @TODO: Refactoring required: improve async code
     //
     if (this.props.isOneEvent) {
+      // Map EventID to Point Index
+      this.points.forEach((item, idx) => {
+        this.eventsToPointsMap[item.id] = idx
+      })
       this.afterEventsLoaded()
     }
     else {
@@ -377,7 +408,13 @@ export default class Map extends Component {
             return
           }
 
-          this.state.points = response.data
+          this.points = response.data
+
+          // Map EventID to Point Index
+          this.points.forEach((item, idx) => {
+            this.eventsToPointsMap[item.id] = idx
+          })
+
           this.afterEventsLoaded()
         }).catch((err) => {
           // @todo: resolve errors
@@ -411,6 +448,10 @@ export default class Map extends Component {
     this.doAutoPan = false
   }
 
+  getEventById(eventId) {
+    return this.points[this.eventsToPointsMap[eventId]]
+  }
+
   afterEventsLoaded() {
     this.addPlacemarks()
     this.bindEventsOnClusterer()
@@ -429,6 +470,24 @@ export default class Map extends Component {
     })
   }
 
+  sortEventsByDistance = () => {
+    let distance
+
+    // Вычисляем дистанцию между мной и каждым событием
+    // И сортируем список точек так: Ближайшие выше
+    this.points.forEach((eventData, idx) => {
+      distance = yMapsApi.coordSystem.geo.getDistance(
+        [eventData.lat, eventData.lng],
+        [this.state.myLocationPoint.lat, this.state.myLocationPoint.lng]
+      )
+
+      // Populate distance to points collection 
+      this.points[this.eventsToPointsMap[eventData.id]].distance = distance
+    })
+
+    this.points.sort((a, b) => a.distance - b.distance)
+  }
+
   bindEventsOnClusterer() {
     // Клик по метке в кластере - открывает кастомнй балун 
     // со списком событий свернутых в этот в кластер
@@ -438,14 +497,15 @@ export default class Map extends Component {
       // One event?
       if (e.get('target').getGeoObjects === undefined) {
         const placemark = e.get('target')
-        const eventData = placemark.properties.get('eventData')
-        items.push(eventData)
+        const eventId = placemark.properties.get('eventId')
+        items.push(this.getEventById(eventId))
       }
       else {
         // Clustered events?
         const objects = e.get('target').getGeoObjects()
         objects.map((item) => {
-          items.push(item.properties.get('eventData'))
+          const eventId = item.properties.get('eventId')
+          items.push(this.getEventById(eventId))
         })
       }
       if (items.length) {
@@ -501,7 +561,7 @@ export default class Map extends Component {
     const geoObjects = []
 
     // Creating placemarks
-    this.state.points.map((eventData) => {
+    this.points.map((eventData) => {
       geoObjects.push(this.createPlacemark(eventData, eventData.id))
       return eventData
     })
@@ -522,7 +582,7 @@ export default class Map extends Component {
     const placemark = new yMapsApi.Placemark(
       [eventData.lat, eventData.lng],
       {
-        eventData,
+        eventId: eventData.id,
       }, // for empty balloon
       this.props.placemarkOptions || EVENT_PLACEMARK_OPTIONS,
     )
@@ -551,8 +611,10 @@ export default class Map extends Component {
     this.stopWatchingMyLocation()
 
 
+
     if (this.cachedMyLocation) {
-      if ((new Date()).getSeconds() - this.cachedMyLocation.time <= 30) {
+      // Throttling computation of my location 
+      if (getTimeEpoch() - this.cachedMyLocation.time < 30) {
 
         this.setState({
           isMyLocationLoading: false,
@@ -588,8 +650,12 @@ export default class Map extends Component {
         })
 
         this.cachedMyLocation = {
-          time: (new Date()).getSeconds(),
+          time: getTimeEpoch(),
           pos: position,
+        }
+
+        if (!this.isOneEvent) {
+          this.sortEventsByDistance()
         }
 
         this.startWatchingMyLocation()
@@ -634,6 +700,9 @@ export default class Map extends Component {
 
   changeZoomToCity() {
     this.map.setZoom(10)
+    if (this.points.length > 0) {
+      this.openBalloon(this.points)
+    }
   }
 
   isBalloonOpened() {
@@ -653,22 +722,25 @@ export default class Map extends Component {
 
   openEventModal(eventId) {
     // @todo: исключить линейный поиск, заменить на hash map
-    const eventData = this.state.points.filter((item) => {
-      return eventId === item.id
-    })
+    // const eventData = this.points.filter((item) => {
+    //   return eventId === item.id
+    // })
 
-    if (eventData.length) {
+    // after refactoring - we have search in eventsIDsToPoints hash map O(1) ;)
+    const eventData = this.getEventById(eventId)
+
+    if (eventData) {
       this.props.parent.setState({
-        payload: eventData[0],
+        payload: eventData,
         isModalVisible: true,
-        modalTitle: eventData[0].title,
+        modalTitle: eventData.title,
       })
     }
     return false
   }
 
   render() {
-    const postfix = MDApi.getDeclineOfNumber(this.state.points.length, ['событие', 'события', 'событий'])
+    const postfix = MDApi.getDeclineOfNumber(this.points.length, ['событие', 'события', 'событий'])
     return (
       <YMapsWrap className="maps-wrap">
         <YMaps onApiAvaliable={this.onMapsApiReady}>
@@ -713,9 +785,9 @@ export default class Map extends Component {
         <Pain
           style={{ display: this.props.isOneEvent ? 'none' : 'block' }}
         >
-          {this.state.points.length
+          {this.points.length
             ? <PainInner onClick={this.changeZoomToCity}>
-              {'Сегодня '.concat(this.state.points.length).concat(' ').concat(postfix)}
+              {'Сегодня '.concat(this.points.length).concat(' ').concat(postfix)}
             </PainInner>
             : ''}
         </Pain>
@@ -753,9 +825,20 @@ export default class Map extends Component {
                       <BalloonEventTitle>{item.title}</BalloonEventTitle>
                       <BalloonEventMeta>
                         <p>{beautyDatesRange.dates} ({beautyDatesRange.time})</p>
-                        <p style={{ marginTop: '6px' }}>{item.location_title}</p>
-                        {item.location_title !== item.address
-                          ? <p style={{ color: '#888' }}>{item.address}</p>
+                        <div style={{ marginRight: '60px' }}>
+                          <p style={{ marginTop: '6px' }}>
+                            {item.location_title}
+                          </p>
+                          <p style={{ color: '#888' }}>
+                            {
+                              item.location_title !== item.address
+                                ? item.address
+                                : ''
+                            }
+                          </p>
+                        </div>
+                        {item.distance
+                          ? <DistanceLabel>{formatDistance(item.distance)}</DistanceLabel>
                           : ''}
                       </BalloonEventMeta>
                     </BalloonEventItem>

@@ -317,6 +317,25 @@ export default class EventInfo extends Component {
               }
             />
             <Divider />
+            <ListItem
+              primaryText={this.props.event.is_free ? 'Вход свободный' : ''}
+              style={styles.item}
+              disabled
+              leftIcon={
+                <Icon
+                  path={UiIconsPack.ENTER}
+                  color='#455A64'
+                  style={{
+                    left: 8,
+                    width: 18,
+                    height: 18,
+                    margin: 15,
+                  }}
+                  viewBox='0 0 610 620'
+                />
+              }
+            />
+            <Divider />
             <BtnShare onClick={this.share}>Поделиться</BtnShare>
             <Divider />
             <BtnShowOnMap

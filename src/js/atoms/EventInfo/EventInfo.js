@@ -318,7 +318,7 @@ export default class EventInfo extends Component {
             />
             <Divider />
             <ListItem
-              primaryText={this.props.event.is_free ? 'Вход свободный' : ''}
+              primaryText={this.props.event.is_free ? 'Свободный вход' : <span style={{ color: '#ba3e35' }}>Вход платный</span>}
               style={styles.item}
               disabled
               leftIcon={
@@ -326,9 +326,9 @@ export default class EventInfo extends Component {
                   path={UiIconsPack.ENTER}
                   color='#455A64'
                   style={{
-                    left: 8,
-                    width: 18,
-                    height: 18,
+                    left: 6,
+                    width: 22,
+                    height: 22,
                     margin: 15,
                   }}
                   viewBox='0 0 610 620'

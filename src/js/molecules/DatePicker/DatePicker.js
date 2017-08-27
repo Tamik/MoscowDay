@@ -70,6 +70,7 @@ export default class DatePicker extends Component {
         key={'ref'}
         value={this.state.selectedDate}
         onChange={this.handleChange}
+        iconStyle={{ fill: 'rgba(0, 0, 0, 0.87)' }}
         style={{
           position: 'fixed',
           left: 0,

@@ -44,6 +44,23 @@ const styles = {
   },
 }
 
+const AgeLabel = styled.div`
+  position: absolute;
+  z-index: 1101;
+  right: 16px;
+  top: 40px;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: bold;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  color: rgb(69, 90, 100);
+  background: #fff;
+  border-radius: 1px;
+`
+
 const BtnShare = styled.div`
   background: #fff8ef;
   border: 1px solid #f7e2c3;
@@ -52,11 +69,12 @@ const BtnShare = styled.div`
   text-align: center;
   font-size: 14px;
 `
-
+const BtnShowOnMapWrap = styled.div`
+  padding: 16px;
+  background: rgb(231, 235, 236);
+`
 const BtnShowOnMap = styled.div`
   background: #fff;
-  border: 1px solid rgb(219, 226, 229);
-  margin: 8px;
   padding-bottom: 0;
   font-size: 14px;
 `
@@ -66,14 +84,14 @@ const BtnShowOnMapContentWrap = styled.div`
   position: relative;
 `
 const BtnShowOnMapTitle = styled.div`
-  height: 36px;
-  line-height: 36px;
+  height: 46px;
+  line-height: 46px;
   font-size: 0.8em;
   text-align: center;
   font-weight: bold;
   text-transform: uppercase;
-  color: #455A64;
-  border-top: 1px solid rgb(219, 226, 229); 
+  color: #fff;
+  background: rgb(69,90,100);
 `
 
 export default class EventInfo extends Component {
@@ -181,13 +199,16 @@ export default class EventInfo extends Component {
 
   share = () => {
     const event = this.props.event
-    const messageText = `${event.title}, ${this.beautyDatesRange.dates} ${this.beautyDatesRange.time}, ${event.location_title} (${event.address})`
+    const enter = this.props.event.is_free ? 'Свободный вход' : 'Вход платный'
+
+    const messageText = `${event.title}, 
+    ${this.beautyDatesRange.dates} ${this.beautyDatesRange.time}, ${enter}, ${event.location_title} (${event.address})`
 
     const options = {
       message: messageText,
       subject: this.props.event.title,
-      files: [`http://185.125.219.104:5000/i/events/${event.id}_large.jpg`],
-      url: `http://185.125.219.104:5000/event/${event.id}`,
+      files: [`${process.env.API_HOST}/i/events/${event.id}_large.jpg`],
+      url: `${process.env.API_HOST}/event/${event.id}`,
       chooserTitle: 'Поделиться событием',
     }
 
@@ -214,11 +235,16 @@ export default class EventInfo extends Component {
             <CardMedia
               style={{
                 height: '35vh',
+                position: 'relative',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_large.jpg)`,
               }}
-            />
+            >
+              <AgeLabel style={{ width: 32, minWidth: 32 }}>
+                {this.props.event.restriction ? this.props.event.restriction : ''}
+              </AgeLabel>
+            </CardMedia>
             <CardTitle
               title={this.props.event.title}
               style={{
@@ -317,41 +343,62 @@ export default class EventInfo extends Component {
               }
             />
             <Divider />
-            <BtnShare onClick={this.share}>Поделиться</BtnShare>
-            <Divider />
-            <BtnShowOnMap
-              onClick={this.openEventOnMapModal}
-            >
-              <BtnShowOnMapContentWrap>
+            <ListItem
+              primaryText={this.props.event.is_free ? 'Свободный вход' : <span style={{ color: '#ba3e35' }}>Вход платный</span>}
+              style={styles.item}
+              disabled
+              leftIcon={
                 <Icon
-                  path={UiIconsPack.MODULE_RADAR}
+                  path={UiIconsPack.ENTER}
                   color='#455A64'
                   style={{
-                    width: 18,
-                    height: 18,
-                    position: 'absolute',
-                    right: 16,
-                    top: 16,
+                    left: 6,
+                    width: 22,
+                    height: 22,
+                    margin: 15,
                   }}
-                  viewBox='0 0 520 510'
+                  viewBox='0 0 610 620'
                 />
-                <p>{this.props.event.location_title}</p>
-                <p
-                  style={{
-                    display: this.props.event.address !== this.props.event.location_title ? 'block' : 'none',
-                    marginTop: '6px',
-                    color: '#888',
-                  }}
-                >
-                  {this.props.event.address}
-                </p>
-              </BtnShowOnMapContentWrap>
-              <BtnShowOnMapTitle>Показать на карте</BtnShowOnMapTitle>
-            </BtnShowOnMap>
+              }
+            />
+            <Divider />
+            <BtnShare onClick={this.share}>Поделиться</BtnShare>
+            <Divider />
+            <BtnShowOnMapWrap>
+              <BtnShowOnMap
+                onClick={this.openEventOnMapModal}
+              >
+                <BtnShowOnMapContentWrap>
+                  <Icon
+                    path={UiIconsPack.MODULE_RADAR}
+                    color='#455A64'
+                    style={{
+                      width: 18,
+                      height: 18,
+                      position: 'absolute',
+                      right: 16,
+                      top: 16,
+                    }}
+                    viewBox='0 0 520 510'
+                  />
+                  <p>{this.props.event.location_title}</p>
+                  <p
+                    style={{
+                      display: this.props.event.address !== this.props.event.location_title ? 'block' : 'none',
+                      marginTop: '6px',
+                      color: '#888',
+                    }}
+                  >
+                    {this.props.event.address}
+                  </p>
+                </BtnShowOnMapContentWrap>
+                <BtnShowOnMapTitle>Показать на карте</BtnShowOnMapTitle>
+              </BtnShowOnMap>
+            </BtnShowOnMapWrap>
             <Divider />
             <ListItem
               primaryText="Описание"
-              style={styles.item}
+              style={{ ...styles.item, textAlign: 'center', fontWeight: 'bold' }}
               disabled
             />
             <Divider />

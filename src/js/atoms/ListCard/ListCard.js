@@ -44,6 +44,12 @@ const TimeLabel = styled.p`
   font-size: 13px;
   color: #888;
 `
+const EnterLabel = styled.span`
+  position: absolute; 
+  right: 10px;
+  bottom: 10px;
+  font-size: 13px;
+`
 
 export default class ListCard extends Component {
   constructor(props) {
@@ -105,10 +111,11 @@ export default class ListCard extends Component {
               backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_small.jpg)`,
             }}
           />
-          <CardWrap>
+          <CardWrap style={{ position: 'relative' }}>
             <Title>{this.props.event.title}</Title>
             <DatesLabel>{beautyDatesRange.dates}</DatesLabel>
             <TimeLabel>{beautyDatesRange.time}</TimeLabel>
+            <EnterLabel>{this.props.event.is_free ? <span style={{ color: '#8ea36a' }}>0₽</span> : ''}</EnterLabel>
           </CardWrap>
         </Card>
         <Modal

@@ -23,9 +23,9 @@ const myTheme = {
 const styles = {
   headline: {
     fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
     fontWeight: 400,
+    marginBottom: 12,
+    paddingTop: 16,
   },
   slide: {
     display: 'flex',
@@ -34,14 +34,14 @@ const styles = {
   },
   tabs: {
     position: 'relative',
-    zIndex: 300,
     borderBottom: '1px solid #dbe2e5',
+    zIndex: 300,
   },
   tabsWrap: {
+    backgroundColor: 'transparent',
     height: 40,
     width: '80%',
     margin: '0 auto',
-    backgroundColor: 'transparent',
   },
   tab: {
     fontSize: '14px',

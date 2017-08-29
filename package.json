@@ -1,7 +1,7 @@
 {
     "name": "ru.blat.moscowday",
     "displayName": "MoscowDay",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Приложение ко дню города Москвы",
     "main": "index.js",
     "scripts": {
@@ -10,9 +10,9 @@
         "dev": "npm run clear && npm run copy:html && NODE_ENV=development webpack-dev-server --config ./scripts/webpack.config.dev.js",
         "prod": "npm run clear && NODE_ENV=production webpack --config ./scripts/webpack.config.prod.js",
         "patch": "cd platforms/ios/cordova/node_modules/ && npm i ios-sim@latest",
-        "lintfix": "eslint --fix"
+        "lint:fix": "eslint --fix"
     },
-    "author": "Tamik Lokyaev <hello@Tamik.ru>, Baltabek Bekenov, Lina Belokuraya, Artyom Zhuravlev",
+    "author": "Tamik Lokyaev <hello@Tamik.ru>, Baltabek Bekenov, Angelina Belokuraya, Artyom Zhuravlev",
     "license": "Apache-2.0",
     "dependencies": {
         "cordova-android": "^6.2.3",
@@ -31,7 +31,6 @@
         "react": "^15.6.1",
         "react-dom": "^15.6.1",
         "react-modal": "^2.2.2",
-        "react-router": "^4.1.2",
         "react-router-dom": "^4.1.2",
         "react-swipeable-views": "^0.12.5",
         "react-tap-event-plugin": "^2.0.1",
@@ -58,7 +57,6 @@
         ]
     },
     "devDependencies": {
-        "babel": "^6.23.0",
         "babel-cli": "^6.24.1",
         "babel-eslint": "^7.2.3",
         "babel-loader": "^7.1.1",
@@ -67,11 +65,11 @@
         "babel-preset-stage-2": "^6.24.1",
         "babel-preset-stage-3": "^6.24.1",
         "babel-register": "^6.24.1",
-        "eslint": "^4.4.0",
-        "eslint-config-atomix-react": "^2.1.0",
+        "eslint": "^4.5.0",
+        "eslint-config-airbnb": "^15.1.0",
         "eslint-plugin-import": "^2.7.0",
         "eslint-plugin-jsx-a11y": "^6.0.2",
-        "eslint-plugin-react": "^7.1.0",
+        "eslint-plugin-react": "^7.3.0",
         "file-loader": "^0.11.2",
         "html-webpack-plugin": "^2.30.1",
         "prop-types": "^15.5.10",

@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import localforage from 'localforage'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+
 import Paper from 'material-ui/Paper'
 import { List, ListItem, Divider } from 'material-ui'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
@@ -11,9 +14,6 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 
 import { Modal } from 'components/modals'
 import EventOnMap from 'atoms/EventOnMap'
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import Icon from 'atoms/Icon'
 import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
@@ -30,12 +30,9 @@ const AppStore = localforage.createInstance({
 
 const myTheme = {
   floatingActionButton: {
-    // buttonSize: 56,
-    // miniSize: 40,
     secondaryColor: '#d32f2f',
   },
 }
-
 
 const styles = {
   item: {
@@ -226,7 +223,6 @@ export default class EventInfo extends Component {
             style={{
               boxShadow: 'none',
               WebkitBoxShadow: 'none',
-
             }}
             containerStyle={{
               paddingBottom: 0,

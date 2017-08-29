@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Map } from 'components/map'
+import React from 'react'
+import { Map } from 'components'
 
 const EventOnMap = props => (
   <Map

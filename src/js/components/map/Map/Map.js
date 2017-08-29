@@ -73,7 +73,7 @@ const Pain = styled.div`
 const PainInner = styled.div`
   padding: 16px 5px;
   text-align: center;
-  color: rgb(38, 50, 56);
+  color: rgba(38, 50, 56, 1);
 `
 const BalloonLayout = styled.div`
   position: absolute;
@@ -83,23 +83,23 @@ const BalloonLayout = styled.div`
   z-index: 100;
 `
 const BalloonInner = styled.div`
-  padding: 5px;
   background: #eff1f2;
+  padding: 5px;
 `
 const BalloonTopBar = styled.div`
 `
 const BtnClose = styled.div`
-  color: rgb(38,50,56);
-  height: 40px;
-  line-height: 40px;
-  text-transform: uppercase;
-  text-align: center;
-  margin-bottom: 5px;
   font-size: 11pt;
-  border-radius: 2px;
   background: #fff;
   border-bottom: 1px solid #CFD8DC;
   border-right: 1px solid #CFD8DC;
+  border-radius: 2px;
+  height: 40px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 40px;
+  color: rgba(38, 50, 56, 1);
 `
 const BalloonItemsWrap = styled.div`
   max-height: 55vh;
@@ -108,45 +108,44 @@ const BalloonItemsWrap = styled.div`
 `
 const BalloonEventItem = styled.div`
   position: relative;
-  margin-bottom: 5px;
-  border-bottom: 1px solid #CFD8DC;
-  padding: 10px;
-  border-radius: 2px;
+  background: #fff;
   border-right: 1px solid #CFD8DC;
   border-bottom: 1px solid #CFD8DC;
-  background: #fff;
+  border-radius: 2px;
+  margin-bottom: 5px;
+  padding: 10px;
 `
 const BalloonEventTitle = styled.div`
-  color: rgb(38, 50, 56);
   font-size: 16px;
   font-weight: bold;
+  color: rgba(38, 50, 56, 1);
 `
 const BalloonEventMeta = styled.div`
-  margin-top: 4px;
   font-size: 14px;
+  margin-top: 4px;
   color: #455A64; 
 `
 const DistanceLabel = styled.span`
+  display: inline-block;
   position: absolute;
   right: 10px;
   bottom: 10px;
-  display: inline-block;
-  color: rgb(38, 50, 56);
   margin-right: 6px;
+  color: rgba(38, 50, 56, 1);
 `
 
 const BtnGoToMyLocation = styled.div`
   position: absolute;
   right: 16px;
   bottom: 24px;
-  z-index: 100;
+  background: rgba(96, 125, 139, 1);
+  border-radius: 100%;
   width: 56px;
   height: 56px;
   text-align: center;
   line-height: 56px;
-  background: rgb(96, 125, 139);
-  box-shadow: 0 2px 6px -0.6px rgba(0,0,0,0.3);
-  border-radius: 100%;
+  box-shadow: 0 2px 6px -0.6px rgba(0 ,0 ,0 , 0.3);
+  z-index: 100;
 `
 
 const formatDistance = (metters) => {
@@ -665,13 +664,13 @@ export default class Map extends Component {
           duration: 'short',
           position: 'bottom',
           styling: {
-            opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
-            backgroundColor: 'rgb(96, 125, 139)', // make sure you use #RRGGBB. Default #333333
-            textColor: '#ffffff', // Ditto. Default #FFFFFF
-            textSize: 20.5, // Default is approx. 13.
-            cornerRadius: 16, // minimum is 0 (square). iOS default 20, Android default 100
-            horizontalPadding: 20, // iOS default 16, Android default 50
-            verticalPadding: 16, // iOS default 12, Android default 30
+            opacity: 0.75,
+            backgroundColor: 'rgb(96, 125, 139)',
+            textColor: '#ffffff',
+            textSize: 20.5,
+            cornerRadius: 16,
+            horizontalPadding: 20,
+            verticalPadding: 16,
           },
         })
       }, { enableHighAccuracy: false })
@@ -823,8 +822,8 @@ export default class Map extends Component {
                       <BalloonEventTitle>{item.title}</BalloonEventTitle>
                       <BalloonEventMeta>
                         <p>{beautyDatesRange.dates} ({beautyDatesRange.time})</p>
-                        <div style={{ marginRight: '60px' }}>
-                          <p style={{ marginTop: '6px' }}>
+                        <div style={{ marginRight: 60 }}>
+                          <p style={{ marginTop: 6 }}>
                             {item.location_title}
                           </p>
                           <p style={{ color: '#888' }}>

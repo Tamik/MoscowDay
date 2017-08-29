@@ -6,8 +6,6 @@ import { TopBar } from 'molecules'
 import { Modal } from 'components/modals'
 import { EventInfo } from 'atoms'
 
-import MDApi from 'utils/MDApi'
-
 const PageContent = styled.div`
   display: flex;
   display: -webkit-box;
@@ -44,7 +42,6 @@ export default class Radar extends Component {
       modalTitle: '',
     }
 
-    this.closeEventsModal = this.closeEventsModal.bind(this)
   }
 
   componentDidMount() {
@@ -85,7 +82,7 @@ export default class Radar extends Component {
     this.isComponentMounted = false
   }
 
-  closeEventsModal() {
+  closeEventsModal = () => {
     if (!this.isComponentMounted) {
       return
     }

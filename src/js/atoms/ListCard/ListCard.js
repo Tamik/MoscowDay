@@ -54,6 +54,12 @@ const EnterLabel = styled.span`
 export default class ListCard extends Component {
   constructor(props) {
     super(props)
+
+    this.beautyDatesRange = MDApi.beautifyEventDatesRange(
+      this.props.event.dateFormatted,
+      this.props.event.dateEndFormatted
+    )
+
     this.state = {
       id: null,
       isModalVisible: false,
@@ -85,10 +91,6 @@ export default class ListCard extends Component {
   }
 
   render() {
-    const beautyDatesRange = MDApi.beautifyEventDatesRange(
-      this.props.event.dateFormatted,
-      this.props.event.dateEndFormatted
-    )
     return (
       <div>
         <Card
@@ -104,7 +106,6 @@ export default class ListCard extends Component {
         >
           <CardMedia
             style={{
-              // height: 110,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_small.jpg)`,
@@ -113,8 +114,8 @@ export default class ListCard extends Component {
           />
           <CardWrap style={{ position: 'relative' }}>
             <Title>{this.props.event.title}</Title>
-            <DatesLabel>{beautyDatesRange.dates}</DatesLabel>
-            <TimeLabel>{beautyDatesRange.time}</TimeLabel>
+            <DatesLabel>{this.beautyDatesRange.dates}</DatesLabel>
+            <TimeLabel>{this.beautyDatesRange.time}</TimeLabel>
             <EnterLabel>{this.props.event.is_free ? <span style={{ color: '#8ea36a' }}>0₽</span> : ''}</EnterLabel>
           </CardWrap>
         </Card>
@@ -128,7 +129,3 @@ export default class ListCard extends Component {
     )
   }
 }
-
-// ListCard.propTypes = {
-//   event: PropTypes.shape({})
-// }

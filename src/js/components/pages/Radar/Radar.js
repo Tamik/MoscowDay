@@ -47,7 +47,9 @@ export default class Radar extends Component {
   componentDidMount() {
     this.isComponentMounted = true
 
-    // @TODO: ПОка что перенесено в map, так как из-за ассинхронности возникают баги
+    /**
+     * @todo: Пока что перенесено в компонент Map, так как из-за ассинхронности возникают баги
+     */
     // const date = new Date()
     // const month = '0'.concat(date.getMonth() + 1).slice(-2)
     // const day = '0'.concat(date.getDate()).slice(-2)

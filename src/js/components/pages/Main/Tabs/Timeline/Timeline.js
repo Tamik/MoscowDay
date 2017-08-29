@@ -12,8 +12,8 @@ const FavoritesStore = localforage.createInstance({
 })
 
 const List = styled.ul`
-  
 `
+
 const ListItem = styled.li`
   display: flex;
   align-items: center;
@@ -63,9 +63,7 @@ export default class Timeline extends Component {
       items_per_page: 50,
       date: `${today.year}-${today.month}-${today.date}`,
     })
-      .then((response) => {
-        return response.json()
-      })
+      .then(response => (response.json()))
       .then((response) => {
         this.setState({
           events: response.data,
@@ -78,13 +76,13 @@ export default class Timeline extends Component {
           duration: 'short',
           position: 'bottom',
           styling: {
-            opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
-            backgroundColor: 'rgb(96, 125, 139)', // make sure you use #RRGGBB. Default #333333
-            textColor: '#ffffff', // Ditto. Default #FFFFFF
-            textSize: 20.5, // Default is approx. 13.
-            cornerRadius: 16, // minimum is 0 (square). iOS default 20, Android default 100
-            horizontalPadding: 20, // iOS default 16, Android default 50
-            verticalPadding: 16, // iOS default 12, Android default 30
+            opacity: 0.75,
+            backgroundColor: 'rgba(96, 125, 139, 1)',
+            textColor: '#ffffff',
+            textSize: 20.5,
+            cornerRadius: 16,
+            horizontalPadding: 20,
+            verticalPadding: 16,
           },
         })
       })

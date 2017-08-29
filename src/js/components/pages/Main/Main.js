@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-
-import SwipableViews from 'react-swipeable-views'
 import styled from 'styled-components'
-
-import { TopBar } from 'molecules'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import SwipableViews from 'react-swipeable-views'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+
+import { TopBar } from 'molecules'
+import { Tabs, Tab } from 'material-ui/Tabs'
 
 // import { Timeline, Headings, Places } from './Tabs'
 import { Timeline, Headings } from './Tabs'
@@ -75,7 +74,7 @@ export default class Main extends Component {
 
   render() {
     return (
-      <PageContent className='THREE' style={{overflowY: 'hidden',}}>
+      <PageContent style={{ overflowY: 'hidden' }}>
         <TopBarWrap>
           <TopBar
             title='События'
@@ -83,7 +82,7 @@ export default class Main extends Component {
             isVisible
           />
         </TopBarWrap>
-        <ContentWrap className='FOUR' style={{overflowY: 'hidden',}}>
+        <ContentWrap style={{ overflowY: 'hidden' }}>
           <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
             <Tabs
               className='eventsTabs'
@@ -116,7 +115,7 @@ export default class Main extends Component {
             </Tabs>
           </MuiThemeProvider>
           <SwipableViews
-            className={'swipable-view'}
+            className='swipable-view'
             style={{
               WebkitBoxOrient: 'vertical',
               WebkitBoxDirection: 'normal',

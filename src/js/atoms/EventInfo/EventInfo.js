@@ -46,52 +46,52 @@ const styles = {
 
 const AgeLabel = styled.div`
   position: absolute;
-  z-index: 1101;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 1px;
   right: 16px;
   top: 40px;
-  white-space: nowrap;
   font-size: 14px;
   font-weight: bold;
   width: 32px;
   height: 32px;
-  line-height: 32px;
   text-align: center;
-  color: rgb(69, 90, 100);
-  background: #fff;
-  border-radius: 1px;
+  line-height: 32px;
+  color: rgba(69, 90, 100, 1);
+  white-space: nowrap;
+  z-index: 1101;
 `
 
 const BtnShare = styled.div`
-  background: #fff8ef;
+  font-size: 14px;
+  background-color: #fff8ef;
   border: 1px solid #f7e2c3;
   margin: 8px;
   padding: 16px 0;
   text-align: center;
-  font-size: 14px;
 `
 const BtnShowOnMapWrap = styled.div`
+  background: rgba(231, 235, 236, 1);
   padding: 16px;
-  background: rgb(231, 235, 236);
 `
 const BtnShowOnMap = styled.div`
-  background: #fff;
-  padding-bottom: 0;
   font-size: 14px;
+  background-color: rgba(255, 255, 255, 1);
+  padding-bottom: 0;
 `
 const BtnShowOnMapContentWrap = styled.div`
+  position: relative;
   padding: 16px;
   padding-right: 40px;
-  position: relative;
 `
 const BtnShowOnMapTitle = styled.div`
-  height: 46px;
-  line-height: 46px;
   font-size: 0.8em;
-  text-align: center;
   font-weight: bold;
+  background-color: rgba(69, 90, 100, 1);
+  height: 46px;
   text-transform: uppercase;
-  color: #fff;
-  background: rgb(69,90,100);
+  text-align: center;
+  line-height: 46px;
+  color: rgba(255, 255, 255, 1);
 `
 
 export default class EventInfo extends Component {
@@ -234,14 +234,19 @@ export default class EventInfo extends Component {
           >
             <CardMedia
               style={{
-                height: '35vh',
                 position: 'relative',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_large.jpg)`,
+                height: '35vh',
               }}
             >
-              <AgeLabel style={{ width: 32, minWidth: 32 }}>
+              <AgeLabel
+                style={{
+                  width: 32,
+                  minWidth: 32,
+                }}
+              >
                 {this.props.event.restriction ? this.props.event.restriction : ''}
               </AgeLabel>
             </CardMedia>
@@ -252,11 +257,11 @@ export default class EventInfo extends Component {
                 backgroundColor: '#455a64',
               }}
               titleStyle={{
-                color: '#fff',
                 fontSize: 16,
-                paddingBottom: '25px',
                 fontWeight: 'bold',
+                paddingBottom: 25,
                 lineHeight: '1.2em',
+                color: '#fff',
               }}
             >
               <MuiThemeProvider muiTheme={getMuiTheme(myTheme)}>
@@ -280,7 +285,7 @@ export default class EventInfo extends Component {
                       size='24px'
                       style={{
                         height: 24,
-                        margin: '16px',
+                        margin: 16,
                       }}
                       color='#fff'
                       viewBox='0 0 500 480'
@@ -290,7 +295,7 @@ export default class EventInfo extends Component {
                       size='24px'
                       style={{
                         height: 24,
-                        margin: '16px',
+                        margin: 16,
                       }}
                       viewBox='0 0 500 480'
                     />
@@ -373,11 +378,11 @@ export default class EventInfo extends Component {
                     path={UiIconsPack.MODULE_RADAR}
                     color='#455A64'
                     style={{
-                      width: 18,
-                      height: 18,
                       position: 'absolute',
                       right: 16,
                       top: 16,
+                      width: 18,
+                      height: 18,
                     }}
                     viewBox='0 0 520 510'
                   />
@@ -385,7 +390,7 @@ export default class EventInfo extends Component {
                   <p
                     style={{
                       display: this.props.event.address !== this.props.event.location_title ? 'block' : 'none',
-                      marginTop: '6px',
+                      marginTop: 6,
                       color: '#888',
                     }}
                   >
@@ -397,13 +402,22 @@ export default class EventInfo extends Component {
             </BtnShowOnMapWrap>
             <Divider />
             <ListItem
-              primaryText="Описание"
-              style={{ ...styles.item, textAlign: 'center', fontWeight: 'bold' }}
+              primaryText='Описание'
+              style={{
+                ...styles.item,
+                fontWeight: 'bold',
+                textAlign: 'center',
+              }}
               disabled
             />
             <Divider />
             <div
-              style={{ padding: '8px 10px', fontSize: '14px', overflow: 'hidden', userSelect: 'text' }}
+              style={{
+                fontSize: 14,
+                padding: '8px 10px',
+                overflow: 'hidden',
+                userSelect: 'text',
+              }}
               dangerouslySetInnerHTML={{ __html: this.props.event.description }}
             />
           </List>

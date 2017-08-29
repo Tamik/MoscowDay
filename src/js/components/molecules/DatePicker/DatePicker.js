@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 
-import DropDownMenu from 'material-ui/DropDownMenu'
-import MenuItem from 'material-ui/MenuItem'
-
-import MDApi from 'utils/MDApi'
+import { DropDownMenu, MenuItem } from 'material-ui'
+import { MDApi } from 'utils'
 
 export default class DatePicker extends Component {
   constructor(props) {

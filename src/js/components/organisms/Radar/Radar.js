@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import { Map } from 'components/map'
-import { TopBar } from 'molecules'
-import { Modal } from 'components/modals'
-import { EventInfo } from 'atoms'
+import { EventInfo, TopBar } from 'components/atoms'
+import { Map, Modal } from 'components/molecules'
 
 const PageContent = styled.div`
   display: flex;

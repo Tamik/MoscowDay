@@ -3,10 +3,8 @@ import styled from 'styled-components'
 import localforage from 'localforage'
 import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
 
-import Icon from 'atoms/Icon'
-import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
-
-import MDApi from 'utils/MDApi'
+import { Icon, UIPack as IconsUIPack } from 'components/atoms'
+import { MDApi } from 'utils'
 
 const AppStore = localforage.createInstance({
   name: 'App',
@@ -157,9 +155,7 @@ const formatDistance = (metters) => {
   return `${km} км`
 }
 
-const getTimeEpoch = () => {
-  return (new Date()).getTime() / 1000
-}
+const getTimeEpoch = () => ((new Date()).getTime() / 1000)
 
 export default class Map extends Component {
   constructor(props) {
@@ -796,7 +792,7 @@ export default class Map extends Component {
           {this.state.isMyLocationLoading
             ? <div className='radar-spinner' />
             : ''}
-          <Icon path={UiIconsPack.NAVIARROW} size='25px' color='#ffffff' viewBox='0 0 54 50' />
+          <Icon path={IconsUIPack.NAVIARROW} size='25px' color='#ffffff' viewBox='0 0 54 50' />
         </BtnGoToMyLocation>
         <BalloonLayout
           style={{ display: this.state.balloonItemsPreview ? 'block' : 'none' }}

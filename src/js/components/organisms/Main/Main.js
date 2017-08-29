@@ -4,11 +4,10 @@ import SwipableViews from 'react-swipeable-views'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { Tabs, Tab } from 'material-ui'
 
-import { TopBar } from 'molecules'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import { TopBar } from 'components/atoms'
 
-// import { Timeline, Headings, Places } from './Tabs'
 import { Timeline, Headings } from './Tabs'
 
 const myTheme = {

@@ -4,8 +4,7 @@ import localforage from 'localforage'
 
 import Paper from 'material-ui/Paper'
 
-import { ListCard } from 'atoms'
-import { TopBar } from 'molecules'
+import { ListCard, TopBar } from 'components/atoms'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
-import { TopBar } from 'molecules'
+import { TopBar } from 'components/atoms'
 
 // const onScroll = (e) => {
 //   console.log(e)

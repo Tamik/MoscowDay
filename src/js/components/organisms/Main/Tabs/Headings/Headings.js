@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import localforage from 'localforage'
 
-import { Modal, EventsList } from 'components/modals'
-import Icon from 'atoms/Icon'
-import CategoryIconsPack from 'atoms/iconsPacks/CategoryIconsPack'
-
-import MDApi from 'utils/MDApi'
+import { Icon, CategoriesPack as IconsCategoriesPack } from 'components/atoms'
+import { EventsList, Modal } from 'components/molecules'
+import { MDApi } from 'utils'
 
 const AppStore = localforage.createInstance({
   name: 'App',
@@ -102,7 +100,7 @@ export default class Headings extends Component {
             >
               <IconWrap>
                 <Icon
-                  path={CategoryIconsPack[heading.icon_name]}
+                  path={IconsCategoriesPack[heading.icon_name]}
                   size='56px'
                   viewBox='0 0 512 512'
                   color={ICON_COLOR}

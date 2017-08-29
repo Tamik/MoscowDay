@@ -3,11 +3,9 @@ import { withRouter } from 'react-router-dom'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { BottomNavigation, BottomNavigationItem } from 'material-ui'
 
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
-
-import Icon from 'atoms/Icon'
-import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
+import { Icon, UIPack as IconsUIPack } from 'components/atoms'
 
 const myTheme = {
   bottomNavigation: {
@@ -47,17 +45,17 @@ class NavigationBarContainer extends Component {
         >
           <BottomNavigationItem
             label='События'
-            icon={<Icon path={UiIconsPack.MODULE_EVENTS} size='25px' color='' viewBox='0 0 37 35' />}
+            icon={<Icon path={IconsUIPack.MODULE_EVENTS} size='25px' color='' viewBox='0 0 37 35' />}
             onTouchTap={this.changeRoute(0, '/')}
           />
           <BottomNavigationItem
             label='Избранное'
-            icon={<Icon path={UiIconsPack.MODULE_FAVS} size='25px' color='' viewBox='0 0 480 470' />}
+            icon={<Icon path={IconsUIPack.MODULE_FAVS} size='25px' color='' viewBox='0 0 480 470' />}
             onTouchTap={this.changeRoute(1, '/favorites')}
           />
           <BottomNavigationItem
             label='Рядом'
-            icon={<Icon path={UiIconsPack.MODULE_RADAR} size='25px' color='' viewBox='0 0 520 510' />}
+            icon={<Icon path={IconsUIPack.MODULE_RADAR} size='25px' color='' viewBox='0 0 520 510' />}
             onTouchTap={this.changeRoute(2, '/radar')}
           />
         </BottomNavigation>

@@ -6,21 +6,9 @@ import localforage from 'localforage'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Card, CardMedia, CardTitle, Divider, List, ListItem, FloatingActionButton, Paper } from 'material-ui'
-// import Paper from 'material-ui/Paper'
-// import { List, ListItem, Divider } from 'material-ui'
-// import { Card, CardMedia, CardTitle } from 'material-ui/Card'
-// import FloatingActionButton from 'material-ui/FloatingActionButton'
 
-// import { Modal } from 'components/modals'
-// import EventOnMap from 'atoms/EventOnMap'
-
-// import Icon from 'atoms/Icon'
-// import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
-
-// import MDApi from 'utils/MDApi'
-
-import { EventOnMap, Icon, UIPack } from 'atoms'
-import { Modal } from 'molecules'
+import { EventOnMap, Icon, UIPack as IconsUIPack } from 'components/atoms'
+import { Modal } from 'components/molecules'
 import { MDApi } from 'utils'
 
 const FavoritesStore = localforage.createInstance({
@@ -280,7 +268,7 @@ export default class EventInfo extends Component {
                 >
                   {this.state.inFavorites
                     ? <Icon
-                      path={UiIconsPack.ADD_TO_FAV}
+                      path={IconsUIPack.ADD_TO_FAV}
                       size='24px'
                       style={{
                         height: 24,
@@ -290,7 +278,7 @@ export default class EventInfo extends Component {
                       viewBox='0 0 500 480'
                     />
                     : <Icon
-                      path={UiIconsPack.MODULE_FAVS}
+                      path={IconsUIPack.MODULE_FAVS}
                       size='24px'
                       style={{
                         height: 24,
@@ -315,7 +303,7 @@ export default class EventInfo extends Component {
               disabled
               leftIcon={
                 <Icon
-                  path={UiIconsPack.MODULE_EVENTS}
+                  path={IconsUIPack.MODULE_EVENTS}
                   color='#455A64'
                   style={{
                     left: 8,
@@ -334,7 +322,7 @@ export default class EventInfo extends Component {
               disabled
               leftIcon={
                 <Icon
-                  path={UiIconsPack.CLOCK}
+                  path={IconsUIPack.CLOCK}
                   color='#455A64'
                   style={{
                     left: 8,
@@ -353,7 +341,7 @@ export default class EventInfo extends Component {
               disabled
               leftIcon={
                 <Icon
-                  path={UiIconsPack.ENTER}
+                  path={IconsUIPack.ENTER}
                   color='#455A64'
                   style={{
                     left: 6,
@@ -374,7 +362,7 @@ export default class EventInfo extends Component {
               >
                 <BtnShowOnMapContentWrap>
                   <Icon
-                    path={UiIconsPack.MODULE_RADAR}
+                    path={IconsUIPack.MODULE_RADAR}
                     color='#455A64'
                     style={{
                       position: 'absolute',

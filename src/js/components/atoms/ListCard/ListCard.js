@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import localforage from 'localforage'
 
-import { Card, CardMedia } from 'material-ui/Card'
+import { Card, CardMedia } from 'material-ui'
 
-import { Modal } from 'components/modals'
-import { EventInfo } from 'atoms'
-
-import MDApi from 'utils/MDApi'
+import { EventInfo } from 'components/atoms'
+import { Modal } from 'components/molecules'
+import { MDApi } from 'utils'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',

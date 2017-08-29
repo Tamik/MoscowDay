@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import localforage from 'localforage'
 
-import { Modal } from 'components/modals'
-import { EventInfo } from 'atoms'
-
-import MDApi from 'utils/MDApi'
+import { EventInfo } from 'components/atoms'
+import { Modal } from 'components/molecules'
+import { MDApi } from 'utils'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',

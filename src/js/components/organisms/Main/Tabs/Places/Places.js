@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-
-import { Modal } from 'components/modals'
-import { EventsList } from 'components/modals'
-import { Paper } from 'material-ui'
 import styled from 'styled-components'
 
-import MDApi from 'utils/MDApi'
+import { Paper } from 'material-ui'
+
+import { EventsList, Modal } from 'components/molecules'
+import { MDApi } from 'utils'
 
 const styles = {
   root: {
@@ -37,7 +36,6 @@ const styles = {
 
 }
 
-
 const GridList = styled.div`
   display: flex;
   display: -webkit-box;
@@ -64,18 +62,6 @@ const Image = styled.img`
 `
 
 export default class Places extends Component {
-  // constructor(props) {
-  //   super(props)
-
-  //   this.state = {
-  //     isModalVisible: false,
-  //     modalTitle: null,
-  //     places: [],
-  //   }
-
-  //   this.openPlacesViewModal = this.openPlacesViewModal.bind(this)
-  //   this.closePlacesViewModal = this.closePlacesViewModal.bind(this)
-  // }
   state = {
     isModalVisible: false,
     modalTitle: null,
@@ -84,9 +70,7 @@ export default class Places extends Component {
 
   componentDidMount() {
     MDApi.getPlaces()
-      .then((response) => {
-        return response.json()
-      })
+      .then(response => (response.json()))
       .then((response) => {
         this.setState({
           places: response.data,
@@ -114,13 +98,17 @@ export default class Places extends Component {
       <div style={styles.root}>
         <GridList>
           {this.state.places.map(place => (
-            <Paper zDepth={1} style={styles.paper} key={place.id} onClick={() => this.openPlacesViewModal(place.title, place.id)}>
+            <Paper
+              key={place.id}
+              onClick={() => this.openPlacesViewModal(place.title, place.id)}
+              style={styles.paper}
+              zDepth={1}
+            >
               <Image src='//placehold.it/80x100' />
               <Text>{place.title} ({place.events_count})</Text>
             </Paper>
           ))}
         </GridList>
-
         <Modal
           isOpen={this.state.isModalVisible}
           title={this.state.modalTitle}

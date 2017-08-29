@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-
-import localforage from 'localforage'
-import Paper from 'material-ui/Paper'
-
 import styled from 'styled-components'
+import localforage from 'localforage'
+
+import Paper from 'material-ui/Paper'
 
 import { ListCard } from 'atoms'
 import { TopBar } from 'molecules'
@@ -36,7 +35,6 @@ const ContentWrap = styled.div`
   overflow-scrolling: touch;
   touch-action: auto;
 `
-
 const style = {
   borderRadius: 0,
   backgroundColor: 'transparent',
@@ -107,7 +105,6 @@ export default class Favorites extends Component {
                 color: '#455A64',
               }}
             >Вы ещё ничего не добавили <br /> в избранное</p>
-
           }
         </ContentWrap>
       </PageContent>

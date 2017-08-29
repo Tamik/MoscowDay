@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import localforage from 'localforage'
 import { YMaps, Map as YMap, Clusterer, Placemark } from 'react-yandex-maps'
 
-import MDApi from 'utils/MDApi'
-
 import Icon from 'atoms/Icon'
 import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
+
+import MDApi from 'utils/MDApi'
 
 const AppStore = localforage.createInstance({
   name: 'App',
@@ -294,7 +294,6 @@ export default class Map extends Component {
     }
   }
 
-
   /**
    * @description Обработчик ошибки определения текущего местоположения
    * @param {*} error 
@@ -345,7 +344,7 @@ export default class Map extends Component {
 
     if (this.doAutoPan) {
       MapStore.getItem('map')
-        .then((response) => {
+        .then(() => {
           this.setState(this.state)
         })
     }
@@ -590,7 +589,6 @@ export default class Map extends Component {
   }
 
   showMyPosition() {
-
     if (!this.map) {
       return
     }
@@ -612,7 +610,6 @@ export default class Map extends Component {
     if (this.cachedMyLocation) {
       // Throttling computation of my location 
       if (getTimeEpoch() - this.cachedMyLocation.time < 30) {
-
         this.setState({
           isMyLocationLoading: false,
         })
@@ -631,12 +628,11 @@ export default class Map extends Component {
     // @TODO: Caching my last position on 15-20 seconds
     navigator.geolocation.getCurrentPosition(
       (pos) => {
+        const position = [pos.coords.latitude, pos.coords.longitude]
 
         this.setState({
           isMyLocationLoading: false,
         })
-
-        const position = [pos.coords.latitude, pos.coords.longitude]
 
         this.map.panTo([this.state.myLocationPoint.lat, this.state.myLocationPoint.lng], {
           duration: 1000,
@@ -739,7 +735,7 @@ export default class Map extends Component {
   render() {
     const postfix = MDApi.getDeclineOfNumber(this.points.length, ['событие', 'события', 'событий'])
     return (
-      <YMapsWrap className="maps-wrap">
+      <YMapsWrap className='maps-wrap'>
         <YMaps onApiAvaliable={this.onMapsApiReady}>
           <YMap
             state={this.state.mapState}

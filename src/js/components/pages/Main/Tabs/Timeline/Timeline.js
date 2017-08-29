@@ -15,35 +15,35 @@ const List = styled.ul`
   
 `
 const ListItem = styled.li`
-  position: relative;
   display: flex;
   align-items: center;
+  position: relative;
   padding: 10px;
   overflow: hidden;
 `
 const Title = styled.div`
   display: block;
+  font-weight: normal;
   height: 100%;
   line-height: 1.2em;
-  font-weight: normal;
   overflow-y: hidden;
 `
 const TitleText = styled.p`
   font-size: 16px;
-  color: rgb(38, 50, 56);
+  color: rgba(38, 50, 56, 1);
 `
 const Time = styled.p`
-  margin-top: 6px;
-  color: #607D8B;
   font-size: 90%;
   font-weight: normal;
+  margin-top: 6px;
+  color: #607D8B;
 `
 const Line = styled.div`
   flex: 0 0 9px;
-  height: 9px;
-  margin: 0 20px;
   border: 1px solid #607D8B;
   border-radius: 50%;
+  height: 9px;
+  margin: 0 20px;
 `
 export default class Timeline extends Component {
   state = {

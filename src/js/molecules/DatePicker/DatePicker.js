@@ -14,15 +14,11 @@ export default class DatePicker extends Component {
       dates: [],
       selectedDate: props.currentDate,
     }
-
-    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
     MDApi.getDatesInCategory(this.state.datesId)
-      .then((response) => {
-        return response.json()
-      })
+      .then(response => (response.json()))
       .then((response) => {
         // Покажем события на первый из будущих дней 
         // (в которых есть запланированные события)
@@ -35,7 +31,6 @@ export default class DatePicker extends Component {
         }
       })
   }
-
 
   formatDate = (date) => {
     const today = MDApi.getTodayMSK()

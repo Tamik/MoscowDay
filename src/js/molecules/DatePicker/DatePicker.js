@@ -70,13 +70,13 @@ export default class DatePicker extends Component {
         key={'ref'}
         value={this.state.selectedDate}
         onChange={this.handleChange}
-        iconStyle={{ fill: 'rgba(0, 0, 0, 0.87)' }}
+        iconStyle={{ fill: 'rgba(0, 0, 0, .87)' }}
         style={{
           position: 'fixed',
           left: 0,
           right: 0,
-          zIndex: 1000,
           backgroundColor: '#fff',
+          zIndex: 1000,
         }}
       >
         {this.state.dates.map((item) => {

@@ -9,17 +9,17 @@ import { DatePicker } from 'molecules'
 import MDApi from 'utils/MDApi'
 
 const BtnMore = styled.div`
+  font-family: -apple-system, "San Francisco", "Helvetica Neue", Helvetica, “Lucida Grande”, Roboto, “Segoe UI”, Arial, Ubuntu, sans-serif;
+  font-size: 14px;
   background: #fff;
   border: 1px solid #f2f2f2;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  text-transform: uppercase;
-  color: rgb(38, 50, 56);
-  font-size: 14px;
-  font-family: -apple-system, "San Francisco", "Helvetica Neue", Helvetica, “Lucida Grande”, Roboto, “Segoe UI”, Arial, Ubuntu, sans-serif;
   width: 100%;
+  height: 40px;
   margin: 0 0 8px 0;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 40px;
+  color: rgba(38, 50, 56, 1);
 `
 
 export default class EventsList extends Component {

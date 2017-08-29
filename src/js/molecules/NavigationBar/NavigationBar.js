@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
 
 import Icon from 'atoms/Icon'
 import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 const myTheme = {
   bottomNavigation: {
@@ -46,7 +46,6 @@ class NavigationBarContainer extends Component {
           className='bottom-navigation'
         >
           <BottomNavigationItem
-
             label='События'
             icon={<Icon path={UiIconsPack.MODULE_EVENTS} size='25px' color='' viewBox='0 0 37 35' />}
             onTouchTap={this.changeRoute(0, '/')}

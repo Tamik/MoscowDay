@@ -83,29 +83,29 @@ export default class EventsList extends Component {
           category: this.state.id,
           date: dt,
           page: params.page ? params.page : this.state.currentPage,
-        }).then((response) => {
-          return response.json()
-        }).then((response) => {
-          let isEnd
-
-          if (response.data.length < 10) {
-            isEnd = true
-          }
-          else {
-            isEnd = false
-          }
-
-          const newEvents = params.mode === 'append'
-            ? this.state.events.concat(response.data)
-            : response.data
-
-          this.setState({
-            events: newEvents,
-            endOfEvents: isEnd,
-            loading: false,
-            nextPageLoading: false,
-          })
         })
+          .then(response => (response.json()))
+          .then((response) => {
+            let isEnd
+
+            if (response.data.length < 10) {
+              isEnd = true
+            }
+            else {
+              isEnd = false
+            }
+
+            const newEvents = params.mode === 'append'
+              ? this.state.events.concat(response.data)
+              : response.data
+
+            this.setState({
+              events: newEvents,
+              endOfEvents: isEnd,
+              loading: false,
+              nextPageLoading: false,
+            })
+          })
         break
       default: break
     }
@@ -172,9 +172,9 @@ export default class EventsList extends Component {
             marginTop: 56,
           }}
         >
-          {this.state.events.map((event) => {
-            return (<ListCard key={event.id} event={event} />)
-          })}
+          {this.state.events.map(event => (
+            <ListCard key={event.id} event={event} />
+          ))}
         </div>
         {!this.state.endOfEvents
           ? <BtnMore onClick={() => this.showMoreEvents()}>

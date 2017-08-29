@@ -17,6 +17,7 @@ const MapStore = localforage.createInstance({
 })
 
 /**
+ * @see
  * Map
  * Provider: yandex maps 2.1
  * Coords in yandex placemarks: [lat, lng]
@@ -24,7 +25,7 @@ const MapStore = localforage.createInstance({
  * Icons styles: https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/option.presetStorage-docpage
  * React module: https://github.com/gribnoysup/react-yandex-maps/blob/master/src/Map.js
  * 
- * @TODO: 
+ * @todo: 
  * - Разбить на модули
  * - Красиво убрать из компонента подгрузку событий, и что-то решить с ассинхронностью
  * - Вынести разметку и стили кастомных баллунов
@@ -254,7 +255,7 @@ export default class Map extends Component {
     })
 
     /**
-     * Не будем центрировать карту на мое местоположение,
+     * @description Не будем центрировать карту на мое местоположение,
      */
     if (this.props.panToLocation !== undefined) {
       return
@@ -379,9 +380,9 @@ export default class Map extends Component {
 
     this.eventsToPointsMap = {}
 
-    //
-    // @TODO: Refactoring required: improve async code
-    //
+    /**
+     * @todo: Refactoring required: improve async code
+     */
     if (this.props.isOneEvent) {
       // Map EventID to Point Index
       this.points.forEach((item, idx) => {
@@ -572,7 +573,7 @@ export default class Map extends Component {
       return
     }
 
-    // Иначе, отобразим лиш одну метку, без кластерера
+    // Иначе, отобразим лишь одну метку, без кластерера
     this.map.geoObjects.add(geoObjects[0])
   }
 
@@ -625,7 +626,9 @@ export default class Map extends Component {
       }
     }
 
-    // @TODO: Caching my last position on 15-20 seconds
+    /**
+     * @todo: Caching my last position on 15-20 seconds
+     */
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const position = [pos.coords.latitude, pos.coords.longitude]
@@ -654,7 +657,9 @@ export default class Map extends Component {
         this.startWatchingMyLocation()
       },
       (err) => {
-        // @TODO: PositionError.POSITION_UNAVAILABLE
+        /**
+         * @todo: PositionError.POSITION_UNAVAILABLE
+         */
         window.plugins.toast.showWithOptions({
           message: 'Упс, включите GPS или Интернет!',
           duration: 'short',

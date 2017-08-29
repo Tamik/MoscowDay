@@ -7,33 +7,34 @@ import IconButton from 'material-ui/IconButton'
 import NavigationBack from 'material-ui/svg-icons/navigation/arrow-back'
 
 const TopBar = (props) => {
-  const style = !props.isVisible ? {
-    block: {
-      position: 'fixed',
-      background: '-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.4)), to(transparent))',
-      background: '-webkit-linear-gradient(top, rgba(0, 0, 0, 0.4), transparent)',
-      background: '-o-linear-gradient(top, rgba(0, 0, 0, 0.4), transparent)',
-      background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent)',
-      paddingTop: '20px',
-      paddingRight: 24,
-    },
-    btn: 'white',
-  } : {
-    block: {
-      paddingTop: '20px',
-      textAlign: 'center',
-      backgroundColor: '#fff',
-
-    },
-    title: {
-      height: 50,
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#263238',
-      textTransform: 'uppercase',
-    },
-    btn: 'black',
-  }
+  const style = !props.isVisible
+    ? {
+      block: {
+        position: 'fixed',
+        background: '-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.4)), to(transparent))',
+        background: '-webkit-linear-gradient(top, rgba(0, 0, 0, 0.4), transparent)',
+        background: '-o-linear-gradient(top, rgba(0, 0, 0, 0.4), transparent)',
+        background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent)',
+        paddingTop: '20px',
+        paddingRight: 24,
+      },
+      btn: 'white',
+    }
+    : {
+      block: {
+        backgroundColor: '#fff',
+        paddingTop: 20,
+        textAlign: 'center',
+      },
+      title: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        height: 50,
+        color: '#263238',
+        textTransform: 'uppercase',
+      },
+      btn: 'black',
+    }
 
   return (
     <AppBar
@@ -46,7 +47,8 @@ const TopBar = (props) => {
       iconElementLeft={
         <IconButton>
           <NavigationBack
-            onClick={props.close} color={style.btn}
+            color={style.btn}
+            onClick={props.close}
           />
         </IconButton>
       }

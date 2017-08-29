@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
 import styled from 'styled-components'
 
 import { ListCard } from 'atoms'
@@ -44,10 +43,9 @@ export default class EventsList extends Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   getEvents = (_params) => {
-
     const params = _params || {}
     const dt = params.date || `${this.state.selectedDate}`
 
@@ -164,7 +162,11 @@ export default class EventsList extends Component {
           </div>
           : ''
         }
-        <DatePicker id={this.state.id} currentDate={this.state.selectedDate} parent={this} />
+        <DatePicker
+          id={this.state.id}
+          currentDate={this.state.selectedDate}
+          parent={this}
+        />
         <div
           style={{
             marginTop: 56,

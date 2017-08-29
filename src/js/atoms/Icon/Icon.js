@@ -11,13 +11,11 @@ const Icon = (props) => {
       fill: props.color,
     },
   }
-
   Object.assign(styles.svg, props.style)
 
   return (
     <svg
       style={styles.svg}
-
       viewBox={props.viewBox}
       width={props.size}
       height={props.size}

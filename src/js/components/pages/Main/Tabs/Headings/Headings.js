@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import localforage from 'localforage'
 
 import { Modal, EventsList } from 'components/modals'
-import styled from 'styled-components'
 import Icon from 'atoms/Icon'
 import CategoryIconsPack from 'atoms/iconsPacks/CategoryIconsPack'
 
@@ -51,20 +51,7 @@ const CategoryTitle = styled.p`
   color: rgba(69, 90, 100, 1);
 `
 
-
 export default class Headings extends Component {
-  // constructor(props) {
-  //   super(props)
-
-  //   this.state = {
-  //     isModalVisible: false,
-  //     modalTitle: null,
-  //     headings: [],
-  //   }
-
-  //   this.openEventsViewModal = this.openEventsViewModal.bind(this)
-  //   this.closeEventsViewModal = this.closeEventsViewModal.bind(this)
-  // }
   state = {
     isModalVisible: false,
     modalTitle: null,
@@ -73,9 +60,7 @@ export default class Headings extends Component {
 
   componentDidMount() {
     MDApi.getCategories({})
-      .then((response) => {
-        return response.json()
-      })
+      .then(response => (response.json()))
       .then((response) => {
         this.setState({
           headings: response.data,

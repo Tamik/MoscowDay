@@ -32,8 +32,7 @@ function guid() {
       .toString(16)
       .substring(1)
   }
-  // return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
-  return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
 }
 
 function SendCoordsMetrica(coords) {
@@ -79,7 +78,7 @@ function onDeviceReady() {
       trackLocationEnabled: true,
       handleFirstActivationAsUpdateEnabled: true,
       sessionTimeout: 15,
-      appVersion: '0.1.1',
+      appVersion: '1.0.0',
     },
   }
 

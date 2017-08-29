@@ -96,8 +96,8 @@ export default class ListCard extends Component {
             display: 'flex',
             display: '-webkit-box',
             display: '-webkit-flex',
-            padding: 0,
             marginBottom: 5,
+            padding: 0,
           }}
 
           onClick={() => this.openEventsViewModal()}
@@ -105,10 +105,10 @@ export default class ListCard extends Component {
           <CardMedia
             style={{
               // height: 110,
-              width: 100,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundImage: `url(${process.env.API_HOST}/i/events/${this.props.event.id}_small.jpg)`,
+              width: 100,
             }}
           />
           <CardWrap style={{ position: 'relative' }}>

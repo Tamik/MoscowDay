@@ -1,6 +1,0 @@
-export { default as ListCard } from './ListCard'
-export { default as EventInfo } from './EventInfo'
-export { default as EventOnMap } from './EventOnMap'
-export { default as Icon } from './Icon'
-export { default as CategoryIconsPack } from './iconsPacks/CategoryIconsPack'
-export { default as UiIconsPack } from './iconsPacks/UiIconsPack'

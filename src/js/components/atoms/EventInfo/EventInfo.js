@@ -1,24 +1,27 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
 import styled from 'styled-components'
 import localforage from 'localforage'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { Card, CardMedia, CardTitle, Divider, List, ListItem, FloatingActionButton, Paper } from 'material-ui'
+// import Paper from 'material-ui/Paper'
+// import { List, ListItem, Divider } from 'material-ui'
+// import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+// import FloatingActionButton from 'material-ui/FloatingActionButton'
 
-import Paper from 'material-ui/Paper'
-import { List, ListItem, Divider } from 'material-ui'
-import { Card, CardMedia, CardTitle } from 'material-ui/Card'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+// import { Modal } from 'components/modals'
+// import EventOnMap from 'atoms/EventOnMap'
 
-import { Modal } from 'components/modals'
-import EventOnMap from 'atoms/EventOnMap'
+// import Icon from 'atoms/Icon'
+// import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
 
-import Icon from 'atoms/Icon'
-import UiIconsPack from 'atoms/iconsPacks/UiIconsPack'
+// import MDApi from 'utils/MDApi'
 
-import MDApi from 'utils/MDApi'
+import { EventOnMap, Icon, UIPack } from 'atoms'
+import { Modal } from 'molecules'
+import { MDApi } from 'utils'
 
 const FavoritesStore = localforage.createInstance({
   name: 'Favorites',

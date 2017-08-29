@@ -1,6 +1,6 @@
 import React from 'react'
-import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
+import ReactModal from 'react-modal'
 
 import { TopBar } from 'molecules'
 

@@ -63,13 +63,13 @@ const YMapsWrap = styled.div`
   flex-grow: 1;
   position: relative;
 `
-const Pain = styled.div`
+const Pane = styled.div`
   position: absolute;
   bottom: 0;
   background: rgba(255, 255, 255, 0.8);
   width: 100%;
 `
-const PainInner = styled.div`
+const PaneInner = styled.div`
   padding: 16px 5px;
   text-align: center;
   color: rgba(38, 50, 56, 1);
@@ -776,15 +776,15 @@ export default class Map extends Component {
             ) : ''}
           </YMap>
         </YMaps>
-        <Pain
+        <Pane
           style={{ display: this.props.isOneEvent ? 'none' : 'block' }}
         >
           {this.points.length
-            ? <PainInner onClick={this.changeZoomToCity}>
+            ? <PaneInner onClick={this.changeZoomToCity}>
               {'Сегодня '.concat(this.points.length).concat(' ').concat(postfix)}
-            </PainInner>
+            </PaneInner>
             : ''}
-        </Pain>
+        </Pane>
         <BtnGoToMyLocation
           className={this.state.isMyLocationLoading ? 'btn-goto-mylocation btn-goto-mylocation__loading' : 'btn-goto-mylocation'}
           onClick={this.showMyPosition}

@@ -1,75 +1,75 @@
 import React, { Component } from 'react'
-import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import { HashRouter as Router, Route } from 'react-router-dom'
+import localforage from 'localforage'
 
-import FontIcon from 'material-ui/FontIcon'
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
+import { Paper } from 'material-ui'
 
-import { Main, Favorites, Radar } from './pages'
+import { NavigationBar } from 'components/molecules'
+import { Main as MainScreen, Favorites as FavoritesScreen, Radar as RadarScreen } from 'components/organisms'
 
-const eventsIcon = <FontIcon className='material-icons'>h</FontIcon>
-const favoritesIcon = <FontIcon className='material-icons'>f</FontIcon>
-const radarIcon = <FontIcon className='material-icons'>r</FontIcon>
+const MapStore = localforage.createInstance({
+  name: 'Map',
+})
 
-class NavigationBar extends Component {
-  constructor(props) {
-    super(props)
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: sans-serif;
+`
+const ContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
 
-    this.state = {
-      selectedIndex: 0,
-    }
-  }
-
-  changeRoute = (index, nextRoute) => () => {
-    this.setState({
-      selectedIndex: index,
-    })
-    this.props.history.replace(nextRoute)
-  }
-
-  render() {
-    return (
-      <BottomNavigation selectedIndex={this.state.selectedIndex}>
-        <BottomNavigationItem label='home' icon={eventsIcon} onTouchTap={this.changeRoute(0, '/')} />
-        <BottomNavigationItem label='favorites' icon={favoritesIcon} onTouchTap={this.changeRoute(1, '/favorites')} />
-        <BottomNavigationItem label='near me' icon={radarIcon} onTouchTap={this.changeRoute(2, '/radar')} />
-      </BottomNavigation>
-    )
-  }
-}
-
-const WrappedNavigationBar = withRouter(NavigationBar)
-
-class Application extends Component {
-  state = {
-    selectedIndex: 0,
-    redirect: false,
-    route: '/',
-  }
-
-  select(index, route) {
-    this.setState({
-      selectedIndex: index,
-      redirect: true,
-      route: route,
-    });
+export default class Application extends Component {
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const position = [pos.coords.latitude, pos.coords.longitude]
+        MapStore.setItem('map', {
+          myLocationPoint: {
+            lat: position[0],
+            lng: position[1],
+          },
+          mapState: {
+            center: position,
+            zoom: 11,
+          },
+        })
+      },
+      (err) => {
+        // resolve error
+        const position = [55.753559, 37.609218]
+        MapStore.setItem('map', {
+          myLocationPoint: {
+            lat: position[0],
+            lng: position[1],
+          },
+          mapState: {
+            center: position,
+            zoom: 11,
+          },
+        })
+      }, { enableHighAccuracy: false })
   }
 
   render() {
     return (
       <Router>
-        <div>
-          <div>
-            <Route exact path='/' component={Main} />
-            <Route path='/favorites' component={Favorites} />
-            <Route path='/radar' component={Radar} />
-          </div>
-          <div>
-            <WrappedNavigationBar />
-          </div>
-        </div>
+        <Layout className='ONE'>
+          <ContentWrap className='TWO'>
+            <Route exact path='/' component={MainScreen} />
+            <Route path='/favorites' component={FavoritesScreen} />
+            <Route path='/radar' component={RadarScreen} />
+          </ContentWrap>
+          <Paper zDepth={1} style={{ position: 'relative' }}>
+            <NavigationBar />
+          </Paper>
+        </Layout>
       </Router>
-    );
+    )
   }
 }
-
-export default Application
